@@ -1,4 +1,4 @@
 # turboCharger
-Caluetes parameters of turbocharger using 0D method
+Caluculates parameters of turbocharger using 0D method
 
 **Currently in work**
