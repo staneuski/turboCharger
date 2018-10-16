@@ -39,7 +39,7 @@ sigma_v = 0.992; # | Коэффициент потерь в коллекторе
 eta_KsStagn = 0.74; # compressor energy conversion efficiency | КПД компрессора
 H_KsStagn = 0.6; # | напорный изоэнтропный КПД
 phi_flow = 0.3; # | коэффициент напора
-dzeta_inlet = 0.03; # | коэффициент сопротивления (от 0.03 до 0.06)
+dzeta_inlet = 0.04; # | коэффициент сопротивления (от 0.03 до 0.06)
 
 # Other paramaters
 E = 0.7; # heat efficiency coefficient | коэффициент тепловой эффективности

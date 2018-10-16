@@ -78,10 +78,10 @@ T_0 = T_0Stagn - pow(c_0, 2)/2/c_p;
 p_0 = p_0Stagn * pow(T_0/T_0Stagn, k/(k - 1)); # Pa
 
 # Isentropy compression work in compressor | Изоэнтропная работа сжатия в компрессоре (4)
-L_KsStagn = c_p*T_0Stagn*(pow(Pi_K, (k - 1)/k) - 1); print L_KsStagn
+L_KsStagn = c_p*T_0Stagn*(pow(Pi_K, (k - 1)/k) - 1);
 
 # Wheel outer diameter circular velocity | Окружная скорость на наружном диаметре колеса (5)
-u2 = math.sqrt(L_KsStagn / H_KsStagn); print u2;
+u2 = math.sqrt(L_KsStagn / H_KsStagn);
 
 if u2 >= 550:    
       print 'Wheel outer diameter circular velocity is too high!'
@@ -89,22 +89,23 @@ if u2 >= 550:
       exit();
 
 # | Абсолютная скорость потока на входе в РК (6)
-c1 = phi_flow*u2; print c1;
+c_1 = phi_flow*u2;
 
 # | Температура воздуха на входе в РК (7)
-T_1 = T_0 + (pow(c_0, 2) - pow(c_1, 2))/2/c_p; print T_1;
+T_1 = T_0 + (pow(c_0, 2) - pow(c_1, 2))/2/c_p;
 
 # | Расчёт потерь энергии во впускном коллекторе (8)
-deltaL_inlet = dzeta_inlet*pow(c_1, 2)/2; print deltaL_inlet;
+deltaL_inlet = dzeta_inlet*pow(c_1, 2)/2;
 
 # | Показатель политропы при течении во ВУ (9)
-n_1 = (k/(k - 1) - deltaL_inlet/R/(T_1 - T_0))/(1 - k/(k - 1) + deltaL_inlet/R/(T_1 - T_0)); print n1;
+n_1 = ( k/(k - 1) - deltaL_inlet/R/(T_1 - T_0) )/ \
+( k/(k - 1) - deltaL_inlet/R/(T_1 - T_0) - 1);
 
 # | Давление на входе в К (10)
-p_1 = p_0*pow(T_1/T_0, n_1/(n_1 - 1)); print p_1;
+p_1 = p_0*pow(T_1/T_0, n_1/(n_1 - 1));
 
 # | Плотность на входе в К (11)
-ro_1 = p_1/R/T_1; print ro_1;
+ro_1 = p_1/R/T_1;
 
 # | Площадь поперечного сечения в К (12)
 F_1 = G_K/c_1/ro_1; print F_1;
