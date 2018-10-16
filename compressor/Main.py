@@ -14,7 +14,7 @@ from compressorDict import(
       alpha, eta_v, phi,
       T_aStagn, p_aStagn, c_0,
       sigma_0, sigma_c, sigma_v,
-      eta_KsStagn, H_KsStagn,
+      eta_KsStagn, H_KsStagn, phi_flow,
       E, T_ca,
       proectType
 );
@@ -47,10 +47,10 @@ p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber); # Pa
 G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
 
 # Wheel diameter | Диаметр РК
-if (eta_KsStagn == 0) or (H_KsStagn == 0):
+if (eta_KsStagn == 0) or (H_KsStagn == 0) or (phi_flow == 0):
       D_2 = 160*G_K + 40; # mm      
       print 'Aproximately the wheel diameter is {D_2_mm:.1f} mm\n' .format(D_2_mm = D_2)
-      print 'Now you can set "eta_KsStagn" &/or "H_KsStagn" using experimental\
+      print 'Now you can set "eta_KsStagn", "H_KsStagn" & "phi_flow" using experimental\
  data for different wheels diameter.'
       exit();
 else:
@@ -88,7 +88,11 @@ if u2 >= 550:
       print 'Try to increase wheel diameter &/or set other ECE parameters'
       exit();
 
-# | Абсолютная скорость потока на входе в РК
+# | Абсолютная скорость потока на входе в РК (6)
+c1 = phi_flow*u2;
+
+# | Температура воздуха на входе в РК (7)
+
 
 
 
