@@ -14,7 +14,7 @@ from compressorDict import(
       alpha, eta_v, phi,
       T_aStagn, p_aStagn, c_0,
       sigma_0, sigma_c, sigma_v,
-      eta_KsStagn, H_KsStagn, phi_flow,
+      eta_KsStagn, H_KsStagn, phi_flow, dzeta_inlet,
       E, T_ca,
       proectType
 );
@@ -89,10 +89,27 @@ if u2 >= 550:
       exit();
 
 # | Абсолютная скорость потока на входе в РК (6)
-c1 = phi_flow*u2;
+c1 = phi_flow*u2; print c1;
 
 # | Температура воздуха на входе в РК (7)
+T_1 = T_0 + (pow(c_0, 2) - pow(c_1, 2))/2/c_p; print T_1;
 
+# | Расчёт потерь энергии во впускном коллекторе (8)
+deltaL_inlet = dzeta_inlet*pow(c_1, 2)/2; print deltaL_inlet;
+
+# | Показатель политропы при течении во ВУ (9)
+n_1 = (k/(k - 1) - deltaL_inlet/R/(T_1 - T_0))/(1 - k/(k - 1) + deltaL_inlet/R/(T_1 - T_0)); print n1;
+
+# | Давление на входе в К (10)
+p_1 = p_0*pow(T_1/T_0, n_1/(n_1 - 1)); print p_1;
+
+# | Плотность на входе в К (11)
+ro_1 = p_1/R/T_1; print ro_1;
+
+# | Площадь поперечного сечения в К (12)
+F_1 = G_K/c_1/ro_1; print F_1;
+
+# | Наружный диаметр колеса на входе D_1H (13)
 
 
 
