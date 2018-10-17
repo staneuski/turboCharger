@@ -40,7 +40,6 @@ else:
  in compressorDict.py file!\n';
       exit();
 
-## Precalculations
 # Effective pressure | Среднее эффективное давление
 p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber); # Pa
 
@@ -69,6 +68,8 @@ else:
 #             Pi_K = piK(l_0, p_e, Pi_K)
 
 Pi_K = 2.7563;
+
+## Compressor parameters calculation
 
 # Stagnation parameters of inlet | Параметры торможения на входе (1)
 T_0Stagn = T_aStagn;
