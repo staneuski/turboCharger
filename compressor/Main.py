@@ -236,7 +236,6 @@ for i in range(5000):
         T_4 = T_4 + validity;
     else:
         T_4 = diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4);
-# T_4 = 412.26;
 
 p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1)); # | Давление на выходе из колеса (48)
 
@@ -287,11 +286,11 @@ p_vStagn = p_KStagn*sigma_c*sigma_v; # | Полное давление пере�
 
 print 'Diameter of the wheel is {D_2_mm} mm\n' .format(D_2_mm = D_2*1e+03); # (15)
 print 'Actual pressure degree increase is {0:.2f}' .format(Pi_KStagn); # (57)
-print 'When precalculated (or setted, if it is homework) pressure degree\
- increase is {0:.2f}' .format(Pi_K)
+print 'When precalculated (or setted, if it is a homework) pressure degree\
+ increase is {0:.1f}' .format(Pi_K)
 print 'Error of calculation between them is {differencePi_K:.3f}%\n' .format(differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100); # (60)
 
-print "Isentropy head coeficients are:\n    eta_Ks*  = {0:.3f} - setted\n\
+print "Energy conversion efficiency coeficients are:\n    eta_Ks*  = {0:.3f} - setted\n\
     eta_Ks*' = {0:.3f} - rated" .format(eta_KsStagn, eta_KsStagnRated); # (dict) & (59)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta); # (60)
 
