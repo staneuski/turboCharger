@@ -11,7 +11,7 @@ import math
 # Some self-made fuctions
 from piK import piK
 from diffOutTemp import diffOutTemp
-from standartizedSize import standartizedSize
+from standardisedSize import standardisedSize
 
 # Loading input data from project dictionary
 from compressorDict import(
@@ -73,7 +73,7 @@ else:
 
 # Calculation pressure degree increase with successive approximation method 
 # Определение степени повышения давления методом последовательных приближений
-if 'yearPaper' in projectType:
+if 'termPaper' in projectType:
     Pi_K = 1;
     validity = 1e-04;
     for i in range(5000):
@@ -118,7 +118,7 @@ L_inlet = dzeta_inlet*pow(c_1, 2)/2;
 
 # [[[[[[[[[[[[[[[[[[[ Compressor wheel | Рабочее колесо ]]]]]]]]]]]]]]]]]]]
 n_1 = ( k/(k - 1) - L_inlet/R/(T_1 - T_0) )/ \
-( k/(k - 1) - L_inlet/R/(T_1 - T_0) - 1); # | Показатель политропы сжатия в компрессоре (33)
+( k/(k - 1) - L_inlet/R/(T_1 - T_0) - 1); # | Показатель политропы сжатия в компрессоре (9)
 
 p_1 = p_0*pow(T_1/T_0, n_1/(n_1 - 1)); # | Давление на входе в колесо (10)
 
@@ -132,7 +132,7 @@ D_1B = relD_1B/relD_1H*D_1H; # | Внутренний диаметер на вх
 
 # | Наружный диаметр колеса на комперссора на выходе (15)
 # D_2 = round(D_1H/relD_1H, 3 );
-D_2 = standartizedSize( D_1H/relD_1H*1e+03 ) * 1e-03; # m
+D_2 = standardisedSize( D_1H/relD_1H*1e+03 ) * 1e-03; # m
 
 n_tCh = 60*u_2/math.pi/D_2; # 1/min, | Частота вращения турбокомпрессора (16)
 
