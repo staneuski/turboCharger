@@ -1,27 +1,31 @@
 # -*- coding: utf-8 -*-
 # Calculates safety factors for crankshaft and displays the minimum of them
 
-## Loading input data from project dictionary & some fuctions
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+## Loading data & calling some fuctions
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Funcion for math solvers (pi, sin, cos, etc.)
 from __future__ import division
 import math
 
-from piK import piK
+# Self-made fuctions
+from piK import piK # Calculates pressure degree increase
+from diffOutTemp import diffOutTemp # Calculates diffuser output temperature
 
+# Loading input data from project dictionary
 from compressorDict import(
-      p_a, T_a, k, R, c_p,
-      engineType, strokeNumber, engineType, pistonNumber, S, D,
-      N_e, n, g_e,
-      alpha, eta_v, phi,
-      T_aStagn, p_aStagn, c_0,
-      sigma_0, sigma_c, sigma_v,
-      eta_KsStagn, H_KsStagn, phi_flow,
-      dzeta_inlet, dzeta_BA, relW_2rToC_1a, dzeta_TF, alpha_wh, tau_2,
-      relD_1H, relD_1B,
-      i, tau_1, z_K, beta_2Blade,
-      E, T_ca,
-      proectType
+    p_a, T_a, k, R, c_p,
+    engineType, strokeNumber, engineType, pistonNumber, S, D,
+    N_e, n, g_e,
+    alpha, eta_v, phi,
+    T_aStagn, p_aStagn, c_0,
+    sigma_0, sigma_c, sigma_v,
+    eta_KsStagn, H_KsStagn, phi_flow, eta_diff,
+    dzeta_inlet, dzeta_BA, dzeta_TF, alpha_wh, tau_2,
+    relD_1H, relD_1B, relW_2rToC_1a, diffuserWideCoef, diffuserDiamCoef,
+      relDiffOutToCompOut, n_housing,
+    i, tau_1, z_K, beta_2Blade,
+    E, T_ca,
+    proectType
 );
 
 
@@ -35,17 +39,17 @@ D = D*1e-02;      S = S*1e-02; # -> m
 
 
 ## Precalculations
-## ~~~~~~~~~~~~~~~
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Lower heat of combustion for fuel | Низшая теплота сгорания в зависимости от типа ДВС
 if 'SI' in engineType:
-      l_0 = 14.28; # kg \\\\\\ проверить!
+    l_0 = 14.28; # kg \\\\\\ проверить!
 elif 'DIESEL' in engineType:
-      l_0 = 14.31; # kg
+    l_0 = 14.31; # kg
 else:
-      print 'Set type of the engine correctly ("DIESEL" or "SI")\
+    print 'Set type of the engine correctly ("DIESEL" or "SI")\
  in compressorDict.py file!\n';
-      exit();
+    exit();
 
 # Effective pressure | Среднее эффективное давление
 p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber); # Pa
@@ -55,39 +59,36 @@ G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
 
 # Wheel diameter | Диаметр рабочего колеса
 if ( issubclass(type(eta_KsStagn), str) ) or \
-      ( issubclass(type(H_KsStagn), str) ) or ( issubclass(type(phi_flow), str) ):
-      D_2 = 160*G_K + 40; # mm      
-      print 'Aproximately the wheel diameter is {D_2_mm:.1f} mm\n' .format(D_2_mm = D_2);
-      print 'Now you can set "eta_KsStagn", "H_KsStagn" & "phi_flow" using experimental\
- data for different wheels diameter.'
-      exit();
+    ( issubclass(type(H_KsStagn), str) ) or ( issubclass(type(phi_flow), str) ):
+    D_2 = 160*G_K + 40; # mm      
+    print 'Aproximately the wheel diameter is {D_2_mm:.1f} mm\n' .format(D_2_mm = D_2);
+    print 'Now you can set "eta_KsStagn", "H_KsStagn" & "phi_flow" using experimental\
+    data for different wheels diameter.'
+    exit();
 else:
-      D_2 = (160*G_K + 40)*1e-03; # m
+    D_2 = (160*G_K + 40)*1e-03; # m
 
 # Calculation pressure degree increase with successive approximation method 
 # Определение степени повышения давления методом последовательных приближений
-# Pi_K = 1;
-# validity = 1e-04;
-# for i in range(200):
-#       if abs(piK(l_0, p_e, Pi_K) - Pi_K) < validity:
-#             Pi_K = Pi_K + validity;
-#       else:
-#             Pi_K = piK(l_0, p_e, Pi_K)
-
-Pi_K = 2.7563;
+Pi_K = 1;
+validity = 1e-04;
+for i in range(5000):
+    if abs(piK(l_0, p_e, Pi_K) - Pi_K) < validity:
+        Pi_K = Pi_K + validity;
+    else:
+        Pi_K = piK(l_0, p_e, Pi_K)
 
 
 ## Compressor parameters calculation
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ Inlet part | Входное устройство ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
 
+# [[[[[[[[[[[[[[[[[[[[[[[[[[ Inlet part | Входное устройство ]]]]]]]]]]]]]]]]]]]]]]]]]]
 # Stagnation parameters of inlet | Параметры торможения на входе (1)
 T_0Stagn = T_aStagn;
 p_0Stagn = sigma_0*p_aStagn;
 
-# Static pressure & temperature of intake in compressor | Статические температура
-# и давление на входе в компрессор (3)
+# Static pressure & temperature of intake in compressor | Статические температура и давление на входе в компрессор (3)
 T_0 = T_0Stagn - pow(c_0, 2)/2/c_p;
 p_0 = p_0Stagn * pow(T_0/T_0Stagn, k/(k - 1)); # Pa
 
@@ -96,9 +97,9 @@ L_KsStagn = c_p*T_0Stagn*(pow(Pi_K, (k - 1)/k) - 1); # Isentropy compression wor
 # Wheel outer diameter circular velocity | Окружная скорость на наружном диаметре колеса (5)
 u_2 = math.sqrt(L_KsStagn / H_KsStagn);
 if u_2 >= 550:    
-      print 'Wheel outer diameter circular velocity is too high!'
-      print 'Try to increase wheel diameter &/or set other ECE parameters'
-      exit();
+    print 'Wheel outer diameter circular velocity is too high!'
+    print 'Try to increase wheel diameter &/or set other ECE parameters'
+    exit();
 
 c_1 = phi_flow*u_2; # | Абсолютная скорость потока на входе в рабочее колесо (6)
 
@@ -110,9 +111,7 @@ L_inlet = dzeta_inlet*pow(c_1, 2)/2;
 
 
 
-
-# [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ Compressor wheel | Рабочее колесо ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
-
+# [[[[[[[[[[[[[[[[[[[[[[[[[ Compressor wheel | Рабочее колесо ]]]]]]]]]]]]]]]]]]]]]]]]]
 n_1 = ( k/(k - 1) - L_inlet/R/(T_1 - T_0) )/ \
 ( k/(k - 1) - L_inlet/R/(T_1 - T_0) - 1); # | Показатель политропы сжатия в компрессоре (33)
 
@@ -128,7 +127,6 @@ D_1B = relD_1B/relD_1H*D_1H; # | Внутренний диаметер на вх
 
 # | Наружный диаметр колеса на комперссора на выходе (15)
 D_2 = round( D_1H/relD_1H, 3 );
-print 'The diameter of the wheel is {D_2_mm} mm\n' .format(D_2_mm = D_2*1e+03);
 
 n_tCh = 60*u_2/math.pi/D_2; # 1/min, | Частота вращения турбокомпрессора (16)
 
@@ -139,9 +137,9 @@ u_1 = math.pi*D_1*n_tCh/60; # | Окружная скорость на сред�
 # | Угол входа потока в рабочее колесо на среднем диамметре в относительном движении (19)
 beta_1 = math.degrees(math.atan( c_1/u_1 ));
 if issubclass(type(i), str):    
-      print 'Degree of the wheel inlet flow is {0:.3f}' .format(beta_1);
-      print 'Now you can set "i", using recomendations'
-      exit();
+    print 'Degree of the wheel inlet flow is {0:.3f}' .format(beta_1);
+    print 'Now you can set "i", using recomendations'
+    exit();
 
 beta_1Blade = beta_1 + i; # | Угол установки лопаток на среднем диаметре (20)
 
@@ -156,9 +154,9 @@ w_1H = math.sqrt(pow(c_1Tau, 2) + pow(u_1H, 2)); # | Относительная 
 # | Число маха на наружном диаметре входа в колесо (24)
 M_w1 = w_1H/math.sqrt(k*R*T_1);
 if M_w1 > 0.9:
-      print 'Warning!\nMach number (M = {0:.2f}) is too high!' .format(M_w1);
-      print 'Try to change "tau_1" &/or other parameters.'
-      # exit();
+    print 'Warning!\nMach number (M = {0:.2f}) is too high!' .format(M_w1);
+    print 'Try to change "tau_1" &/or other parameters.'
+    # exit();
       
 w_1 = math.sqrt(pow(c_1Tau, 2) + pow(u_1, 2)); # | Относительная скорость на среднем диаметре входа в колесо (25)
 
@@ -210,16 +208,82 @@ T_2Stagn = T_2 + pow(c_2, 2)/2/c_p; # | Температура затормож�
 
 
 
+# [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ Diffuser | Диффузор ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+# | Ширина безлопаточного диффузора на выходе (44)
+if issubclass(type(diffuserWideCoef), str):    diffuserWideCoef = 0.9;   # default diffuserWideCoef
+b_4 = diffuserWideCoef * b_2;
 
-# [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ Diffuser | Диффузор ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+# | Диаметр безлопаточного диффузора на выходе (45)
+if issubclass(type(diffuserDiamCoef), str):    diffuserDiamCoef = 1.8;   # default diffuserDiamCoef
+D_4 = diffuserDiamCoef * D_2;
+
+# | Показатель политропы сжатия в диффузоре (46)
+if issubclass(type(eta_diff), str):    eta_diff = 0.75;   # default eta_diff
+n_4 = (eta_diff * k/(k - 1))/ \
+(eta_diff * k/(k - 1) - 1);
+
+# | Температура на выходе из диффузора (методом последовательных приближений) (47)
+T_4 = T_2;
+validity = 1e-02;
+for i in range(5000):
+    if abs(diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4) - T_4) > validity:
+        T_4 = T_4 + validity;
+    else:
+        T_4 = diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4);
+# T_4 = 412.26;
+
+p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1)); # | Давление на выходе из колеса (48)
+
+ro_4 = p_4/R/T_4; # | Плотность на выходе из колеса (49)
+
+c_4 = c_2*D_2*b_2*ro_2/D_4/b_4/ro_4; # | Скорость на выходе из диффузора (50)
 
 
 
+# [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ Housing | Улитка ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+# | Скорость на выходе из компрессора (51)
+if issubclass(type(relDiffOutToCompOut), str):    relDiffOutToCompOut = 1.4;   # default relDiffOutToCompOut
+c_K = c_4/relDiffOutToCompOut;
 
-print T_2Stagn;
+# | Температура на выходе из компрессора (52)
+T_K = T_4 + (pow(c_4, 2) - pow(c_K, 2))/2/c_p;
+
+# | Давление на выходе из компрессора (54)
+if issubclass(type(n_housing), str):    n_housing = 1.9;   # default n_housing
+p_K = p_4*pow(T_K/T_4, n_housing/(n_housing - 1));
+
+T_KStagn = T_K + pow(c_K, 2)/2/c_p; # | Температура заторможенного потока на выходе (55)
 
 
 
+# [[[[[[[[[[[[[[[[[[[[[ Data processing | Оценка полученных данных ]]]]]]]]]]]]]]]]]]]]]
+p_KStagn = p_K*pow(T_KStagn/T_K, k/(k - 1)); # | давление заторможенного потока на выходе (56)
+
+Pi_KStagn = p_KStagn/p_0Stagn; # | Действительная степень повышения давления в компрессоре (57)
+
+L_KsStagnRated = c_p*T_0Stagn*(pow(Pi_KStagn, (k - 1)/k) - 1); # | Изоэнтропная работа по расчётной степени повышения давления (58)
+
+eta_KsStagnRated = (pow(Pi_KStagn, (k - 1)/k) - 1) / (T_KStagn/T_0Stagn - 1); # | Расчётный изоэнтропный КПД по заторможенным параметрам (59)
+
+differenceEta = abs(eta_KsStagnRated - eta_KsStagn)/eta_KsStagn * 100; # | Расхождение с заданным КПД компрессора (60)
+
+H_KsStagnRated = L_KsStagn/pow(u_2, 2); # | Расчётный коэффициент напора по заторможенным параметрам (61)
+
+differenceH = abs(H_KsStagnRated - H_KsStagn)/H_KsStagn;#* 100; # | Расхождение с заданным КПД компрессора (62)
+
+N_K = G_K*L_KsStagn/eta_KsStagnRated; # | Мощность затрачиваемая на привод компрессора (63)
+
+p_vStagn = p_KStagn*sigma_c*sigma_v; # | Полное давление перед впускными клапанами поршневой части (64)
+
+
+## Displaying the results
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+print 'The diameter of the wheel is {D_2_mm} mm\n' .format(D_2_mm = D_2*1e+03); # (15)
+print 'Actual pressure degree increase is {0:.2f}\n' .format(Pi_KStagn); # (57)
+print 'Difference with setted compressor energy conversion efficiency is {0:.2f}%\n' .format(differenceEta); # (60)
+print 'Difference with setted head coeficient is {0:.2f}%\n' .format(differenceH); # (62)
+print H_KsStagn, H_KsStagnRated;
 
 
 
