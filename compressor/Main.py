@@ -2,14 +2,16 @@
 # Calculates safety factors for crankshaft and displays the minimum of them
 
 ## Loading data & calling some fuctions
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # Funcion for math solvers (pi, sin, cos, etc.)
 from __future__ import division
 import math
 
-# Self-made fuctions
-from piK import piK # Calculates pressure degree increase
-from diffOutTemp import diffOutTemp # Calculates diffuser output temperature
+# Some self-made fuctions
+from piK import piK
+from diffOutTemp import diffOutTemp
+from standartizedSize import standartizedSize
 
 # Loading input data from project dictionary
 from compressorDict import(
@@ -25,7 +27,7 @@ from compressorDict import(
       relDiffOutToCompOut, n_housing,
     i, tau_1, z_K, beta_2Blade,
     E, T_ca,
-    proectType
+    projectType, Pi_K, G_K
 );
 
 
@@ -55,7 +57,8 @@ else:
 p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber); # Pa
 
 # Flow volume | Расход
-G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
+if 'yearPaper' in projectType:
+    G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
 
 # Wheel diameter | Диаметр рабочего колеса
 if ( issubclass(type(eta_KsStagn), str) ) or \
@@ -70,20 +73,22 @@ else:
 
 # Calculation pressure degree increase with successive approximation method 
 # Определение степени повышения давления методом последовательных приближений
-Pi_K = 1;
-validity = 1e-04;
-for i in range(5000):
-    if abs(piK(l_0, p_e, Pi_K) - Pi_K) < validity:
-        Pi_K = Pi_K + validity;
-    else:
-        Pi_K = piK(l_0, p_e, Pi_K)
+if 'yearPaper' in projectType:
+    Pi_K = 1;
+    validity = 1e-04;
+    for i in range(5000):
+        if abs(piK(l_0, p_e, Pi_K) - Pi_K) < validity:
+            Pi_K = Pi_K + validity;
+        else:
+            Pi_K = piK(l_0, p_e, Pi_K)
+    
 
 
 ## Compressor parameters calculation
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-# [[[[[[[[[[[[[[[[[[[[[[[[[[ Inlet part | Входное устройство ]]]]]]]]]]]]]]]]]]]]]]]]]]
+# [[[[[[[[[[[[[[[[[[[[ Inlet part | Входное устройство ]]]]]]]]]]]]]]]]]]]]
 # Stagnation parameters of inlet | Параметры торможения на входе (1)
 T_0Stagn = T_aStagn;
 p_0Stagn = sigma_0*p_aStagn;
@@ -111,7 +116,7 @@ L_inlet = dzeta_inlet*pow(c_1, 2)/2;
 
 
 
-# [[[[[[[[[[[[[[[[[[[[[[[[[ Compressor wheel | Рабочее колесо ]]]]]]]]]]]]]]]]]]]]]]]]]
+# [[[[[[[[[[[[[[[[[[[ Compressor wheel | Рабочее колесо ]]]]]]]]]]]]]]]]]]]
 n_1 = ( k/(k - 1) - L_inlet/R/(T_1 - T_0) )/ \
 ( k/(k - 1) - L_inlet/R/(T_1 - T_0) - 1); # | Показатель политропы сжатия в компрессоре (33)
 
@@ -126,7 +131,8 @@ D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1B/relD_1H, 2)) ); # | Наруж�
 D_1B = relD_1B/relD_1H*D_1H; # | Внутренний диаметер на входе (втулочный диаметр) (14)
 
 # | Наружный диаметр колеса на комперссора на выходе (15)
-D_2 = round( D_1H/relD_1H, 3 );
+# D_2 = round(D_1H/relD_1H, 3 );
+D_2 = standartizedSize( D_1H/relD_1H*1e+03 ) * 1e-03; # m
 
 n_tCh = 60*u_2/math.pi/D_2; # 1/min, | Частота вращения турбокомпрессора (16)
 
@@ -208,7 +214,7 @@ T_2Stagn = T_2 + pow(c_2, 2)/2/c_p; # | Температура затормож�
 
 
 
-# [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ Diffuser | Диффузор ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+# [[[[[[[[[[[[[[[[[[[[[[[[[[ Diffuser | Диффузор ]]]]]]]]]]]]]]]]]]]]]]]]]]
 # | Ширина безлопаточного диффузора на выходе (44)
 if issubclass(type(diffuserWideCoef), str):    diffuserWideCoef = 0.9;   # default diffuserWideCoef
 b_4 = diffuserWideCoef * b_2;
@@ -240,7 +246,7 @@ c_4 = c_2*D_2*b_2*ro_2/D_4/b_4/ro_4; # | Скорость на выходе из
 
 
 
-# [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ Housing | Улитка ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+# [[[[[[[[[[[[[[[[[[[[[[[[[[[ Housing | Улитка ]]]]]]]]]]]]]]]]]]]]]]]]]]]
 # | Скорость на выходе из компрессора (51)
 if issubclass(type(relDiffOutToCompOut), str):    relDiffOutToCompOut = 1.4;   # default relDiffOutToCompOut
 c_K = c_4/relDiffOutToCompOut;
@@ -256,7 +262,7 @@ T_KStagn = T_K + pow(c_K, 2)/2/c_p; # | Температура затормож�
 
 
 
-# [[[[[[[[[[[[[[[[[[[[[ Data processing | Оценка полученных данных ]]]]]]]]]]]]]]]]]]]]]
+# [[[[[[[[[[[[[[ Data processing | Оценка полученных данных ]]]]]]]]]]]]]]
 p_KStagn = p_K*pow(T_KStagn/T_K, k/(k - 1)); # | давление заторможенного потока на выходе (56)
 
 Pi_KStagn = p_KStagn/p_0Stagn; # | Действительная степень повышения давления в компрессоре (57)
@@ -269,7 +275,7 @@ differenceEta = abs(eta_KsStagnRated - eta_KsStagn)/eta_KsStagn * 100; # | Ра�
 
 H_KsStagnRated = L_KsStagn/pow(u_2, 2); # | Расчётный коэффициент напора по заторможенным параметрам (61)
 
-differenceH = abs(H_KsStagnRated - H_KsStagn)/H_KsStagn;#* 100; # | Расхождение с заданным КПД компрессора (62)
+differenceH = abs(H_KsStagnRated - H_KsStagn)/H_KsStagn*100; # | Расхождение с заданным КПД компрессора (62)
 
 N_K = G_K*L_KsStagn/eta_KsStagnRated; # | Мощность затрачиваемая на привод компрессора (63)
 
@@ -279,12 +285,19 @@ p_vStagn = p_KStagn*sigma_c*sigma_v; # | Полное давление пере�
 ## Displaying the results
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-print 'The diameter of the wheel is {D_2_mm} mm\n' .format(D_2_mm = D_2*1e+03); # (15)
-print 'Actual pressure degree increase is {0:.2f}\n' .format(Pi_KStagn); # (57)
-print 'Difference with setted compressor energy conversion efficiency is {0:.2f}%\n' .format(differenceEta); # (60)
-print 'Difference with setted head coeficient is {0:.2f}%\n' .format(differenceH); # (62)
-print H_KsStagn, H_KsStagnRated;
+print 'Diameter of the wheel is {D_2_mm} mm\n' .format(D_2_mm = D_2*1e+03); # (15)
+print 'Actual pressure degree increase is {0:.2f}' .format(Pi_KStagn); # (57)
+print 'When precalculated (or setted, if it is homework) pressure degree\
+ increase is {0:.2f}' .format(Pi_K)
+print 'Error of calculation between them is {differencePi_K:.3f}%\n' .format(differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100); # (60)
 
+print "Isentropy head coeficients are:\n    eta_Ks*  = {0:.3f} - setted\n\
+    eta_Ks*' = {0:.3f} - rated" .format(eta_KsStagn, eta_KsStagnRated); # (dict) & (59)
+print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta); # (60)
+
+print "Isentropy head coeficients are:\n    H_Ks*  = {0:.3f} - setted\n\
+    H_Ks*' = {0:.3f} - rated" .format(H_KsStagn, H_KsStagnRated); # (dict) & (61)
+print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH); # (62)
 
 
 
