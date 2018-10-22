@@ -333,7 +333,7 @@ report.write("- Изоэнтропная работа сжатия в компр
 report.write("L_{КS}^{*} = %.0f \quad Дж/кг, \n$$\n\n" %L_KsStagn);
 
 report.write("- Окружная скорость на наружном диаметре колеса: \n$$\n");
-report.write("u_{2} = %.2f \quad м/с \quad \leqslant \quad 550 \quad м/с , \n$$\n" %u_2);
+report.write("u_{2} = %.2f \quad м/с \quad < \quad 550 \quad м/с , \n$$\n" %u_2);
 report.write("Окружная скорость не превышает допустимое значение.\n\n");
 
 report.write("- Частота вращения ротора турокомпрессора: \n$$\n");
@@ -377,18 +377,13 @@ report.write("D_{2} = %.1f \quad мм, \n$$\n\n" %D_2);
 
 
 
-
-
-    
-    
-    
-
-
-
-
-
-
-
-# differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100;
-# report.write("#Погрешность в расчёте степени повышения давления: %.2f%%" %differencePi_K);
 report.close()
+
+
+
+
+
+
+
+
+
