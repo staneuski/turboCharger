@@ -57,7 +57,7 @@ else:
 p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber); # Pa
 
 # Flow volume | Расход
-if 'yearPaper' in projectType:
+if 'termPaper' in projectType:
     G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
 
 # Wheel diameter | Диаметр рабочего колеса
@@ -70,6 +70,7 @@ if ( issubclass(type(eta_KsStagn), str) ) or \
     exit();
 else:
     D_2 = (160*G_K + 40)*1e-03; # m
+    D_2_mm0 = D_2*1e03; # mm
 
 # Calculation pressure degree increase with successive approximation method 
 # Определение степени повышения давления методом последовательных приближений
@@ -280,16 +281,18 @@ N_K = G_K*L_KsStagn/eta_KsStagnRated; # | Мощность затрачивае�
 
 p_vStagn = p_KStagn*sigma_c*sigma_v; # | Полное давление перед впускными клапанами поршневой части (64)
 
+differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100; # | Расхождение с предварительно оценнёной/заданной степенью повыения давления компрессора (+)
 
 ## Displaying the results
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Display some results right in the Terminal window
 print 'Diameter of the wheel is {D_2_mm} mm\n' .format(D_2_mm = D_2*1e+03); # (15)
 print 'Actual pressure degree increase is {0:.2f}' .format(Pi_KStagn); # (57)
 print 'When precalculated (or setted, if it is a homework) pressure degree\
  increase is {0:.1f}' .format(Pi_K)
-print 'Error of calculation between them is {differencePi_K:.3f}%\n' .format(differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100); # (60)
-
+print 'Error of calculation between them is {0:.3f}%\n' .format(differencePi_K); # (60)
+    
 print "Energy conversion efficiency coeficients are:\n    eta_Ks*  = {0:.3f} - setted\n\
     eta_Ks*' = {0:.3f} - rated" .format(eta_KsStagn, eta_KsStagnRated); # (dict) & (59)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta); # (60)
@@ -299,6 +302,86 @@ print "Isentropy head coeficients are:\n    H_Ks*  = {0:.3f} - setted\n\
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH); # (62)
 
 
+# Save report
+report = open("compressorReport.md", "w")
+
+if 'termPaper' in projectType:
+    report.write("#Предварительные расчёты\n");
+    report.write("- Среднее эффективное давление: \n$$\n");    p_e_MPa = p_e*1e-06;
+    report.write("p_{e} = {0,12*10^{3}*N_{e}*tau \over \pi D^{2}Sni} = \
+        %.4f \quad МПа,\n$$\n\n" %p_e_MPa)
+    report.write("- Расход: \n$$\n")
+    report.write("G_{к} = {N_{e}g_{e}l_{0}alpha*phi \over 3600} = \
+        %.4f \quad кг/с, \n$$\n\n" %G_K)
+    report.write("- Предварительная оценка диаметра колеса:\n$$\n")
+    report.write("D_{2} = 160*G_{K} + 40 = %.0f \quad мм, \n$$\n\n" %D_2_mm0)
+    report.write("- Cтепень повышения давления полученная методом\
+ последовательных приближений: \n$$\n");
+    report.write("\pi_{к} = %.4f, \n$$\n\n" %Pi_K)
+else:
+       report.write("#Условия домашнего задания\n");
+       report.write("- Расход: \n$$\n");
+       report.write("G_{к} = %.2f \quad кг/с, \n$$\n\n" %G_K)
+       report.write("- Cтепень повышения давления: \n$$\n");
+       report.write("\pi_{к} = %.2f, \n$$\n\n" %Pi_K)
+
+
+report.write("#Рассчитанные параметры\n");
+
+report.write("##Общие параметры\n");
+report.write("- Изоэнтропная работа сжатия в компрессоре: \n$$\n");
+report.write("L_{КS}^{*} = %.0f \quad Дж/кг, \n$$\n\n" %L_KsStagn);
+
+report.write("- Окружная скорость на наружном диаметре колеса: \n$$\n");
+report.write("u_{2} = %.2f \quad м/с \quad \leqslant \quad 550 \quad м/с , \n$$\n" %u_2);
+report.write("Окружная скорость не превышает допустимое значение.\n\n");
+
+report.write("- Частота вращения ротора турокомпрессора: \n$$\n");
+report.write("n_{TK} = %.0f \quad мин^{-1}, \n$$\n" %n_tCh);
+
+report.write("- Степень повышения давления: \n$$\n");
+report.write("\pi_{к}^{*} = %.3f \quad мин^{-1}, \n$$\n" %Pi_KStagn);
+if 'termPaper' in projectType:  report.write("_Разница с оценённой степенью повышения\
+ давления составляет:_ **%.1f%%**\n" %differencePi_K);
+else:   report.write("_Разница с заданной степенью повышения\
+ давления составляет:_ **%.1f%%**\n\n" %differencePi_K);
+    
+
+report.write("- КПД компрессора:\n");
+report.write("Заданный КПД:\n$$\n");
+report.write("\eta_{КS} = %.3f, \n$$\n" %eta_KsStagn);
+report.write("Расчётный изоэнтропный КПД: \n$$\n");
+report.write("\eta_{КS}^{*} = %.3f, \n$$\n" %eta_KsStagnRated);
+report.write("_Расхождение с заданным КПД компрессора:_ **%.2f%%**\n" %differenceEta);
+
+report.write("##Входное устройство\n");
+report.write("- Давление на входе в колесо: \n$$\n");   p_1 = p_1*1e-06;
+report.write("p_{1} = %.6f \quad МПа, \n$$\n\n" %p_1);
+
+report.write("- Плотность на входе в колесо: \n$$\n");
+report.write("ro_{1} = %.4f \quad кг/м^{3}, \n$$\n\n" %ro_1);
+
+report.write("- Площадь поперечного сечения входа в колесо: \n$$\n");
+report.write("F_{1} = %.6f \quad м^{2} , \n$$\n\n" %F_1);
+
+report.write("##Колесо компрессора\n");
+report.write("- Наружный диаметр колеса на входе: \n$$\n"); D_1H = D_1H*1e03;
+report.write("D_{1Н} = %.1f \quad мм, \n$$\n\n" %D_1H);
+
+report.write("- Внутренный диаметр на входе: \n$$\n"); D_1B = D_1B*1e03;
+report.write("D_{1В} = %.1f \quad мм, \n$$\n\n" %D_1B);
+
+report.write("- Наружный диаметр колеса на выходе\
+ принятый из _ряда нормальных значений_: \n$$\n"); D_2 = D_2*1e03;
+report.write("D_{2} = %.1f \quad мм, \n$$\n\n" %D_2);
+
+
+
+
+
+    
+    
+    
 
 
 
@@ -306,8 +389,6 @@ print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH); # 
 
 
 
-
-
-
-
-
+# differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100;
+# report.write("#Погрешность в расчёте степени повышения давления: %.2f%%" %differencePi_K);
+report.close()
