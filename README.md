@@ -22,6 +22,9 @@ python Main.py
 
 Также генерируется отчёт _compressorReport.md_ на языке **Markdown**. И сохраняются рисунки с уже _выставленными размерами_ на них. Всё это будет располагаться в папке _compressorReport_.
 
+##### Пример получемых рисунков
+![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/compressor/dimensionedAxisCut.png)
+![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/compressor/dimensionedBlades.png)
 
 
 ## Турбина
