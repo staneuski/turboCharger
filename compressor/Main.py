@@ -25,7 +25,7 @@ from compressorDict import(
     dzeta_inlet, dzeta_BA, dzeta_TF, alpha_wh, tau_2,
     relD_1H, relD_1B, relW_2rToC_1a, diffuserWideCoef, diffuserDiamCoef,
       relDiffOutToCompOut, n_housing,
-    i, tau_1, z_K, beta_2Blade,
+    iDeg, tau_1, z_K, beta_2Blade,
     E, T_ca,
     projectType, Pi_K, G_K
 );
@@ -143,12 +143,12 @@ u_1 = math.pi*D_1*n_tCh/60; # | Окружная скорость на сред�
 
 # | Угол входа потока в рабочее колесо на среднем диамметре в относительном движении (19)
 beta_1 = math.degrees(math.atan( c_1/u_1 ));
-if issubclass(type(i), str):    
+if issubclass(type(iDeg), str):    
     print 'Degree of the wheel inlet flow is {0:.3f}' .format(beta_1);
     print 'Now you can set "i", using recomendations'
     exit();
 
-beta_1Blade = beta_1 + i; # | Угол установки лопаток на среднем диаметре (20)
+beta_1Blade = beta_1 + iDeg; # | Угол установки лопаток на среднем диаметре (20)
 
 # | Абсолютная скорость при учёте толщины лопаток (21)
 if issubclass(type(tau_1), str):    tau_1 = 0.85;    # default tau_1
@@ -203,9 +203,9 @@ w_2u = u_2 - c_2u; # | Окружная составляющая относит�
 
 w_2 = math.sqrt(pow(w_2u, 2) + pow(c_2r, 2)); # | Относительная скорость на выходе из колеса (c_2r = w_2r) (39)
 
-beta_1 = math.degrees(math.acos( w_2u/w_2 )); # | Угол между веторами относительной и окружной скорости на выходе из колеса (40)
+beta_2 = math.degrees(math.acos( w_2u/w_2 )); # | Угол между векторами относительной и окружной скорости на выходе из колеса (40)
 
-alpha_2 = math.degrees(math.acos( c_2u/c_2 )); # | Угол между веторами абсолютной и окружной скорости на выходе из колеса (40)
+alpha_2 = math.degrees(math.acos( c_2u/c_2 )); # | Угол между векторами абсолютной и окружной скорости на выходе из колеса (40)
 
 # | Ширина колеса на выходе из турбины (41)
 if issubclass(type(tau_2), str):    tau_2 = 0.94;   # default tau_2
@@ -282,6 +282,7 @@ N_K = G_K*L_KsStagn/eta_KsStagnRated; # | Мощность затрачивае�
 p_vStagn = p_KStagn*sigma_c*sigma_v; # | Полное давление перед впускными клапанами поршневой части (64)
 
 differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100; # | Расхождение с предварительно оценнёной/заданной степенью повыения давления компрессора (+)
+
 
 ## Displaying the results
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -377,8 +378,66 @@ report.write("D_{2} = %.1f \quad мм, \n$$\n\n" %D_2);
 
 
 
-report.close()
+## Editing pictures
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Importing the needed library
+import PIL;     from PIL import ImageFont, Image, ImageDraw
+ 
+# Loading Fonts
+font = ImageFont.truetype("../forReportGen/fontGOST.ttf", 22);
+ 
+# Add dimensions to the first picture (axisCut)
+imageFile = "../forReportGen/compressor/axisCut.png";   imageWheel=Image.open(imageFile)
+ 
+# Drawing the text on the picture
+draw = ImageDraw.Draw(imageWheel)
+b_4 = round(b_4*1e+03, 2);    draw.text((331, 49), str(b_4), (0,0,0), font=font);
+# b_3 = round(b_3*1e+03, 2);    draw.text((331, 115), str(b_3), (0,0,0), font=font);
+b_2 = round(b_2*1e+03, 2);    draw.text((217, 150), str(b_2), (0,0,0), font=font);
+imageWheel.rotate(-90).save("dimensionedAxisCut.png");  imageFile = "dimensionedAxisCut.png";   imageWheel=Image.open(imageFile);
+draw = ImageDraw.Draw(imageWheel)
+D_1H = round(D_1H, 2);    draw.text((75, 67), str(D_1H), (0,0,0), font=font);
+D_1 = round(D_1*1e+03, 2);    draw.text((75, 113), str(D_1), (0,0,0), font=font);
+D_1B = round(D_1B, 2);    draw.text((75, 150), str(D_1B), (0,0,0), font=font);
+D_2 = round(D_2, 2);    draw.text((75, 335), str(D_2), (0,0,0), font=font);
+# D_3 = round(D_3, 2);    draw.text((75, 370), str(D_3), (0,0,0), font=font);
+D_4 = round(D_4*1e+03, 2);    draw.text((75, 409), str(D_4), (0,0,0), font=font);
+
+imageWheel.rotate(90).save("dimensionedAxisCut.png")
+
+# Add dimensions to the second picture (perpendicularCut)
+# imageFile = "perpendicularCut.png";   imageWheel=Image.open(imageFile)
+# Drawing the text on the picture
+# draw = ImageDraw.Draw(imageWheel)
+# draw.text((?, ?), str(alpha_3), (0,0,0), font=font);
+# draw.text((?, ?), str(alpha_4), (0,0,0), font=font);
+# imageWheel.save("dimensionedPerpendicularCut.png")
+
+# Add dimensions to the blades picture
+imageFile = "../forReportGen/compressor/blades.png";   imageWheel=Image.open(imageFile)
+# Drawing the text on the picture
+draw = ImageDraw.Draw(imageWheel)
+beta_1Blade = round(beta_1Blade, 2);    draw.text((38, 98), str(beta_1Blade), (0,0,0), font=font);
+beta_1 = round(beta_1, 2);    draw.text((100, 120), str(beta_1), (0,0,0), font=font);
+iDeg = round(iDeg, 2);    draw.text((180, 35), str(iDeg), (0,0,0), font=font);
+c_1 = round(c_1, 1);    draw.text((238, 143), str(c_1), (0,0,0), font=font);
+u_1 = round(u_1, 1);    draw.text((307, 172), str(u_1), (0,0,0), font=font);
+w_1 = round(w_1, 1);    draw.text((430, 160), str(w_1), (0,0,0), font=font);
+imageWheel.save("dimensionedBlades.png")
+
+
+## Saving the results to the resultsFolder
+import os, shutil
+
+# Creating dir of needed
+if not os.path.exists("compressorResults"):   os.makedirs("compressorResults");
+
+
+shutil.copyfile("compressorDict.py", "compressorResults/compressorDict.py");
+os.rename("compressorReport.md", "compressorResults/compressorReport.md");
+os.rename("dimensionedAxisCut.png", "compressorResults/dimensionedAxisCut.png");
+os.rename("dimensionedBlades.png", "compressorResults/dimensionedBlades.png");
 
 
 
