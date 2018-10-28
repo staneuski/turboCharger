@@ -2,10 +2,16 @@
 def piK(l_0, p_e, guessedPiK):
     "Calculates pressure degree increase"
 
-    # Import data from dictionary
+    # Import data
+    import sys
+    from os import path
+    sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
+    from commonDict import(R, g_e, alpha, k, eta_v);
+    
+    
     from compressorDict import(
-    R, T_aStagn, g_e, alpha, k, eta_KsStagn, E, T_ca, T_aStagn,
-    p_aStagn, eta_v, sigma_0, sigma_c, sigma_v
+        T_aStagn, eta_KsStagn, E, T_ca, T_aStagn,
+        p_aStagn, sigma_0, sigma_c, sigma_v
     );
 
     # Converting data to SI from dictionary | Перевод в СИ

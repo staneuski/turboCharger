@@ -2,8 +2,12 @@
 def diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, guessedT_4, n_4):  
     "Calculates diffuser output temperature"
 
-    from compressorDict import(k, R);   # Import data from dictionary
-
+    # Import data from dictionary
+    import sys
+    from os import path
+    sys.path.append( path.dirname( path.abspath(__file__) ) ) 
+    from commonDict import(k, R)
+        
     # Precalculations
     q = pow(D_2*b_2/D_4/b_4, 2);
     m = 2/(n_4 - 1);
