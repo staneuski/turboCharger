@@ -6,11 +6,11 @@ def piK(l_0, p_e, guessedPiK):
     import sys
     from os import path
     sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
-    from commonDict import(R, g_e, alpha, k, eta_v);
+    from commonDict import(R, g_e, alpha, k, E, T_ca, eta_v);
     
     
     from compressorDict import(
-        T_aStagn, eta_KsStagn, E, T_ca, T_aStagn,
+        T_aStagn, eta_KsStagn, T_aStagn,
         p_aStagn, sigma_0, sigma_c, sigma_v
     );
 

@@ -14,15 +14,17 @@ import math
 from piK import piK
 from diffOutTemp import diffOutTemp
 from standardisedSize import standardisedSize
+import sys; from os import path;
+sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
+from defaultValue import defaultValue
 
 # Loading input data from project dictionary
-import sys
-from os import path
+import sys;    from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from commonDict import(
     projectType,
     p_a, T_a, k, R, c_p,
-    engineType, strokeNumber, engineType, pistonNumber, S, D,
+    engineType, strokeNumber, pistonNumber, S, D,
     N_e, n, g_e,
     alpha, eta_v, phi,
     Pi_K, G_K
@@ -32,21 +34,36 @@ from compressorDict import(
     T_aStagn, p_aStagn, c_0,
     sigma_0, sigma_c, sigma_v,
     eta_KsStagn, H_KsStagn, phi_flow, eta_diff,
-    dzeta_inlet, dzeta_BA, dzeta_TF, alpha_wh, tau_2,
+    dzeta_inlet, dzeta_BA, dzeta_TF, alpha_wh,
     relD_1H, relD_1B, relW_2rToC_1a, diffuserWideCoef, diffuserDiamCoef,
       relDiffOutToCompOut, n_housing,
-    iDeg, tau_1, z_K, beta_2Blade,
-    E, T_ca
+    iDeg, z_K, tau_1, tau_2, beta_2Blade,
 )
 
 
 ## Converting data to SI from dictionary | Перевод в СИ
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 N_e = N_e*1e03; # -> V
 g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
 p_aStagn = p_aStagn*1e06; # -> Pa
 D = D*1e-02;      S = S*1e-02; # -> m
+
+
+## Default values
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+dzeta_inlet = defaultValue(dzeta_inlet, 0.04); # default dzeta_inlet
+tau_1 = defaultValue(tau_1, 0.9);    # default tau_1
+dzeta_BA = defaultValue(dzeta_BA, 0.26);   # default dzeta_BA
+relW_2rToC_1a = defaultValue(relW_2rToC_1a, 1.05);   # default relW_2rToC_1a
+dzeta_TF = defaultValue(dzeta_TF, 0.18);   # default dzeta_TF
+alpha_wh = defaultValue(alpha_wh, 0.05);   # default alpha_wh
+beta_2Blade = defaultValue(beta_2Blade, 75);   # default beta_2Blade
+tau_2 = defaultValue(tau_2, 0.94);   # default tau_2
+diffuserWideCoef = defaultValue(diffuserWideCoef, 0.9);   # default diffuserWideCoef
+diffuserDiamCoef = defaultValue(diffuserDiamCoef, 1.8);   # default diffuserDiamCoef
+eta_diff = defaultValue(eta_diff, 0.75);   # default eta_diff
+relDiffOutToCompOut = defaultValue(relDiffOutToCompOut, 1.4);   # default relDiffOutToCompOut
+n_housing = defaultValue(n_housing, 1.9);   # default n_housing
 
 
 ## Precalculations
@@ -58,9 +75,8 @@ if 'SI' in engineType:
 elif 'DIESEL' in engineType:
     l_0 = 14.31; # kg
 else:
-    print 'Set type of the engine correctly ("DIESEL" or "SI")\
- in compressorDict.py file!\n';
-    exit();
+    exit('Set type of the engine correctly ("DIESEL" or "SI")\
+ in commonDict.py file!\n');
       
 # Effective pressure | Среднее эффективное давление
 p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber); # Pa
@@ -91,13 +107,13 @@ if 'termPaper' in projectType:
             Pi_K = Pi_K + validity;
         else:
             Pi_K = piK(l_0, p_e, Pi_K)
-
+            
 
 ## Compressor parameters calculation
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 # [[[[[[[[[[[[[[[[[[[[ Inlet part | Входное устройство ]]]]]]]]]]]]]]]]]]]]
+
 # Stagnation parameters of inlet | Параметры торможения на входе (1)
 T_0Stagn = T_aStagn;
 p_0Stagn = sigma_0*p_aStagn;
@@ -105,27 +121,23 @@ p_0Stagn = sigma_0*p_aStagn;
 # Static pressure & temperature of intake in compressor | Статические температура и давление на входе в компрессор (3)
 T_0 = T_0Stagn - pow(c_0, 2)/2/c_p;
 p_0 = p_0Stagn * pow(T_0/T_0Stagn, k/(k - 1)); # Pa
-
 L_KsStagn = c_p*T_0Stagn*(pow(Pi_K, (k - 1)/k) - 1); # Isentropy compression work in compressor | Изоэнтропная работа сжатия в компрессоре (4)
 
 # Wheel outer diameter circular velocity | Окружная скорость на наружном диаметре колеса (5)
 u_2 = math.sqrt(L_KsStagn / H_KsStagn);
-if u_2 >= 550:    
-    print 'Wheel outer diameter circular velocity is too high!'
-    print 'Try to increase wheel diameter &/or set other ECE parameters'
-    exit();
+if u_2 >= 550:    exit('Error 5:\n\
+ Wheel outer diameter circular velocity is too high!\n\
+Try to increase wheel diameter &/or set other ECE parameters');
 
 c_1 = phi_flow*u_2; # | Абсолютная скорость потока на входе в рабочее колесо (6)
 
 T_1 = T_0 + (pow(c_0, 2) - pow(c_1, 2))/2/c_p; # | Температура воздуха на входе в рабочее колесо (7)
 
-# | Расчёт потерь энергии во впускном коллекторе (8)
-if issubclass(type(dzeta_inlet), str):    dzeta_inlet = 0.45;    # default dzeta_inlet
-L_inlet = dzeta_inlet*pow(c_1, 2)/2;
-
+L_inlet = dzeta_inlet*pow(c_1, 2)/2; # | Расчёт потерь энергии во впускном коллекторе (8)  
 
 
 # [[[[[[[[[[[[[[[[[[[ Compressor wheel | Рабочее колесо ]]]]]]]]]]]]]]]]]]]
+
 n_1 = ( k/(k - 1) - L_inlet/R/(T_1 - T_0) )/ \
 ( k/(k - 1) - L_inlet/R/(T_1 - T_0) - 1); # | Показатель политропы сжатия в компрессоре (9)
 
@@ -158,9 +170,7 @@ if issubclass(type(iDeg), str):
 
 beta_1Blade = beta_1 + iDeg; # | Угол установки лопаток на среднем диаметре (20)
 
-# | Абсолютная скорость при учёте толщины лопаток (21)
-if issubclass(type(tau_1), str):    tau_1 = 0.85;    # default tau_1
-c_1Tau = c_1 / tau_1;
+c_1Tau = c_1 / tau_1; # | Абсолютная скорость при учёте толщины лопаток (21)
 
 u_1H = math.pi*D_1H*n_tCh/60; # | Угол установки лопаток на среднем диаметре (20)
 
@@ -175,24 +185,17 @@ if M_w1 > 0.9:
       
 w_1 = math.sqrt(pow(c_1Tau, 2) + pow(u_1, 2)); # | Относительная скорость на среднем диаметре входа в колесо (25)
 
-# | Удельная работа потерь во входном вращающемся направляющем аппарате колеса (26)
-if issubclass(type(dzeta_BA), str):    dzeta_BA = 0.3;   # default dzeta_BA
-L_BA = dzeta_BA*pow(w_1, 2)/2;
+L_BA = dzeta_BA*pow(w_1, 2)/2; # | Удельная работа потерь во входном вращающемся направляющем аппарате колеса (26)
 
-# | Радиальная составляющая абсолютной скорости / радиальная составляющая относительной скорости на выходе из колеса (27)
-if issubclass(type(relW_2rToC_1a), str):    relW_2rToC_1a = 1.05;   # default relW_2rToC_1a
-c_2r = relW_2rToC_1a * c_1;
+c_2r = relW_2rToC_1a * c_1; # | Радиальная составляющая абсолютной скорости / радиальная составляющая относительной скорости на выходе из колеса (27)
 
-# | Потери на поворот и трение в межлопаточных каналах рабочего колеса (28)
-if issubclass(type(dzeta_TF), str):    dzeta_TF = 0.15;   # default dzeta_TF
-L_TF = dzeta_TF*pow(c_2r, 2)/2;
+L_TF = dzeta_TF*pow(c_2r, 2)/2; # | Потери на поворот и трение в межлопаточных каналах рабочего колеса (28)
 
-# | Потери на трение диска колеса о воздух в сумме с вентиляционными потерями (29)
-if issubclass(type(alpha_wh), str):    alpha_wh = 0.06;   # default alpha_wh
-L_TB = alpha_wh*pow(u_2, 2);
+L_TB = alpha_wh*pow(u_2, 2); # | Потери на трение диска колеса о воздух в сумме с вентиляционными потерями (29)
 
+# | Коэффициент мощности учитывабщий число лопаток и проч. (31)
 mu = 1/(1+2/3*math.pi/z_K \
-    *math.sin(math.radians(beta_2Blade))/(1 - pow(D_1/D_2, 2)) ); # | Коэффициент мощности учитывабщий число лопаток и проч. (31)
+    *math.sin(math.radians(beta_2Blade))/(1 - pow(D_1/D_2, 2)) );
 
 T_2 = T_1 + (mu + alpha_wh - 0.5*pow(mu, 2))*pow(u_2, 2)/c_p; # | Температура воздуха за колесом (32)
 
@@ -215,27 +218,18 @@ beta_2 = math.degrees(math.acos( w_2u/w_2 )); # | Угол между векто
 
 alpha_2 = math.degrees(math.acos( c_2u/c_2 )); # | Угол между векторами абсолютной и окружной скорости на выходе из колеса (40)
 
-# | Ширина колеса на выходе из турбины (41)
-if issubclass(type(tau_2), str):    tau_2 = 0.94;   # default tau_2
-b_2 = G_K/math.pi/D_2/c_2r/ro_2/tau_2;
+b_2 = G_K/math.pi/D_2/c_2r/ro_2/tau_2; # | Ширина колеса на выходе из турбины (41)
 
 T_2Stagn = T_2 + pow(c_2, 2)/2/c_p; # | Температура заторможенного потока на выходе из колеса (43)
 
 
-
 # [[[[[[[[[[[[[[[[[[[[[[[[[[ Diffuser | Диффузор ]]]]]]]]]]]]]]]]]]]]]]]]]]
-# | Ширина безлопаточного диффузора на выходе (44)
-if issubclass(type(diffuserWideCoef), str):    diffuserWideCoef = 0.9;   # default diffuserWideCoef
-b_4 = diffuserWideCoef * b_2;
 
-# | Диаметр безлопаточного диффузора на выходе (45)
-if issubclass(type(diffuserDiamCoef), str):    diffuserDiamCoef = 1.8;   # default diffuserDiamCoef
-D_4 = diffuserDiamCoef * D_2;
+b_4 = diffuserWideCoef * b_2; # | Ширина безлопаточного диффузора на выходе (44)
 
-# | Показатель политропы сжатия в диффузоре (46)
-if issubclass(type(eta_diff), str):    eta_diff = 0.75;   # default eta_diff
-n_4 = (eta_diff * k/(k - 1))/ \
-(eta_diff * k/(k - 1) - 1);
+D_4 = diffuserDiamCoef * D_2; # | Диаметр безлопаточного диффузора на выходе (45)
+
+n_4 = (eta_diff * k/(k - 1))/(eta_diff * k/(k - 1) - 1); # | Показатель политропы сжатия в диффузоре (46)
 
 # | Температура на выходе из диффузора (методом последовательных приближений) (47)
 T_4 = T_2;
@@ -246,6 +240,8 @@ for i in range(5000):
     else:
         T_4 = diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4);
 
+# print T_4;    T_4 = 412.26;    print T_4;
+
 p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1)); # | Давление на выходе из колеса (48)
 
 ro_4 = p_4/R/T_4; # | Плотность на выходе из колеса (49)
@@ -253,21 +249,15 @@ ro_4 = p_4/R/T_4; # | Плотность на выходе из колеса (49
 c_4 = c_2*D_2*b_2*ro_2/D_4/b_4/ro_4; # | Скорость на выходе из диффузора (50)
 
 
-
 # [[[[[[[[[[[[[[[[[[[[[[[[[[[ Housing | Улитка ]]]]]]]]]]]]]]]]]]]]]]]]]]]
-# | Скорость на выходе из компрессора (51)
-if issubclass(type(relDiffOutToCompOut), str):    relDiffOutToCompOut = 1.4;   # default relDiffOutToCompOut
-c_K = c_4/relDiffOutToCompOut;
 
-# | Температура на выходе из компрессора (52)
-T_K = T_4 + (pow(c_4, 2) - pow(c_K, 2))/2/c_p;
+c_K = c_4/relDiffOutToCompOut; # | Скорость на выходе из компрессора (51)
 
-# | Давление на выходе из компрессора (54)
-if issubclass(type(n_housing), str):    n_housing = 1.9;   # default n_housing
-p_K = p_4*pow(T_K/T_4, n_housing/(n_housing - 1));
+T_K = T_4 + (pow(c_4, 2) - pow(c_K, 2))/2/c_p; # | Температура на выходе из компрессора (52)
+
+p_K = p_4*pow(T_K/T_4, n_housing/(n_housing - 1)); # | Давление на выходе из компрессора (54)
 
 T_KStagn = T_K + pow(c_K, 2)/2/c_p; # | Температура заторможенного потока на выходе (55)
-
 
 
 # [[[[[[[[[[[[[[ Data processing | Оценка полученных данных ]]]]]]]]]]]]]]
@@ -292,9 +282,22 @@ p_vStagn = p_KStagn*sigma_c*sigma_v; # | Полное давление пере�
 differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100; # | Расхождение с предварительно оценнёной/заданной степенью повышения давления компрессора (+)
 
 
+## Save data to calculate turbine
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+toTurbine = open("solvedParameters.py", "w")
+toTurbine.write("# -*- coding: utf-8 -*-\n")
+toTurbine.write("# Solved parameters from compressor\n\n")
+toTurbine.write("u_2K = %.7f; # m/s\n\n" %u_2);
+toTurbine.write("D_2K = %.3f; # m\n\n" %D_2);
+toTurbine.write("n_TCh = %.2f; # RPM\n\n" %n_tCh);
+toTurbine.write("eta_KsStagnRated = %.7f;\n\n" %eta_KsStagnRated);
+toTurbine.write("L_KsStagn = %.7f; # J/kg\n\n" %L_KsStagn);
+toTurbine.write("N_K = %.7f; # V\n\n" %N_K);
+toTurbine.write("p_vStagn = %.7f; # Pa\n\n\n\n" %p_vStagn)
+
+
 ## Displaying the results
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 # Display some results right in the Terminal window
 print 'Diameter of the wheel is {D_2_mm} mm\n' .format(D_2_mm = D_2*1e+03); # (15)
 print 'Actual pressure degree increase is {0:.2f}' .format(Pi_KStagn); # (57)
@@ -302,13 +305,15 @@ print 'When precalculated (or setted, if it is a homework) pressure degree\
  increase is {0:.1f}' .format(Pi_K)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differencePi_K); # (60)
     
-print "Energy conversion efficiency coeficients are:\n    eta_Ks*  = {0}   - setted\n\
-    eta_Ks*' = {1:.4f}  - rated" .format(eta_KsStagn, eta_KsStagnRated); # (dict) & (59)
+print "Energy conversion efficiency coeficients are:\n\
+    eta_Ks*  = {0}   - setted\n\
+    eta_Ks*' = {1:.4f} - rated" .format(eta_KsStagn, eta_KsStagnRated); # (dict) & (59)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta); # (60)
 
-print "Isentropy head coeficients are:\n    H_Ks*  = {0}   - setted\n\
-    H_Ks*' = {1:.4f}  - rated" .format(H_KsStagn, H_KsStagnRated); # (dict) & (61)
-print 'Error of calculation between them is {0:.2f}%\n' .format(differenceH); # (62)
+print "Isentropy head coeficients are:\n\
+    H_Ks*  = {0}   - setted\n\
+    H_Ks*' = {1:.4f} - rated" .format(H_KsStagn, H_KsStagnRated); # (dict) & (61)
+print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH); # (62)
 
 # Save report
 report = open("compressorReport.md", "w")
@@ -350,9 +355,9 @@ report.write("n_{TK} = %.0f \quad мин^{-1}, \n$$\n" %n_tCh);
 report.write("- Степень повышения давления: \n$$\n");
 report.write("\pi_{к}^{*} = %.3f \quad мин^{-1}, \n$$\n" %Pi_KStagn);
 if 'termPaper' in projectType:  report.write("_Разница с оценённой степенью повышения\
- давления составляет:_ **%.1f%%**\n" %differencePi_K);
+ давления составляет:_ **%.3f%%**\n" %differencePi_K);
 else:   report.write("_Разница с заданной степенью повышения\
- давления составляет:_ **%.1f%%**\n\n" %differencePi_K);
+ давления составляет:_ **%.3f%%**\n\n" %differencePi_K);
     
 
 report.write("- Коэффициент напора:\n");
@@ -360,14 +365,14 @@ report.write("Заданный:\n$$\n");
 report.write("Н_{К}^{*} = %.3f, \n$$\n" %H_KsStagn);
 report.write("По заторможенным параметрам: \n$$\n");
 report.write("Н_{К}{'}^{*} = %.3f, \n$$\n" %H_KsStagnRated);
-report.write("_Расхождение с заданным коэффициентом напора:_ **%.2f%%**\n" %differenceH);
+report.write("_Расхождение с заданным коэффициентом напора:_ **%.3f%%**\n" %differenceH);
 
 report.write("- КПД компрессора:\n");
 report.write("Заданный КПД:\n$$\n");
 report.write("\eta_{КS} = %.3f, \n$$\n" %eta_KsStagn);
 report.write("Расчётный изоэнтропный КПД: \n$$\n");
 report.write("\eta_{КS}^{*} = %.3f, \n$$\n" %eta_KsStagnRated);
-report.write("_Расхождение с заданным КПД компрессора:_ **%.2f%%**\n" %differenceEta);
+report.write("_Расхождение с заданным КПД компрессора:_ **%.3f%%**\n" %differenceEta);
 
 
 report.write("##Входное устройство\n");
@@ -394,8 +399,6 @@ report.write("![alt text](dimensionedAxisCut.png)\n\n")
 report.write("![alt text](dimensionedBlades.png)")
 
 
-
-
 ## Editing pictures
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -403,10 +406,10 @@ report.write("![alt text](dimensionedBlades.png)")
 import PIL;     from PIL import ImageFont, Image, ImageDraw
  
 # Loading Fonts
-font = ImageFont.truetype("../forReportGen/fontGOST.ttf", 22);
+font = ImageFont.truetype("../programFiles/fontGOST.ttf", 22);
  
 # Add dimensions to the first picture (axisCut)
-imageFile = "../forReportGen/compressor/axisCut.png";   imageWheel=Image.open(imageFile)
+imageFile = "../programFiles/compressor/axisCut.png";   imageWheel=Image.open(imageFile)
  
 # Drawing the text on the picture
 draw = ImageDraw.Draw(imageWheel)
@@ -433,29 +436,62 @@ imageWheel.rotate(90).save("dimensionedAxisCut.png")
 # imageWheel.save("dimensionedPerpendicularCut.png")
 
 # Add dimensions to the blades picture
-imageFile = "../forReportGen/compressor/blades.png";   imageWheel=Image.open(imageFile)
+imageFile = "../programFiles/compressor/blades.png";   imageWheel=Image.open(imageFile)
 # Drawing the text on the picture
 draw = ImageDraw.Draw(imageWheel)
 beta_1Blade = round(beta_1Blade, 2);    draw.text((38, 98), str(beta_1Blade), (0,0,0), font=font);
-beta_1 = round(beta_1, 2);    draw.text((100, 120), str(beta_1), (0,0,0), font=font);
+beta_1 = round(beta_1, 2);    draw.text((95, 120), str(beta_1), (0,0,0), font=font);
 iDeg = round(iDeg, 2);    draw.text((180, 35), str(iDeg), (0,0,0), font=font);
-c_1 = round(c_1, 1);    draw.text((238, 143), str(c_1), (0,0,0), font=font);
-u_1 = round(u_1, 1);    draw.text((307, 172), str(u_1), (0,0,0), font=font);
-w_1 = round(w_1, 1);    draw.text((430, 160), str(w_1), (0,0,0), font=font);
+c_1 = round(c_1, 1);    c_1 = "{0} m/s" .format(c_1);   
+draw.text((238, 143), str(c_1), (0,0,0), font=font);
+u_1 = round(u_1, 1);    u_1 = "{0} m/s" .format(u_1); 
+draw.text((307, 172), str(u_1), (0,0,0), font=font);
+w_1 = round(w_1, 1);    w_1 = "{0} m/s" .format(w_1);
+draw.text((430, 160), str(w_1), (0,0,0), font=font);
 imageWheel.save("dimensionedBlades.png")
+
+# Add speeds to the outlet from the wheel
+# Loading Fonts
+font = ImageFont.truetype("../programFiles/fontGOST.ttf", 12);
+
+imageFile = "../programFiles/compressor/outWheel.png";   imageWheel=Image.open(imageFile)
+# Drawing the text on the picture
+draw = ImageDraw.Draw(imageWheel)
+beta_2Blade = round(beta_2Blade, 2);    beta_2Blade = "{0} deg" .format(beta_2Blade);
+draw.text((10, 80), str(beta_2Blade), (0,0,0), font=font);
+beta_2 = round(beta_2, 1);    beta_2 = "{0} deg" .format(beta_2);
+draw.text((40, 120), str(beta_2), (0,0,0), font=font);
+alpha_2 = round(alpha_2, 2);    alpha_2 = "{0} deg" .format(alpha_2);
+draw.text((238, 160), str(alpha_2), (0,0,0), font=font);
+c_2 = round(c_2, 2);    c_2 = "{0} m/s" .format(c_2);
+draw.text((290, 85), str(c_2), (0,0,0), font=font);
+c_2r = round(c_2r, 2);    c_2r = "{0} m/s" .format(c_2r);
+draw.text((198, 105), str(c_2r), (0,0,0), font=font);
+c_2u = round(c_2u, 2);    c_2u = "{0} m/s" .format(c_2u);
+draw.text((295, 184), str(c_2u), (0,0,0), font=font);
+w_2 = round(w_2, 2);    w_2 = "{0} m/s" .format(w_2);
+draw.text((100, 85), str(w_2), (0,0,0), font=font);
+w_2u = round(w_2u, 2);    w_2u = "{0} m/s" .format(w_2u);
+draw.text((115, 162), str(w_2u), (0,0,0), font=font);
+u_2 = round(u_2, 2);    u_2 = "{0} m/s" .format(u_2);
+draw.text((380, 184), str(u_2), (0,0,0), font=font);
+n_tCh = round(n_tCh);    n_tCh =" = {0} RPM" .format(n_tCh);
+draw.text((250, 393), str(n_tCh), (0,0,0), font=font);
+imageWheel.save("outWheel.png")
 
 
 ## Saving the results to the resultsFolder
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import os, shutil
 
-# Creating dir of needed
-if not os.path.exists("compressorResults"):   os.makedirs("compressorResults");
-
+if not os.path.exists("compressorResults"):   os.makedirs("compressorResults"); # Creating dir of needed
 
 shutil.copyfile("compressorDict.py", "compressorResults/compressorDict.py");
+os.rename("solvedParameters.py", "../turbine/solvedParameters.py");
 os.rename("compressorReport.md", "compressorResults/compressorReport.md");
 os.rename("dimensionedAxisCut.png", "compressorResults/dimensionedAxisCut.png");
 os.rename("dimensionedBlades.png", "compressorResults/dimensionedBlades.png");
+os.rename("outWheel.png", "compressorResults/outWheel.png");
 
 
 
