@@ -285,7 +285,7 @@ differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100; # | Расхождение с
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 toTurbine = open("solvedParameters.py", "w")
 toTurbine.write("# -*- coding: utf-8 -*-\n")
-toTurbine.write("# This dictionary compiltes automaticaly!\n\n")
+toTurbine.write("# This dictionary compilates automaticaly!\n\n")
 toTurbine.write("# Solved parameters from compressor\n\n")
 toTurbine.write("u_2K = %.7f; # m/s\n\n" %u_2);
 toTurbine.write("D_2K = %.3f; # m\n\n" %D_2);
