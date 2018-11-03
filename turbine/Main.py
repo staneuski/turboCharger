@@ -24,7 +24,8 @@ from commonDict import(
     p_a,
     engineType, N_e, n, g_e,
     alpha, phi,
-    G_K
+    G_K,
+    T_0Stagn
 )
 
 from solvedParameters import(
@@ -34,10 +35,8 @@ from solvedParameters import(
 from turbineDict import(
     R_Exh, c_pExh, k_Exh, dragInletRatio,
     eta_Te, sigma_esc, ro, phiLosses, psiLosses, dzeta, eta_m,
-    diameterRatio, outerDiamRatio, innerDiamRatio, alpha_1,\
-     beta_1Blade, delta, beta,
-    
-    T_0Stagn
+    diameterRatio, outerDiamRatio, innerDiamRatio, alpha_1,
+     beta_1Blade, delta, beta
 )
 
 
@@ -80,7 +79,14 @@ else:
 # Flow volume | Расход
 if 'termPaper' in projectType:
     G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
-
+        
+# Inlet turbine temperature (for HW) | Температура перед турбиной
+if 'HW' in projectType:
+    if (D_2K > 0.3) | (D_2K < 0.64):
+        T_0Stagn = 823;
+    else:
+        T_0Stagn = 923;
+    
 # Outlet turbine pressure | Давление за турбиной
 p_2 = dragInletRatio*p_a*1e+06; # Pa
 
