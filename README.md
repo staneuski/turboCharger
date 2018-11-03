@@ -79,7 +79,7 @@ Traceback (most recent call last):
 ImportError: No module named PIL
 ```
 
-Так как программа редактируют изображения, с использованием Python-модуля _Pillow_, то его нужно [скачать](https://www.python.org/ftp/python/3.4.1/python-3.4.1.amd64.msi) и установить.
+Так как программа редактирует изображения, с использованием Python-модуля _Pillow_, то его нужно [скачать](https://files.pythonhosted.org/packages/d0/3e/4cc798796d4c3cdb9bf8a000cd6a3f4073879696b514038e5bff78a86300/Pillow-2.5.3.win-amd64-py2.7.exe#md5=33c3a581ff1538b4f79b4651084090c8) и установить.
 
 
 
