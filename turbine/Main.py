@@ -113,7 +113,6 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) );
 
 # 8. Проверка соотношения полного давления перед впускными клапанами поршневой части и давлением газа на входе в турбину
 pressureRelation = p_vStagn/p_0Stagn;
-
 if (pressureRelation < 1.1) | (pressureRelation > 1.3):
     exit("Error 8: Pressure ratio is not in the allowable diapason!\
  Scavenging cannot be happen.");
