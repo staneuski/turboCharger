@@ -21,7 +21,7 @@
 2. Для оценки диаметра колеса любое из трёх значений `eta_KsStagn`, `H_KsStagn`, `phi_flow` принимаем как `"UNKNOWN"`. Тогда скрипт выдаст предварительную оценку диаметра.
 3. Для запуска расчёта копируем команду в Терминал находясь в директрии проекта (в папке _compressor_): 
 
-```
+```bash
 python Main.py
 ```
 
@@ -46,7 +46,7 @@ python Main.py
 2. В файле _turbineDict.py_ выставляем все возможные коэффиценты. Для выбора значений по умолчанию принимаем их как `"DEFAULT"` (где возможно это сделать понятно по комментарию в скобках вида: `(<X.XX> - default)`).
 3. Для запуска расчёта копируем команду в Терминал находясь в директрии проекта (в папке _compressor_): 
 
-```
+```bash
 python Main.py
 ```
 
@@ -60,7 +60,7 @@ python Main.py
 ## Make Python2 executable
 Выдаёт ошибку:
 
-```
+```bash
 'python' is not recognized as an internal or external command,
 operable program or batch file.
 ```
@@ -70,7 +70,7 @@ operable program or batch file.
 ## Pillow
 Выдаёт ошибку:
 
-```
+```bash
 Traceback (most recent call last):
   File "Main.py", line 11, in <module>
     import PIL;             from PIL    import ImageFont, Image, ImageDraw
