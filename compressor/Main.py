@@ -315,6 +315,8 @@ print "Isentropy head coeficients are:\n\
     H_Ks*' = {1:.4f} - rated" .format(H_KsStagn, H_KsStagnRated); # (dict) & (61)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH); # (62)
 
+print 'Contact me to feedback: stas.dmitrievich.stashevskiy@gmail.com, or by the Telegram: Stas_F1.'
+print u'\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
 
 ## Saving the report
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -726,10 +728,6 @@ os.rename("compressorReport.md", "compressorResults/compressorReport.md");
 os.rename("dimensionedAxisCut.png", "compressorResults/dimensionedAxisCut.png");
 os.rename("dimensionedBlades.png", "compressorResults/dimensionedBlades.png");
 os.rename("outWheel.png", "compressorResults/outWheel.png");
-
-
-
-
 
 
 
