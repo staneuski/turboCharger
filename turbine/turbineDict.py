@@ -30,10 +30,6 @@ beta = "DEFAULT" # 3.5…5.0 (4.6 - default) | опытный коэффицие
 
 
 
-# Stagnation (*) parameters for inlet
-T_0Stagn = 874; # K | температура газов перед турбиной
-
-
 
 
 
