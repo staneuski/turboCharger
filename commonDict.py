@@ -37,6 +37,7 @@ phi = 1.025; # expulsion coefficient | коэффициент продувки
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 E = 0.7; # 0.6…0.75 - heat efficiency coefficient | коэффициент тепловой эффективности
 T_ca = 309; # K, coolant temperature | температура охлаждающего агента (воды)
+T_0Stagn = 874; # K temperature of inlet turbine gases | температура газов перед турбиной
 
 
 ## Для Д/З
