@@ -9,6 +9,7 @@
 # Funcion for math solvers (pi, sin, cos, etc.)
 from __future__ import division;    import math
 import PIL;             from PIL    import ImageFont, Image, ImageDraw
+import os, shutil
 
 # Some self-made fuctions
 from piK import piK
@@ -293,7 +294,7 @@ toTurbine.write("eta_KsStagnRated = %.7f;\n\n" %eta_KsStagnRated);
 toTurbine.write("L_KsStagn = %.7f; # J/kg\n\n" %L_KsStagn);
 toTurbine.write("N_K = %.7f; # V\n\n" %N_K);
 toTurbine.write("p_vStagn = %.7f; # Pa\n\n\n\n" %p_vStagn)
-
+toTurbine.close();
 
 ## Displaying the results
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -315,8 +316,8 @@ print "Isentropy head coeficients are:\n\
     H_Ks*' = {1:.4f} - rated" .format(H_KsStagn, H_KsStagnRated); # (dict) & (61)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH); # (62)
 
-print 'Contact me to feedback: stas.dmitrievich.stashevskiy@gmail.com, or by the Telegram: Stas_F1.'
-print u'\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
+# print 'Contact me to feedback: stas.dmitrievich.stashevskiy@gmail.com, or by the Telegram: Stas_F1.'
+# print u'\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
 
 ## Saving the report
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -634,7 +635,7 @@ report.write("63. Мощность, затрачиваемая на привод
 report.write("64. Полное давление перед впускными клапанами поршневой части:\
  \n$$\n p_{v}^{*} = \sigma_{c} \sigma_{v} p_{K}^{*} = %0.f\quad Па \n$$\n\n"
  %p_vStagn);
-
+report.close();
 
 ## Editing pictures
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
@@ -718,16 +719,15 @@ imageWheel.save("outWheel.png")
 
 ## Saving the results to the resultsFolder
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-import os, shutil
-
-if not os.path.exists("compressorResults"):   os.makedirs("compressorResults"); # Creating dir of needed
+# Creating dir if needed 
+if not os.path.exists("compressorResults"):   os.makedirs("compressorResults");
 
 shutil.copyfile("compressorDict.py", "compressorResults/compressorDict.py");
-os.rename("solvedParameters.py", "../turbine/solvedParameters.py");
-os.rename("compressorReport.md", "compressorResults/compressorReport.md");
-os.rename("dimensionedAxisCut.png", "compressorResults/dimensionedAxisCut.png");
-os.rename("dimensionedBlades.png", "compressorResults/dimensionedBlades.png");
-os.rename("outWheel.png", "compressorResults/outWheel.png");
+shutil.move("solvedParameters.py", "../turbine/solvedParameters.py");
+shutil.move("compressorReport.md", "compressorResults/compressorReport.md");
+shutil.move("dimensionedAxisCut.png", "compressorResults/dimensionedAxisCut.png");
+shutil.move("dimensionedBlades.png", "compressorResults/dimensionedBlades.png");
+shutil.move("outWheel.png", "compressorResults/outWheel.png");
 
 
 
