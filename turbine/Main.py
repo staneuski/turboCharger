@@ -1,24 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 # Calculates safety factors for crankshaft and displays the minimum of them
 
 ## Loading data & calling some fuctions
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Funcion for math solvers (pi, sin, cos, etc.)
-from __future__ import division
-import math
+# Funcion for math solvers (pi, sin, cos, etc.) & other
+from __future__         import division    
+from PIL                import ImageFont, Image, ImageDraw
+import math, PIL, os, shutil, sys
 
 # Some self-made fuctions
-import sys; from os import path;
-sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
-from defaultValue import defaultValue
+from os             import path;    sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
+from defaultValue   import defaultValue
 
 # Loading input data from project dictionary
-import sys
-from os import path
-sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from commonDict import(
     projectType,
     p_a,
@@ -254,15 +250,10 @@ print "If something doesn't work correctly make the new issue or check the other
 https://github.com/StasF1/turboCharger/issues"#u'\n\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
 
 
-## Saving the report
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# report = open("compressorReport.md", "w")
-# report.write("")
-
-
-## Editing pictures
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-
+## Report generation
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+execfile('include/reportGenerator.py') # saving the report
+execfile('include/picturesEditor.py') # editing pictures
 
 
 ## Saving the results to the resultsFolder
