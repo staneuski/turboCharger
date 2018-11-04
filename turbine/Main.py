@@ -8,7 +8,7 @@
 # Funcion for math solvers (pi, sin, cos, etc.) & other
 from __future__         import division    
 from PIL                import ImageFont, Image, ImageDraw
-import math, PIL, os, shutil, sys
+import math, os, shutil, sys
 
 # Some self-made fuctions
 from os             import path;    sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
@@ -78,10 +78,11 @@ if 'termPaper' in projectType:
         
 # Inlet turbine temperature (for HW) | Температура перед турбиной
 if 'HW' in projectType:
-    if (D_2K > 0.3) | (D_2K < 0.64):
-        T_0Stagn = 823;
-    else:
+    if D_2K < 0.3:
         T_0Stagn = 923;
+    elif (D_2K > 0.3) & (D_2K < 0.64):
+        T_0Stagn = 823;
+    else:   exit("Error 0: The diameter of the wheel is too big!")
     
 # Outlet turbine pressure | Давление за турбиной
 p_2 = dragInletRatio*p_a*1e+06; # Pa

@@ -7,7 +7,7 @@
 # Funcion for math solvers (pi, sin, cos, etc.) & other
 from __future__         import division    
 from PIL                import ImageFont, Image, ImageDraw
-import math, PIL, os, shutil, sys
+import math, os, shutil, sys
 
 # Some self-made fuctions
 from piK                import piK
