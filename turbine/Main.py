@@ -250,5 +250,29 @@ print "Power consumption:\n\
     .format(N_K_kW = N_K*1e-03, N_T_kW = N_T*1e-03); # (compressor) & (63)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceN); # (62)
 
+print "If something doesn't work correctly make the new issue or check the others:\n\
+https://github.com/StasF1/turboCharger/issues"#u'\n\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
+
+
+## Saving the report
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# report = open("compressorReport.md", "w")
+# report.write("")
+
+
+## Editing pictures
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+
+
+## Saving the results to the resultsFolder
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Creating dir if needed 
+# if not os.path.exists("turbineResults"):   os.makedirs("turbineResults");
+#
+# shutil.copyfile("turbineDict.py", "turbineResults/turbineDict.py");
+# shutil.move("turbineReport.md", "turbineResults/turbineReport.md");
+# shutil.move("<pictureName>.png", "turbineResults/<pictureName>.png");
+
 
 

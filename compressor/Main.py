@@ -4,9 +4,9 @@
 # Calculates safety factors for crankshaft and displays the minimum of them
 
 ## Loading data & calling some fuctions
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Funcion for math solvers (pi, sin, cos, etc.)
+# Funcion for math solvers (pi, sin, cos, etc.) & other
 from __future__ import division;    import math
 import PIL;             from PIL    import ImageFont, Image, ImageDraw
 import os, shutil
@@ -43,7 +43,7 @@ from compressorDict import(
 
 
 ## Converting data to SI from dictionary | Перевод в СИ
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 N_e = N_e*1e03; # -> V
 g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
 p_aStagn = p_aStagn*1e06; # -> Pa
@@ -51,7 +51,7 @@ D = D*1e-02;      S = S*1e-02; # -> m
 
 
 ## Default values
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 dzeta_inlet = defaultValue(dzeta_inlet, 0.04); # default dzeta_inlet
 tau_1 = defaultValue(tau_1, 0.9);    # default tau_1
 dzeta_BA = defaultValue(dzeta_BA, 0.26);   # default dzeta_BA
@@ -68,7 +68,7 @@ n_housing = defaultValue(n_housing, 1.9);   # default n_housing
 
 
 ## Precalculations
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Lower heat of combustion for fuel | Низшая теплота сгорания в зависимости от типа ДВС
 if 'SI' in engineType:
@@ -111,7 +111,7 @@ if 'termPaper' in projectType:
             
 
 ## Compressor parameters calculation
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # [[[[[[[[[[[[[[[[[[[[ Inlet part | Входное устройство ]]]]]]]]]]]]]]]]]]]]
 
@@ -281,23 +281,8 @@ p_vStagn = p_KStagn*sigma_c*sigma_v; # | Полное давление пере�
 differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100; # | Расхождение с предварительно оценнёной/заданной степенью повышения давления компрессора (+)
 
 
-## Save data to calculate turbine
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-toTurbine = open("solvedParameters.py", "w")
-toTurbine.write("# -*- coding: utf-8 -*-\n")
-toTurbine.write("# This dictionary compilates automaticaly!\n\n")
-toTurbine.write("# Solved parameters from compressor\n\n")
-toTurbine.write("u_2K = %.7f; # m/s\n\n" %u_2);
-toTurbine.write("D_2K = %.3f; # m\n\n" %D_2);
-toTurbine.write("n_TCh = %.2f; # RPM\n\n" %n_tCh);
-toTurbine.write("eta_KsStagnRated = %.7f;\n\n" %eta_KsStagnRated);
-toTurbine.write("L_KsStagn = %.7f; # J/kg\n\n" %L_KsStagn);
-toTurbine.write("N_K = %.7f; # V\n\n" %N_K);
-toTurbine.write("p_vStagn = %.7f; # Pa\n\n\n\n" %p_vStagn)
-toTurbine.close();
-
 ## Displaying the results
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
 D_2_mm = D_2*1e+03
 print 'Diameter of the wheel is {0} mm\n' .format(D_2_mm); # (15)
@@ -316,11 +301,27 @@ print "Isentropy head coeficients are:\n\
     H_Ks*' = {1:.4f} - rated" .format(H_KsStagn, H_KsStagnRated); # (dict) & (61)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH); # (62)
 
-# print 'Contact me to feedback: stas.dmitrievich.stashevskiy@gmail.com, or by the Telegram: Stas_F1.'
-# print u'\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
+print "If something doesn't work correctly make the new issue or check the others:\n\
+https://github.com/StasF1/turboCharger/issues"#u'\n\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
+
+
+## Making extra dictionary for turbine calculation
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+toTurbine = open("solvedParameters.py", "w")
+toTurbine.write("# -*- coding: utf-8 -*-\n")
+toTurbine.write("# This dictionary compilates automaticaly!\n\n")
+toTurbine.write("# Solved parameters from compressor\n\n")
+toTurbine.write("u_2K = %.7f; # m/s\n\n" %u_2);
+toTurbine.write("D_2K = %.3f; # m\n\n" %D_2);
+toTurbine.write("n_TCh = %.2f; # RPM\n\n" %n_tCh);
+toTurbine.write("eta_KsStagnRated = %.7f;\n\n" %eta_KsStagnRated);
+toTurbine.write("L_KsStagn = %.7f; # J/kg\n\n" %L_KsStagn);
+toTurbine.write("N_K = %.7f; # V\n\n" %N_K);
+toTurbine.write("p_vStagn = %.7f; # Pa\n\n\n\n" %p_vStagn)
+toTurbine.close();
 
 ## Saving the report
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 report = open("compressorReport.md", "w")
 
 # Предварительные расчёты
@@ -354,7 +355,7 @@ report.write("1. Температура $$ T_{0}^{*} $$ и давление $$ p
 %(sigma_0, T_aStagn, p_aStagn) ); 
 report.write("2. Скорость воздуха на входе в компрессор выбирают в пределах 30…80 м/c.\
  Принимаем $$ с_{0} = %0.f $$ м/с.\n\n"
- %c_0 );
+ %c_0);
 report.write("3. Статические температура и давление на входе в компрессор:\
  \n$$\n T_{0} = T_{0}^{*} - {c_{0}^{*} \over 2c_{p}} = %0.3f\quad К;\quad\
  p_{0}^{*} = p_{0}^{*} \left( {T_{0} \over T_{0}^{*}} \\right)^{k \over k-1}\
@@ -579,8 +580,8 @@ report.write("48. Давление на выходе из диффузора:\
  = %1.f \quad Па \n$$\n\n"
  %p_4);
 report.write("49. Плотность на выходе:\
-  \n$$\n \\rho_{4} = {p_{4} \over RT_{4}} = %0.5f \quad кг/м^{3} \n$$\n\n"
-  %rho_4);
+ \n$$\n \\rho_{4} = {p_{4} \over RT_{4}} = %0.5f \quad кг/м^{3} \n$$\n\n"
+ %rho_4);
 report.write("50. Скорость на выходе из диффузора:\
  \n$$\n c_{4} = c_{2}{D_{2}b_{2}\\rho_{2} \over D_{4}b_{4}\\rho_{4}}\
  = %0.3f\quad м/с \n$$\n\n"
@@ -624,7 +625,7 @@ report.write("60. Расхождение с заданным КПД компре
  %differenceEta);
 report.write("61. Расчетный коэффициент напора по заторможенным параметрам:\
  \n$$\n {H'}_{КS}^{*} = {{L'}_{КS}^{*} \over u_{2}^2} = %0.5f \n$$\n\n"
- %differenceEta);
+ %H_KsStagnRated);
 report.write("62. Расхождение с заданным коэффициентом напора составляет:\
  \n$$\n {\mid {H'}_{КS}^{*} - H_{КS}^{*} \mid \over H_{КS}^{*}}\
  = %0.3f \%% \n$$\n\n"
@@ -636,6 +637,7 @@ report.write("64. Полное давление перед впускными к
  \n$$\n p_{v}^{*} = \sigma_{c} \sigma_{v} p_{K}^{*} = %0.f\quad Па \n$$\n\n"
  %p_vStagn);
 report.close();
+
 
 ## Editing pictures
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 

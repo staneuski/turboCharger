@@ -9,7 +9,7 @@ def standardisedSize(size):
         size = 1;
         
     elif (size >= 1) & (size < 16):
-        if (size >= 12.5) & (size < 13):      size = 12;
+        if (size >= 12.5) & (size < 13):    size = 12;
         size = round(size);
         
     elif (size >= 16) & (size < 42.5):
