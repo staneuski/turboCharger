@@ -99,11 +99,10 @@ else:
 if 'termPaper' in projectType:
     Pi_K = 1;
     validity = 1e-04;
-    for i in range(5000):
-        if abs(piK(l_0, p_e, Pi_K) - Pi_K) < validity:
-            Pi_K = Pi_K + validity;
-        else:
-            Pi_K = piK(l_0, p_e, Pi_K)
+    while abs(piK(l_0, p_e, Pi_K) - Pi_K) > validity:
+        Pi_K = Pi_K + validity;
+    else:
+        Pi_K = piK(l_0, p_e, Pi_K)
             
 
 ## Compressor parameters calculation
@@ -146,7 +145,7 @@ D_1B = relD_1B/relD_1H*D_1H; # | Внутренний диаметер на вх
 D_2estimated = D_1H/relD_1H*1e+03; # mm
 if 'ON' in roundDiamToSTD:
     D_2 = standardisedSize( D_2estimated ) * 1e-03;  # m
-else:   D_2 = round( D_1H/relD_1H, 3 ); # m
+else:   D_2 = round( D_1H/relD_1H, 2 ); # m
 
 n_tCh = 60*u_2/math.pi/D_2; # 1/min, | Частота вращения турбокомпрессора (16)
 
@@ -224,11 +223,10 @@ n_4 = (eta_diff * k/(k - 1))/(eta_diff * k/(k - 1) - 1); # | Показател�
 # | Температура на выходе из диффузора (методом последовательных приближений) (47)
 T_4 = T_2;
 validity = 1e-02;
-for i in range(5000):
-    if abs(diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4) - T_4) > validity:
-        T_4 = T_4 + validity;
-    else:
-        T_4 = diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4);
+while abs(diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4) - T_4) > validity:
+    T_4 = T_4 + validity;
+else:
+    T_4 = diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4);
 
 p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1)); # | Давление на выходе из колеса (48)
 
