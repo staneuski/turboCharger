@@ -143,9 +143,10 @@ D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1B/relD_1H, 2)) ); # | Наруж�
 D_1B = relD_1B/relD_1H*D_1H; # | Внутренний диаметер на входе (втулочный диаметр) (14)
 
 # | Наружный диаметр колеса на комперссора на выходе (15)
+D_2estimated = D_1H/relD_1H*1e+03; # mm
 if 'ON' in roundDiamToSTD:
-    D_2 = standardisedSize( D_1H/relD_1H*1e+03 ) * 1e-03;  # m
-else:   D_2 = round( D_1H/relD_1H, 2 ); # m
+    D_2 = standardisedSize( D_2estimated ) * 1e-03;  # m
+else:   D_2 = round( D_1H/relD_1H, 3 ); # m
 
 n_tCh = 60*u_2/math.pi/D_2; # 1/min, | Частота вращения турбокомпрессора (16)
 
