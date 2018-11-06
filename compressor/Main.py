@@ -34,7 +34,7 @@ from compressorDict import(
     dzeta_inlet, dzeta_BA, dzeta_TF, alpha_wh,
     relD_1H, relD_1B, relW_2rToC_1a, diffuserWideCoef, diffuserDiamCoef,
       relDiffOutToCompOut, n_housing,
-    iDeg, z_K, tau_1, tau_2, beta_2Blade,
+    roundDiamToSTD, iDeg, z_K, tau_1, tau_2, beta_2Blade,
 )
 
 
@@ -143,8 +143,9 @@ D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1B/relD_1H, 2)) ); # | Наруж�
 D_1B = relD_1B/relD_1H*D_1H; # | Внутренний диаметер на входе (втулочный диаметр) (14)
 
 # | Наружный диаметр колеса на комперссора на выходе (15)
-D_2estimated = D_1H/relD_1H*1e+03; # mm
-D_2 = standardisedSize( D_2estimated ) * 1e-03; # m
+if 'ON' in roundDiamToSTD:
+    D_2 = standardisedSize( D_1H/relD_1H*1e+03 ) * 1e-03;  # m
+else:   D_2 = round( D_1H/relD_1H, 2 ); # m
 
 n_tCh = 60*u_2/math.pi/D_2; # 1/min, | Частота вращения турбокомпрессора (16)
 
