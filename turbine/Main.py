@@ -6,14 +6,14 @@
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Funcion for math solvers (pi, sin, cos, etc.) & other
-from __future__         import division    
+from __future__         import division
 from PIL                import ImageFont, Image, ImageDraw
 import math, os, shutil, sys
 
 # Some self-made fuctions
 from os             import path;    sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from defaultValue   import defaultValue
-
+      
 # Loading input data from project dictionary
 from commonDict import(
     projectType,
@@ -75,7 +75,7 @@ else:
 # Flow volume | Расход
 if 'termPaper' in projectType:
     G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
-        
+
 # Inlet turbine temperature (for HW) | Температура перед турбиной
 if 'HW' in projectType:
     if D_2K < 0.3:
@@ -83,7 +83,7 @@ if 'HW' in projectType:
     elif (D_2K > 0.3) & (D_2K < 0.64):
         T_0Stagn = 823;
     else:   exit("Error 0: The diameter of the wheel is too big!")
-    
+
 # Outlet turbine pressure | Давление за турбиной
 p_2 = dragInletRatio*p_a*1e+06; # Pa
 
@@ -103,7 +103,7 @@ c_2s = math.sqrt( 2*L_TsStagn ); # 5. Условная изоэнтропная 
 # 6. Расчёт параметра ksi
 ksi = u_1/c_2s;
 if (ksi < 0.64) | (ksi > 0.7):    exit("Error 6:\
- Parameter 'ksi' is not in the allowable diapason!");
+ Parameter 'ksi' is not in the allowable diapason! (It equals %0.2f)" %ksi);
 
 # 7. Давление газа на входе в турбину
 p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) );
@@ -112,7 +112,7 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) );
 pressureRelation = p_vStagn/p_0Stagn;
 if (pressureRelation < 1.1) | (pressureRelation > 1.3):
     exit("Error 8: Pressure ratio is not in the allowable diapason!\
- Scavenging cannot be happen.");
+ Scavenging cannot be happen. (It equals %0.2f)" %pressureRelation);
 
 D_2H = outerDiamRatio*D_1;# 9. Наружный диаметр рабочего колеса турбины на выходе
 
@@ -124,7 +124,7 @@ D_2 = math.sqrt(( pow(D_2B, 2) + pow(D_2H, 2) )/2);
 # 12. Вычисление параметра µ
 mu = D_2/D_1;
 if (mu < 0.5) | (mu > 0.8): exit("Error 12:\
- Geometeric parameter 'mu' is not in the allowable diapason!");
+ Geometeric parameter 'mu' is not in the allowable diapason! (It equals %0.2f)" %mu);
 
 L_cS = L_TsStagn*(1 - ro); # 15. Изоэнтропная работа расширения (располагаемый теплоперепад) в сопловом аппарате
 
@@ -142,7 +142,7 @@ w_1 = math.sqrt(pow(c_1r, 2) - pow(w_1u, 2)); # 22. Относительная �
 beta_1 = beta_1Blade - math.degrees(math.atan( w_1u/c_1r ));
 if (beta_1 < 80) | (beta_1 > 100):
     exit("Error 23: Angle 'beta_1' is not in the allowable diapason!\n\
-Try to change 'beta_1Blade' parameter.");
+Try to change 'beta_1Blade' parameter. (It equals %0.1f)" %beta_1);
 
 T_1 = T_0Stagn - pow(c_1, 2)/2/c_pExh; # 24. Температура газа на входе в колесо
 
@@ -152,7 +152,7 @@ ro_1 = p_1/R_Exh/T_1; # 26. Плотность ρ_1 на входе в коле�
 
 b_1 = G_T/math.pi/D_1/ro_1/c_1r; # 27. Ширина лопаток b1 на входе в колесо
 
-L_pS = ro*L_TsStagn; # 28. Изоэнтропная работа рs L расширения в рабочем колесе (располагаемый теплоперепад) на входе в колесо
+L_pS = ro*L_TsStagn; # 28. Изоэнтропная работа расширения в рабочем колесе (располагаемый теплоперепад) на входе в колесо
 
 u_2 = mu*u_1; # 30. Окружная скорость на среднем диаметре D_2 выхода из рабочего колеса
 
@@ -171,7 +171,10 @@ G_F2 = G_T - G_losses; # 36. Расход через сечение F_2 на в�
 
 w_2a = G_F2/F_2/ro_2; # 37. Аксиальные составляющие относительной w_2а и абсолютной с_2а скоростей на выходе из колеса (w_2a == c_2a)
 
-w_2u = math.sqrt(pow(w_2, 2) - pow(w_2a, 2)); # 38. Окружная составляющая относительной скорости на выходе из колеса
+# 38. Окружная составляющая относительной скорости на выходе из колеса
+if (pow(w_2, 2) - pow(w_2a, 2)) > 0:
+    w_2u = math.sqrt(pow(w_2, 2) - pow(w_2a, 2));
+else:   exit("Error 38: Radicand is less then 0!")
 
 beta_2 = math.degrees(math.asin( w_2a/w_2 )); # 39. Угол β_2 наклона вектора относительной скорости w2 на выходе из рабочего колеса
 
@@ -182,7 +185,7 @@ c_2 = math.sqrt(pow(w_2a, 2) + pow(c_2u, 2)); # 41. Абсолютная ско�
 # 42. Угол α_2 выхода потока из колеса в абсолютном движении
 alpha_2 = 90 - math.degrees(math.atan( c_2u/w_2a ));
 if (alpha_2 < 75) | (alpha_2 > 105):
-    exit("Error 42: Angle 'alpha_2' is not in the allowable diapason!");
+    exit("Error 42: Angle 'alpha_2' is not in the allowable diapason! (It equals %0.1f)" %alpha_2);
 
 Z_c = (1/pow(phiLosses, 2) - 1)*pow(c_1, 2)/2; # 43. Потери в сопловом аппарате турбины
 
@@ -196,17 +199,18 @@ eta_TBlades = L_TBlades/L_TsStagn; # 47. Лопаточный КПД η_(т.л) 
 
 Z_SteadyOutlet = pow(c_2, 2)/2; # 48. Потери в Z′_в с выходной скоростью при условии равномерного потока на выходе из рабочего колеса
 
-L_TuSteady = u_1*c_1u + u_2*c_2u; # 50. Работа L′_тu на окружности колеса c учётом потерь определёная с помощью формулы Эйлера (можно определить по формуле: L_TuSteady = L_TBlades - Z_SteadyOutlet )
+L_TuSteadyFromLosses = L_TBlades - Z_SteadyOutlet; # 49. Работа L′_тu на окружности колеса c учётом потерь определёная через потери
+
+L_TuSteady = u_1*c_1u + u_2*c_2u; # 50. Работа L′_тu на окружности колеса c учётом потерь определёная с помощью формулы Эйлера
 
 Z_UnsteadyOutlet = dzeta*Z_SteadyOutlet; # 51. Действительные потери Z_в с выходной скоростью (для потока с неравномерностью на выходе)
-
 
 L_Tu = L_TBlades - Z_UnsteadyOutlet; # 52. Действительная работа на окружности колеса
 
 # 53. Окружной КПД η_тu турбины
 eta_Tu = L_Tu/L_TsStagn;
 if (eta_Tu < 0.75) | (eta_Tu > 0.9):
-    exit("Error 53: Angle 'eta_Tu' is not in the allowable diapason!");
+    exit("Error 53: Angle 'eta_Tu' is not in the allowable diapason! (It equals %0.3f)" %eta_Tu);
 
 Z_y = L_Tu*G_losses/G_T; # 54. Потери Zу, обусловленные утечкой газа через радиальные зазоры между колесом и корпусом
 
@@ -255,16 +259,7 @@ https://github.com/StasF1/turboCharger/issues"#u'\n\N{COPYRIGHT SIGN} 2018 Stani
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 execfile('include/reportGenerator.py') # saving the report
 execfile('include/picturesEditor.py') # editing pictures
-
-
-## Saving the results to the resultsFolder
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Creating dir if needed 
-# if not os.path.exists("turbineResults"):   os.makedirs("turbineResults");
-#
-# shutil.copyfile("turbineDict.py", "turbineResults/turbineDict.py");
-# shutil.move("turbineReport.md", "turbineResults/turbineReport.md");
-# shutil.move("<pictureName>.png", "turbineResults/<pictureName>.png");
+execfile('include/createResultsFolder.py') # saving the results to the resultsFolder
 
 
 
