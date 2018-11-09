@@ -9,17 +9,17 @@ imageFile = "../programFiles/compressor/axisCut.png";   imageWheel=Image.open(im
  
 # Drawing the text on the picture
 draw = ImageDraw.Draw(imageWheel)
-b_4 = round(b_4*1e+03, 2);    draw.text((331, 49), str(b_4), (0,0,0), font=font);
+b_4 = round(b_4*1e+03, 2);      draw.text((331, 49), str(b_4), (0,0,0), font=font);
 # b_3 = round(b_3*1e+03, 2);    draw.text((331, 115), str(b_3), (0,0,0), font=font);
-b_2 = round(b_2*1e+03, 2);    draw.text((217, 150), str(b_2), (0,0,0), font=font);
+b_2 = round(b_2*1e+03, 2);      draw.text((217, 150), str(b_2), (0,0,0), font=font);
 imageWheel.rotate(-90).save("dimensionedAxisCut.png");  imageFile = "dimensionedAxisCut.png";   imageWheel=Image.open(imageFile);
 draw = ImageDraw.Draw(imageWheel)
-D_1H = round(D_1H, 2);    draw.text((75, 67), str(D_1H), (0,0,0), font=font);
-D_1 = round(D_1*1e+03, 2);    draw.text((75, 113), str(D_1), (0,0,0), font=font);
-D_1B = round(D_1B, 2);    draw.text((75, 150), str(D_1B), (0,0,0), font=font);
-D_2 = round(D_2, 2);    draw.text((75, 335), str(D_2), (0,0,0), font=font);
+D_1H = round(D_1H*1e+03, 2);    draw.text((75, 67), str(D_1H), (0,0,0), font=font);
+D_1 = round(D_1*1e+03, 2);      draw.text((75, 113), str(D_1), (0,0,0), font=font);
+D_1B = round(D_1B*1e+03, 2);    draw.text((75, 150), str(D_1B), (0,0,0), font=font);
+D_2 = round(D_2*1e+03, 2);      draw.text((75, 335), str(D_2), (0,0,0), font=font);
 # D_3 = round(D_3, 2);    draw.text((75, 370), str(D_3), (0,0,0), font=font);
-D_4 = round(D_4*1e+03, 2);    draw.text((75, 409), str(D_4), (0,0,0), font=font);
+D_4 = round(D_4*1e+03, 2);      draw.text((75, 409), str(D_4), (0,0,0), font=font);
 
 imageWheel.rotate(90).save("dimensionedAxisCut.png")
 
