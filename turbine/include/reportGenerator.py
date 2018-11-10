@@ -294,7 +294,7 @@ r.write("61. При сравнении с исходным $$\eta_{Te}$$\
  имеем незначительную погрешность:\
  \n$$\n {\mid {\eta'}_{Тe} - \eta_{Тe}  \mid \over {\eta'}_{Тe}}\
  = %0.3f \%% \n$$\n\n"
- %differenceEta);
+ %differenceEta)
 r.write("62. Эффективная работа турбины:\
  \n$$\n L_{Тe} = L_{TS}{\eta'}_{Тe} = %0.1f\quad Дж/кг \n$$\n\n"
  %L_Te)
@@ -304,8 +304,8 @@ r.write("63. Мощность на валу турбины:\
 r.write("64. Расхождение с мощностью,\
  потребляемой компрессором, незначительно:\
  \n$$\n {\mid N_{K} - N_{T} \mid \over N_{K}} = %0.3f \%% \n$$\n\n"
- %differenceN);
-r.close();
+ %differenceN)
+r.close()
 
 
 

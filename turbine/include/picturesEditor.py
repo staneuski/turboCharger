@@ -2,7 +2,7 @@
 # Edits pictures
 
 # Loading Fonts
-font = ImageFont.truetype('../programFiles/fontGOST.ttf', 18);
+font = ImageFont.truetype('../programFiles/fontGOST.ttf', 18)
 
 # axisCut.png
 axisCut = Image.open('../programFiles/turbine/axisCut.png')
