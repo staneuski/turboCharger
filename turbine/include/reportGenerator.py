@@ -3,15 +3,15 @@
 
 r = open("turbineReport.md", "w")
 r.write("#Исходные данные\n")
-if 'termPaper' in projectType:  r.write(
+if 'termPaper' in projectType:    r.write(
  "- В соответствии с исходными данными для наддува двигателя имеем:\
- \n$$\nG_{K} = %0.4f\quad кг/с;\quad \\alpha = %1.1f;\quad \\varphi\
+ \n$$\n G_{K} = %0.4f\quad кг/с;\quad \\alpha = %1.1f;\quad \\varphi\
   = %3.3f,\quad l_{0} = %4.2f\n$$\n\n"
  %(G_K, alpha, phi, l_0) )
-else: r.write(
+else:   r.write(
  "- В соответствии с исходными данными домашнего задания имеем:\n\
- $$G_{K} = %0.4f$$ кг/с\n Также принимаем:\n\
- $$\\alpha = %1.1f$$; $$\phi = %3.3f$$, $$l_{0} = %4.2f$$\n\n"
+ \n$$\n G_{K} = %0.4f кг/с \n$$\n Также принимаем:\
+ $$ \\alpha = %1.1f; \phi = %3.3f; l_{0} = %4.2f $$\n\n"
  %(G_K, alpha, phi, l_0) )
 r.write(
  "- Для выпускных газов принимаем:\
