@@ -16,6 +16,8 @@ from standardisedSize   import standardisedSize
 from os                 import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from defaultValue       import defaultValue
+from plotToFunction     import zPlot, etaPlot, HPlot, phiPlot,\
+                                   relSpeedsPlot, relD_1HPlot, relD_1BPlot
 
 # Loading input data from project dictionary
 from commonDict import(
@@ -67,27 +69,33 @@ p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber); # Pa
 if 'termPaper' in projectType:
     G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
 
-# Wheel diameter | Диаметр рабочего колеса
-if ( issubclass(type(eta_KsStagn), str) ) or \
-    ( issubclass(type(H_KsStagn), str) ) or ( issubclass(type(phi_flow), str) ):
-    D_2 = 160*G_K + 40; # mm      
-    print 'Aproximately the wheel diameter is {D_2_mm:.1f} mm\n' .format(D_2_mm = D_2);
-    print 'Now you can set "eta_KsStagn", "H_KsStagn" & "phi_flow" using experimental\
-    data for different wheels diameter.'
-    exit();
-else:
-    D_2 = (160*G_K + 40)*1e-03; # m
-    D_2_mm0 = D_2*1e03; # mm
+# Wheel diameter | Предварительная оценка диаметра рабочего колеса и установка параметров зависящих от него  
+# if ( issubclass(type(eta_KsStagn), str) ) or \
+#     ( issubclass(type(H_KsStagn), str) ) or ( issubclass(type(phi_flow), str) ):
+#     D_2 = 160*G_K + 40; # mm
+#     print 'Aproximately the wheel diameter is {D_2_mm:.1f} mm\n' .format(D_2_mm = D_2);
+#     print 'Now you can set "eta_KsStagn", "H_KsStagn" & "phi_flow" using experimental\
+#     data for different wheels diameter.'
+#     exit();
+# else:
+D_2 = (160*G_K + 40)*1e-03; # m
+D_2_mm0 = D_2*1e03; # mm
+
+eta_KsStagn = etaPlot(eta_KsStagn, D_2)
+H_KsStagn = HPlot(H_KsStagn, D_2)
+phi_flow = phiPlot(phi_flow, D_2)
+relD_1H = relD_1HPlot(relD_1H, D_2)
+relD_1B = relD_1BPlot(relD_1B, D_2)
 
 # Calculation pressure degree increase with successive approximation method 
 # Определение степени повышения давления методом последовательных приближений
 if 'termPaper' in projectType:
     Pi_K = 1;
     validity = 1e-04;
-    while abs(piK(l_0, p_e, Pi_K) - Pi_K) > validity:
+    while abs(piK(l_0, p_e, eta_KsStagn, Pi_K) - Pi_K) > validity:
         Pi_K = Pi_K + validity;
     else:
-        Pi_K = piK(l_0, p_e, Pi_K)
+        Pi_K = piK(l_0, p_e, eta_KsStagn, Pi_K)
             
 
 ## Compressor parameters calculation
@@ -164,12 +172,22 @@ w_1 = math.sqrt(pow(c_1Tau, 2) + pow(u_1, 2)); # | Относительная с
 
 L_BA = dzeta_BA*pow(w_1, 2)/2; # | Удельная работа потерь во входном вращающемся направляющем аппарате колеса (26)
 
-c_2r = relW_2rToC_1a * c_1; # | Радиальная составляющая абсолютной скорости / радиальная составляющая относительной скорости на выходе из колеса (27)
+# | Радиальная составляющая абсолютной скорости / радиальная составляющая относительной скорости на выходе из колеса (27)
+relW_2rToC_1a = relSpeedsPlot(relW_2rToC_1a, D_2)
+c_2r = relW_2rToC_1a * c_1
 
 L_TF = dzeta_TF*pow(c_2r, 2)/2; # | Потери на поворот и трение в межлопаточных каналах рабочего колеса (28)
 
 L_TB = alpha_wh*pow(u_2, 2); # | Потери на трение диска колеса о воздух в сумме с вентиляционными потерями (29)
 
+# Проверка на число лопаток относительно диаметра (рис. 2.2) (30) 
+zLower = zPlot(0, D_2)
+zUpper = zPlot(1, D_2)
+if (z_K < zLower) | (z_K > zUpper): exit('Error 30:\
+ Number of blades is not in the allowable diapason!\n\
+For diameter of the wheel %0.0fmm this diapason is from %1.0f to %2.0f.'
+ %(D_2*1e+03, zLower, zUpper) );
+ 
 # | Коэффициент мощности учитывабщий число лопаток и проч. (31)
 mu = 1/(1+2/3*math.pi/z_K \
     *math.sin(math.radians(beta_2Blade))/(1 - pow(D_1/D_2, 2)) );
@@ -252,19 +270,19 @@ differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100; # | Расхождение с
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
 D_2_mm = D_2*1e+03
-print 'Diameter of the wheel is {0} mm\n' .format(D_2_mm); # (15)
+print 'Diameter of the wheel is {0:.0f} mm\n' .format(D_2_mm); # (15)
 print 'Actual pressure degree increase is {0:.2f}' .format(Pi_KStagn); # (57)
 print 'When precalculated (or setted, if it is a homework) pressure degree\
  increase is {0:.1f}' .format(Pi_K)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differencePi_K); # (60)
     
 print "Energy conversion efficiency coeficients are:\n\
-    eta_Ks*  = {0}   - setted\n\
+    eta_Ks*  = {0:.4f} - setted\n\
     eta_Ks*' = {1:.4f} - rated" .format(eta_KsStagn, eta_KsStagnRated); # (dict) & (59)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta); # (60)
 
 print "Isentropy head coeficients are:\n\
-    H_Ks*  = {0}   - setted\n\
+    H_Ks*  = {0:.4f} - setted\n\
     H_Ks*' = {1:.4f} - rated" .format(H_KsStagn, H_KsStagnRated); # (dict) & (61)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH); # (62)
 

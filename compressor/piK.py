@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-def piK(l_0, p_e, guessedPiK):
+def piK(l_0, p_e, eta_KsStagn, guessedPiK):
     "Calculates pressure degree increase"
 
     # Import data
@@ -10,10 +10,10 @@ def piK(l_0, p_e, guessedPiK):
     
     
     from compressorDict import(
-        T_aStagn, eta_KsStagn, T_aStagn,
+        T_aStagn, T_aStagn,
         p_aStagn, sigma_0, sigma_c, sigma_v
     );
-
+    
     # Converting data to SI from dictionary | Перевод в СИ
     g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
     p_aStagn = p_aStagn*1e06; # -> Pa
