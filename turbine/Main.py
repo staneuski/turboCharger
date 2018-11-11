@@ -13,6 +13,7 @@ import math, os, shutil, sys
 # Some self-made fuctions
 from os             import path;    sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from defaultValue   import defaultValue
+from plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot, relD_1H, relD_2B
       
 # Loading input data from project dictionary
 from commonDict import(
@@ -35,29 +36,24 @@ from turbineDict import(
      beta_1Blade, delta, beta
 )
 
-
-## Converting data to SI from dictionary | Перевод в СИ
+## Setting some parameters & coefficients values
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Converting data to SI from dictionary | Перевод в СИ
 N_e = N_e*1e+03; # -> V
 g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
 if issubclass(type(delta), float):    delta = delta*1e-03; # -> m
 
-## Default values
+execfile('include/defaultValuesCoefficients.py') # default values
+
+
+## Sets values using balance coefficients from dictionary
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-dragInletRatio = defaultValue(dragInletRatio, 1.017); # default dragInletRatio
-sigma_esc = defaultValue(sigma_esc, 0.99); # default sigma_esc
-diameterRatio = defaultValue(diameterRatio, 1); # default sigma_esc
-outerDiamRatio = defaultValue(outerDiamRatio, 0.8);
-innerDiamRatio = defaultValue(innerDiamRatio, 0.31);
-ro = defaultValue(ro, 0.52);
-phiLosses = defaultValue(phiLosses, 0.97); # (16)
-alpha_1 = defaultValue(alpha_1, 16); # (18)
-beta_1Blade = defaultValue(beta_1Blade, 90);
-psiLosses = defaultValue(psiLosses, 0.87) # (29)
-delta = defaultValue(delta, 3*1e-04); # 0.3 mm
-dzeta = defaultValue(dzeta, 1.3);
-beta = defaultValue(beta, 4.6);
-eta_m = defaultValue(eta_m, 0.94);
+eta_Te = etaPlot(eta_Te, D_2K)
+alpha_1 = alphaPlot(alpha_1, D_2K)
+phiLosses = phiPlot(phiLosses, D_2K)
+psiLosses = psiPlot(psiLosses, D_2K)
+outerDiamRatio = relD_1H(outerDiamRatio, D_2K)
+innerDiamRatio = relD_2B(innerDiamRatio, D_2K)
 
 
 ## Precalculations
@@ -102,8 +98,11 @@ c_2s = math.sqrt( 2*L_TsStagn ); # 5. Условная изоэнтропная 
 
 # 6. Расчёт параметра ksi
 ksi = u_1/c_2s;
-if (ksi < 0.64) | (ksi > 0.7):    exit("Error 6:\
- Parameter 'ksi' is not in the allowable diapason! (It equals %0.2f)" %ksi);
+ksiLower = ksiPlot(0, D_2K);    ksiUpper= ksiPlot(1, D_2K);
+if (ksi < ksiLower) | (ksi > ksiUpper): exit("Error 6:\
+ Parameter 'ksi' is not in the allowable diapason - (%0.2f, %1.3f)!\
+ It equals %2.3f."
+ %(ksiLower, ksiUpper, ksi));
 
 # 7. Давление газа на входе в турбину
 p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) );
@@ -237,10 +236,9 @@ differenceN = abs(N_K - N_T)/N_K*100; # % | 64. Расхождение с мощ
 
 ## Displaying the results
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 # Display some results right in the Terminal window
 print "Energy conversion efficiency coeficients are:\n\
-    eta_Te  = {0}   - setted\n\
+    eta_Te  = {0:.4f} - setted\n\
     eta_Te' = {1:.4f} - rated"\
     .format(eta_Te, eta_TeRated); # (dict) & (60)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta); # (61)
