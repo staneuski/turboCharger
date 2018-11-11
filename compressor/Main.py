@@ -38,34 +38,19 @@ from compressorDict import(
 )
 
 
-## Converting data to SI from dictionary | Перевод в СИ
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Setting some parameters & coefficients values
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Converting data to SI from dictionary | Перевод в СИ
 N_e = N_e*1e03; # -> V
 g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
 p_aStagn = p_aStagn*1e06; # -> Pa
 D = D*1e-02;      S = S*1e-02; # -> m
 
-
-## Default values
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-dzeta_inlet = defaultValue(dzeta_inlet, 0.04); # default dzeta_inlet
-tau_1 = defaultValue(tau_1, 0.9);    # default tau_1
-dzeta_BA = defaultValue(dzeta_BA, 0.26);   # default dzeta_BA
-relW_2rToC_1a = defaultValue(relW_2rToC_1a, 1.05);   # default relW_2rToC_1a
-dzeta_TF = defaultValue(dzeta_TF, 0.18);   # default dzeta_TF
-alpha_wh = defaultValue(alpha_wh, 0.05);   # default alpha_wh
-beta_2Blade = defaultValue(beta_2Blade, 75);   # default beta_2Blade
-tau_2 = defaultValue(tau_2, 0.94);   # default tau_2
-diffuserWideCoef = defaultValue(diffuserWideCoef, 0.9);   # default diffuserWideCoef
-diffuserDiamCoef = defaultValue(diffuserDiamCoef, 1.8);   # default diffuserDiamCoef
-eta_diff = defaultValue(eta_diff, 0.75);   # default eta_diff
-relDiffOutToCompOut = defaultValue(relDiffOutToCompOut, 1.4);   # default relDiffOutToCompOut
-n_housing = defaultValue(n_housing, 1.9);   # default n_housing
+execfile('include/defaultValuesCoefficients.py') # default values
 
 
 ## Precalculations
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 # Lower heat of combustion for fuel | Низшая теплота сгорания в зависимости от типа ДВС
 if 'SI' in engineType:
     l_0 = 14.28; # kg \\\\\\ проверить!
