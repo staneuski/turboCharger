@@ -137,8 +137,12 @@ D_1B = relD_1B/relD_1H*D_1H; # | Внутренний диаметер на вх
 # | Наружный диаметр колеса на комперссора на выходе (15)
 D_2estimated = D_1H/relD_1H*1e+03; # mm
 if 'ON' in roundDiamToSTD:
-    D_2 = standardisedSize( D_2estimated ) * 1e-03;  # m
-else:   D_2 = round( D_1H/relD_1H, 2 ); # m
+    D_2 = standardisedSize( D_2estimated ) * 1e-03 # m
+else:
+    if D_2estimated <= 85:
+        D_2 = round( D_2estimated*2, -1 )/2 * 1e-03 # m
+    else:
+        D_2 = round( D_2estimated, -1 ) * 1e-03 # m
 
 n_tCh = 60*u_2/math.pi/D_2; # 1/min, | Частота вращения турбокомпрессора (16)
 
@@ -165,8 +169,7 @@ w_1H = math.sqrt(pow(c_1Tau, 2) + pow(u_1H, 2)); # | Относительная 
 M_w1 = w_1H/math.sqrt(k*R*T_1);
 if M_w1 > 0.9:
     print 'Warning!\nMach number (M = {0:.2f}) is too high!' .format(M_w1);
-    print 'Try to change "tau_1" &/or other parameters.'
-    # exit();
+    print 'Try to change "tau_1" &/or other parameters.\n'
       
 w_1 = math.sqrt(pow(c_1Tau, 2) + pow(u_1, 2)); # | Относительная скорость на среднем диаметре входа в колесо (25)
 
