@@ -100,8 +100,8 @@ c_2s = math.sqrt( 2*L_TsStagn ); # 5. Условная изоэнтропная 
 ksi = u_1/c_2s;
 ksiLower = ksiPlot(0, D_2K);    ksiUpper= ksiPlot(1, D_2K);
 if (ksi < ksiLower) | (ksi > ksiUpper): exit("Error 6:\
- Parameter 'ksi' is not in the allowable diapason - (%0.2f, %1.3f)!\
- It equals %2.3f."
+ Parameter 'ksi' is not in the allowable diapason!\
+ It equals %2.3f but must be from %0.2f to %1.3f."
  %(ksiLower, ksiUpper, ksi));
 
 # 7. Давление газа на входе в турбину
@@ -110,8 +110,9 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) );
 # 8. Проверка соотношения полного давления перед впускными клапанами поршневой части и давлением газа на входе в турбину
 pressureRelation = p_vStagn/p_0Stagn;
 if (pressureRelation < 1.1) | (pressureRelation > 1.3):
-    exit("Error 8: Pressure ratio is not in the allowable diapason!\
- Scavenging cannot be happen. (It equals %0.2f)" %pressureRelation);
+    exit("Error 8: Pressure ratio is not in the allowable diapason!\n\
+It equals %0.2f but must be from 1.1 to 1.3.\n\
+Scavenging cannot be happen." %pressureRelation);
 
 D_2H = outerDiamRatio*D_1;# 9. Наружный диаметр рабочего колеса турбины на выходе
 
@@ -137,11 +138,12 @@ w_1u = c_1u - u_1; # 21. Окружная составляющая относи�
 
 w_1 = math.sqrt(pow(c_1r, 2) - pow(w_1u, 2)); # 22. Относительная скорость на входе в рабочее колесо
 
+
 # 23. Значение угла β_1 наклона вектора относительной скорости w_1
 beta_1 = beta_1Blade - math.degrees(math.atan( w_1u/c_1r ));
 if (beta_1 < 80) | (beta_1 > 100):
     exit("Error 23: Angle 'beta_1' is not in the allowable diapason!\n\
-Try to change 'beta_1Blade' parameter. (It equals %0.1f)" %beta_1);
+It equals %0.1f but must be from 80 to 100 degrees." %beta_1);
 
 T_1 = T_0Stagn - pow(c_1, 2)/2/c_pExh; # 24. Температура газа на входе в колесо
 
@@ -158,7 +160,7 @@ u_2 = mu*u_1; # 30. Окружная скорость на среднем диа
 # 31. Относительная скорость на среднем диаметре D_2
 w_2 = psiLosses*math.sqrt( 2*L_pS + pow(w_1, 2) - pow(u_1, 2) + pow(u_2, 2) );
 
-T_2 = T_1 - (pow(w_2, 2) - pow(u_2, 2) - pow(w_1, 2) + pow(u_1, 2))/2/c_pExh# 32. Температура Т_2 на выходе из колеса
+T_2 = T_1 - (pow(w_2, 2) - pow(u_2, 2) - pow(w_1, 2) + pow(u_1, 2))/2/c_pExh # 32. Температура Т_2 на выходе из колеса
 
 ro_2 = p_2/R_Exh/T_2; # 33. Плотность на выходе из колеса
 
@@ -173,7 +175,8 @@ w_2a = G_F2/F_2/ro_2; # 37. Аксиальные составляющие отн
 # 38. Окружная составляющая относительной скорости на выходе из колеса
 if (pow(w_2, 2) - pow(w_2a, 2)) > 0:
     w_2u = math.sqrt(pow(w_2, 2) - pow(w_2a, 2));
-else:   exit("Error 38: Radicand is less then 0!")
+else:   exit("Error 38: Radicand is less then 0!\n\
+Difference between speeds is %0.3f m/s." %(w_2a - w_2) )
 
 beta_2 = math.degrees(math.asin( w_2a/w_2 )); # 39. Угол β_2 наклона вектора относительной скорости w2 на выходе из рабочего колеса
 
@@ -184,7 +187,8 @@ c_2 = math.sqrt(pow(w_2a, 2) + pow(c_2u, 2)); # 41. Абсолютная ско�
 # 42. Угол α_2 выхода потока из колеса в абсолютном движении
 alpha_2 = 90 - math.degrees(math.atan( c_2u/w_2a ));
 if (alpha_2 < 75) | (alpha_2 > 105):
-    exit("Error 42: Angle 'alpha_2' is not in the allowable diapason! (It equals %0.1f)" %alpha_2);
+    exit("Error 42: Angle 'alpha_2' is not in the allowable diapason!\n\
+It equals %0.1f but must be from 75 to 105 degrees." %alpha_2);
 
 Z_c = (1/pow(phiLosses, 2) - 1)*pow(c_1, 2)/2; # 43. Потери в сопловом аппарате турбины
 
@@ -209,7 +213,8 @@ L_Tu = L_TBlades - Z_UnsteadyOutlet; # 52. Действительная рабо
 # 53. Окружной КПД η_тu турбины
 eta_Tu = L_Tu/L_TsStagn;
 if (eta_Tu < 0.75) | (eta_Tu > 0.9):
-    exit("Error 53: Angle 'eta_Tu' is not in the allowable diapason! (It equals %0.3f)" %eta_Tu);
+    exit("Error 53: Angle 'eta_Tu' is not in the allowable diapason!\n\
+It equals %0.3f but must be from 0.75 to 0.9." %eta_Tu);
 
 Z_y = L_Tu*G_losses/G_T; # 54. Потери Zу, обусловленные утечкой газа через радиальные зазоры между колесом и корпусом
 
