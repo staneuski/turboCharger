@@ -36,7 +36,7 @@ from compressorDict import(
     dzeta_inlet, dzeta_BA, dzeta_TF, alpha_wh,
     relD_1H, relD_1B, relW_2rToC_1a, diffuserWideCoef, diffuserDiamCoef,
       relDiffOutToCompOut, n_housing,
-    roundDiamToSTD, iDeg, z_K, tau_1, tau_2, beta_2Blade,
+    roundDiamToSTD, deltaDiam, iDeg, z_K, tau_1, tau_2, beta_2Blade,
 )
 
 
@@ -70,25 +70,12 @@ if 'termPaper' in projectType:
     G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
 
 # Wheel diameter | Предварительная оценка диаметра рабочего колеса и установка параметров зависящих от него  
-# if ( issubclass(type(eta_KsStagn), str) ) or \
-#     ( issubclass(type(H_KsStagn), str) ) or ( issubclass(type(phi_flow), str) ):
-#     D_2 = 160*G_K + 40; # mm
-#     print 'Aproximately the wheel diameter is {D_2_mm:.1f} mm\n' .format(D_2_mm = D_2);
-#     print 'Now you can set "eta_KsStagn", "H_KsStagn" & "phi_flow" using experimental\
-#     data for different wheels diameter.'
-#     exit();
-# else:
-D_2 = (160*G_K + 40)*1e-03; # m
+D_2 = (160*G_K + 40 + deltaDiam)*1e-03; # m
 D_2_mm0 = D_2*1e03; # mm
-
-eta_KsStagn = etaPlot(eta_KsStagn, D_2)
-H_KsStagn = HPlot(H_KsStagn, D_2)
-phi_flow = phiPlot(phi_flow, D_2)
-relD_1H = relD_1HPlot(relD_1H, D_2)
-relD_1B = relD_1BPlot(relD_1B, D_2)
 
 # Calculation pressure degree increase with successive approximation method 
 # Определение степени повышения давления методом последовательных приближений
+eta_KsStagn = etaPlot(eta_KsStagn, D_2)
 if 'termPaper' in projectType:
     Pi_K = 1;
     validity = 1e-04;
@@ -110,12 +97,15 @@ p_0 = p_0Stagn * pow(T_0/T_0Stagn, k/(k - 1)); # Pa
 L_KsStagn = c_p*T_0Stagn*(pow(Pi_K, (k - 1)/k) - 1); # Isentropy compression work in compressor | Изоэнтропная работа сжатия в компрессоре (4)
 
 # Wheel outer diameter circular velocity | Окружная скорость на наружном диаметре колеса (5)
+H_KsStagn = HPlot(H_KsStagn, D_2)
 u_2 = math.sqrt(L_KsStagn / H_KsStagn);
 if u_2 >= 550:    exit('Error 5:\n\
  Wheel outer diameter circular velocity is too high!\n\
 Try to increase wheel diameter &/or set other ECE parameters');
 
-c_1 = phi_flow*u_2; # | Абсолютная скорость потока на входе в рабочее колесо (6)
+# | Абсолютная скорость потока на входе в рабочее колесо (6)
+phi_flow = phiPlot(phi_flow, D_2)
+c_1 = phi_flow*u_2;
 
 T_1 = T_0 + (pow(c_0, 2) - pow(c_1, 2))/2/c_p; # | Температура воздуха на входе в рабочее колесо (7)
 
@@ -130,7 +120,10 @@ rho_1 = p_1/R/T_1; # | Плотность на входе в колесо (11)
 
 F_1 = G_K/c_1/rho_1; # | Площадь поперечного сечения в колесе (12)
 
-D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1B/relD_1H, 2)) ); # | Наружный диаметр колеса на входе D_1H (13)
+# | Наружный диаметр колеса на входе D_1H (13)
+relD_1H = relD_1HPlot(relD_1H, D_2)
+relD_1B = relD_1BPlot(relD_1B, D_2)
+D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1B/relD_1H, 2)) );
 
 D_1B = relD_1B/relD_1H*D_1H; # | Внутренний диаметер на входе (втулочный диаметр) (14)
 
@@ -184,12 +177,13 @@ L_TF = dzeta_TF*pow(c_2r, 2)/2; # | Потери на поворот и трен
 L_TB = alpha_wh*pow(u_2, 2); # | Потери на трение диска колеса о воздух в сумме с вентиляционными потерями (29)
 
 # Проверка на число лопаток относительно диаметра (рис. 2.2) (30) 
+z_K = 19
 zLower = zPlot(0, D_2)
 zUpper = zPlot(1, D_2)
 if (z_K < zLower) | (z_K > zUpper): exit('Error 30:\
  Number of blades is not in the allowable diapason!\n\
 For diameter of the wheel %0.0fmm this diapason is from %1.0f to %2.0f.'
- %(D_2*1e+03, zLower, zUpper) );
+ %(D_2*1e+03, round(zLower + 0.5), int(zUpper)) );
  
 # | Коэффициент мощности учитывабщий число лопаток и проч. (31)
 mu = 1/(1+2/3*math.pi/z_K \
