@@ -1,10 +1,38 @@
 # -*- coding: utf-8 -*-
-# Makes dictionary for turbine
+#-----------------------------------------------------------------------
+#	   ___    	 |
+#	 _|˚_ |_ 	 |   Language: Python
+#	/  ___| \	 |   Version:  2.7
+#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
+#	  |__˚|  	 |
+#-----------------------------------------------------------------------
+# Included script
+#     reportGenerator
+#
+# Description
+#     Makes dictionary for turbine
+# 
+#-----------------------------------------------------------------------
 
 toTurbine = open("solvedParameters.py", "w")
-toTurbine.write("# -*- coding: utf-8 -*-\n")
-toTurbine.write("# This dictionary compilates automaticaly!\n\n")
-toTurbine.write("# Solved parameters from compressor\n\n")
+toTurbine.write(
+"# -*- coding: utf-8 -*-\n\
+#-----------------------------------------------------------------------\n\
+#	   ___    	 |\n\
+#	 _|˚_ |_ 	 |   Language: Python\n\
+#	/  ___| \	 |   Version:  2.7\n\
+#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger\n\
+#	  |__˚|  	 |\n\
+#-----------------------------------------------------------------------\n\
+# Dictionary\n\
+#     solvedParameters\n\
+#\n\
+# Description\n\
+#     Solved parameters from compressor\n\
+#     This dictionary compilated automaticaly!\n\
+#\n\
+#-----------------------------------------------------------------------\n\n"
+);
 toTurbine.write("u_2K = %.7f # m/s\n\n" %u_2)
 toTurbine.write("D_2K = %.3f # m\n\n" %D_2)
 toTurbine.write("n_TCh = %.2f # RPM\n\n" %n_tCh)

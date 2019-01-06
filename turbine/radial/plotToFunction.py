@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# Takes data from picture 3.7 using interpolated functions and sets coefficients values
+
 # Method to set the value
 def plotValue(balanceCoef, upValue, downValue):
     """
@@ -17,54 +18,52 @@ def deltaPlotValue(balanceCoef, delta, downValue):
 
 
 # Coeficients
-def zPlot(balanceCoef, D):
-    if (D < 0.04) | (D > 0.24):
-        exit('Error: No data for that wheel diameter!')
-    return deltaPlotValue(balanceCoef, 9,\
-    -150*pow(D, 2) + 127*D + 2.16)
-
 def etaPlot(balanceCoef, D):
     if (D < 0.04) | (D > 0.24):
         exit('Error: No data for that wheel diameter!')
     return plotValue(balanceCoef,\
-    24.4221*pow(D, 3) - 14.4807*pow(D, 2) + 2.86602*D + 0.638529,\
-    13.6396*pow(D, 3) - 10.5443*pow(D, 2) + 2.74411*D + 0.552028)
+    41.6424*pow(D, 3) - 23.8782*pow(D, 2) + 4.65788*D + 0.502197,\
+    47.3485*pow(D, 3) - 28.2561*pow(D, 2) + 5.69391*D + 0.318636)
 
-def HPlot(balanceCoef, D):
+def alphaPlot(balanceCoef, D):
     if (D < 0.04) | (D > 0.24):
         exit('Error: No data for that wheel diameter!')
     return plotValue(balanceCoef,\
-    -2.3    *pow(D, 2) + 1.094  *D + 0.60992,\
-    -1.90476*pow(D, 2) + 1.13333*D + 0.487714)
+    607.605*pow(D, 3) - 414.379*pow(D, 2) + 99.4706*D + 21.6024,\
+    81.285 *pow(D, 3) - 290.388*pow(D, 2) + 120.468*D + 10.7)
     
 def phiPlot(balanceCoef, D):
     if (D < 0.04) | (D > 0.24):
         exit('Error: No data for that wheel diameter!')
     return plotValue(balanceCoef,\
-    1.60098*pow(D, 2) - 0.639744*D + 0.372266,\
-    0.49986*pow(D, 2) - 0.216037*D + 0.283293)
+    -1.4881*pow(D, 2) + 0.541667*D + 0.931414,\
+    -4.7619*pow(D, 2) + 1.83333*D + 0.794286)\
     
-def relSpeedsPlot(balanceCoef, D):
+def psiPlot(balanceCoef, D):
     if (D < 0.04) | (D > 0.24):
         exit('Error: No data for that wheel diameter!')
     return plotValue(balanceCoef,\
-    2.94803 *pow(D, 2) - 1.29351*D + 1.23615,\
-    -2.95225*pow(D, 2) + 1.61242*D + 0.774654)
+    -6.35417*pow(D, 2) + 2.35417*D + 0.746,\
+    -5.83333*pow(D, 2) + 2.43333*D + 0.662)
 
-def relD_1HPlot(balanceCoef, D):
+def ksiPlot(balanceCoef, D):
+    if (D < 0.04) | (D > 0.24):
+        exit('Error: No data for that wheel diameter!')
+    return deltaPlotValue(balanceCoef, 0.09,\
+    -2.38095*pow(D, 2) + 1.16667*D + 0.527143)
+
+def relD_1H(balanceCoef, D):
     if (D < 0.04) | (D > 0.24):
         exit('Error: No data for that wheel diameter!')
     return plotValue(balanceCoef,\
-    -0.05*D + 0.712,\
-    -0.35*D + 0.634)
-
-def relD_1BPlot(balanceCoef, D):
+    4.40039*pow(D, 2) - 2.22469*D + 0.981044,\
+    73.7665*pow(D, 3) - 37.701*pow(D, 2) + 5.48361*D + 0.39897)
+    
+def relD_2B(balanceCoef, D):
     if (D < 0.04) | (D > 0.24):
         exit('Error: No data for that wheel diameter!')
-    return deltaPlotValue(balanceCoef, 0.06,\
-    0.297619*pow(D, 2) + 0.132184*D + 0.192685)
-    
-    
+    return deltaPlotValue(balanceCoef, 0.1,\
+    2.61905*pow(D, 2) - 0.533333*D + 0.227143) 
 
 
 

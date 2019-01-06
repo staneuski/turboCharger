@@ -1,6 +1,30 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Calculates safety factors for crankshaft and displays the minimum of them
+#-----------------------------------------------------------------------
+#	   ___    	 |
+#	 _|˚_ |_ 	 |   Language: Python
+#	/  ___| \	 |   Version:  2.7
+#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
+#	  |__˚|  	 |
+#-----------------------------------------------------------------------
+# License
+#     This program is free software: you can redistribute it and/or
+#     modify it under the terms of the GNU General Public License as
+#     published by the Free Software Foundation, either version 3 of the
+#     License, or (at your option) any later version.
+#
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+#     General Public License for more details.
+#
+# Script
+#     Main
+#
+# Description
+#     Calculates parameters of compressor using 0D method
+# 
+#-----------------------------------------------------------------------
 
 ## Loading data & calling some fuctions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -266,6 +290,13 @@ differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100; # | Расхождение с
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
 D_2_mm = D_2*1e+03
+print '-----------------------------------------------------------------------'
+print '      ___      |'
+print '    _|o_ |_    |   Language: Python'
+print '   /  ___| \   |   Version:  2.7'
+print '   \_| ____/   |   Website:  https://github.com/StasF1/turboCharger'
+print '     |__o|     |'
+print '-----------------------------------------------------------------------'
 print 'Diameter of the wheel is {0:.0f} mm\n' .format(D_2_mm); # (15)
 print 'Actual pressure degree increase is {0:.2f}' .format(Pi_KStagn); # (57)
 print 'When precalculated (or setted, if it is a homework) pressure degree\
@@ -283,7 +314,8 @@ print "Isentropy head coeficients are:\n\
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH); # (62)
 
 print "If something doesn't work correctly make the new issue or check the others:\n\
-https://github.com/StasF1/turboCharger/issues"#u'\n\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
+https://github.com/StasF1/turboCharger/issues"
+print '2018-2019 Stanislau Stasheuski'#u' \N{COPYRIGHT SIGN}'
 
 
 ## Making extra dictionary for turbine calculation
@@ -295,6 +327,8 @@ execfile('include/savingParametersForTurbine.py')
 execfile('include/reportGenerator.py') # saving the report
 execfile('include/picturesEditor.py') # editing pictures
 execfile('include/createResultsFolder.py') # saving the results to the resultsFolder
+
+# *****************************************************************************
 
 
 

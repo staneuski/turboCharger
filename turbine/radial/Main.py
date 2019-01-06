@@ -1,6 +1,30 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Calculates safety factors for crankshaft and displays the minimum of them
+#-----------------------------------------------------------------------
+#	   ___    	 |
+#	 _|˚_ |_ 	 |   Language: Python
+#	/  ___| \	 |   Version:  2.7
+#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
+#	  |__˚|  	 |
+#-----------------------------------------------------------------------
+# License
+#     This program is free software: you can redistribute it and/or
+#     modify it under the terms of the GNU General Public License as
+#     published by the Free Software Foundation, either version 3 of the
+#     License, or (at your option) any later version.
+#
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+#     General Public License for more details.
+#
+# Script
+#     Main
+#
+# Description
+#     Calculates parameters of axial turbine using 0D method
+# 
+#-----------------------------------------------------------------------
 
 ## Loading data & calling some fuctions
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -11,7 +35,8 @@ from PIL                import ImageFont, Image, ImageDraw
 import math, os, shutil, sys
 
 # Some self-made fuctions
-from os             import path;    sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
+from os             import path;\
+    sys.path.append( path.dirname( path.dirname( path.dirname( path.abspath(__file__) ) ) ) )
 from defaultValue   import defaultValue
 from plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot, relD_1H, relD_2B
       
@@ -241,6 +266,13 @@ differenceN = abs(N_K - N_T)/N_K*100; # % | 64. Расхождение с мощ
 ## Displaying the results
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
+print '-----------------------------------------------------------------------'
+print '      ___      |'
+print '    _|o_ |_    |   Language: Python'
+print '   /  ___| \   |   Version:  2.7'
+print '   \_| ____/   |   Website:  https://github.com/StasF1/turboCharger'
+print '     |__o|     |'
+print '-----------------------------------------------------------------------'
 print "Energy conversion efficiency coeficients are:\n\
     eta_Te  = {0:.4f} - setted\n\
     eta_Te' = {1:.4f} - rated"\
@@ -248,8 +280,8 @@ print "Energy conversion efficiency coeficients are:\n\
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta); # (61)
 
 print "Power consumption:\n\
-    N_c = {N_K_kW:.3f} kW - for compressor\n\
-    N_t = {N_T_kW:.3f} kW - for turbine"\
+    N_c = {N_K_kW:.3f} kW - of compressor\n\
+    N_t = {N_T_kW:.3f} kW - of turbine"\
     .format(N_K_kW = N_K*1e-03, N_T_kW = N_T*1e-03); # (compressor) & (63)
 print 'Error of calculation between them is {0:.3f}%\n' .format(differenceN); # (62)
 
@@ -262,6 +294,9 @@ https://github.com/StasF1/turboCharger/issues"#u'\n\N{COPYRIGHT SIGN} 2018 Stani
 execfile('include/reportGenerator.py') # saving the report
 execfile('include/picturesEditor.py') # editing pictures
 execfile('include/createResultsFolder.py') # saving the results to the resultsFolder
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 
 
 

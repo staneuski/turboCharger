@@ -1,5 +1,18 @@
 # -*- coding: utf-8 -*-
-# Edits pictures
+#-----------------------------------------------------------------------
+#	   ___    	 |
+#	 _|˚_ |_ 	 |   Language: Python
+#	/  ___| \	 |   Version:  2.7
+#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
+#	  |__˚|  	 |
+#-----------------------------------------------------------------------
+# Included script
+#     picturesEditor
+#
+# Description
+#     Edits pictures
+# 
+#-----------------------------------------------------------------------
 
 # Loading Fonts
 font = ImageFont.truetype("../programFiles/fontGOST.ttf", 22)

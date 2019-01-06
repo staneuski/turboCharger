@@ -1,5 +1,18 @@
 # -*- coding: utf-8 -*-
-# Generates the report
+#-----------------------------------------------------------------------
+#	   ___    	 |
+#	 _|˚_ |_ 	 |   Language: Python
+#	/  ___| \	 |   Version:  2.7
+#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
+#	  |__˚|  	 |
+#-----------------------------------------------------------------------
+# Included script
+#     createResultsFolder
+#
+# Description
+#     Generates the report
+# 
+#-----------------------------------------------------------------------
 
 r = open("turbineReport.md", "w")
 r.write("#Исходные данные\n")

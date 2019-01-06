@@ -1,5 +1,18 @@
 # -*- coding: utf-8 -*-
-# Default values for coefficients
+#-----------------------------------------------------------------------
+#	   ___    	 |
+#	 _|˚_ |_ 	 |   Language: Python
+#	/  ___| \	 |   Version:  2.7
+#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
+#	  |__˚|  	 |
+#-----------------------------------------------------------------------
+# Included script
+#     defaultValuesCoefficients
+#
+# Description
+#     Default values for coefficients
+# 
+#-----------------------------------------------------------------------
 
 eta_KsStagn         = defaultValue(eta_KsStagn,         0.55)
 H_KsStagn           = defaultValue(H_KsStagn,           0.4)
