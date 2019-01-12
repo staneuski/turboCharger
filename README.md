@@ -15,7 +15,7 @@
 **Если что-то не работает смотрим вкладку *DEBUGGING* ниже**
 
 ## [Pillow](https://files.pythonhosted.org/packages/d0/3e/4cc798796d4c3cdb9bf8a000cd6a3f4073879696b514038e5bff78a86300/Pillow-2.5.3.win-amd64-py2.7.exe#md5=33c3a581ff1538b4f79b4651084090c8)
-Так как программа редактирует изображения, с использованием Python-модуля _Pillow_, то его нужно [скачать](https://files.pythonhosted.org/packages/d0/3e/4cc798796d4c3cdb9bf8a000cd6a3f4073879696b514038e5bff78a86300/Pillow-2.5.3.win-amd64-py2.7.exe#md5=33c3a581ff1538b4f79b4651084090c8) и установить, если же он уже установлен – переходим к следующему шагу.
+Так как программа редактирует изображения, с использованием Python-модуля _Pillow_, то его нужно [скачать](https://files.pythonhosted.org/packages/d0/3e/4cc798796d4c3cdb9bf8a000cd6a3f4073879696b514038e5bff78a86300/Pillow-2.5.3.win-amd64-py2.7.exe#md5=33c3a581ff1538b4f79b4651084090c8) и установить (как это сдеать для macOS или Linux смотрите ниже), если же он уже установлен – переходим к следующему шагу.
 
 ## Выбор типа проекта
 
