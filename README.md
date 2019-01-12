@@ -15,7 +15,7 @@
 **Если что-то не работает смотрим вкладку *DEBUGGING* ниже**
 
 ## [Pillow](https://files.pythonhosted.org/packages/d0/3e/4cc798796d4c3cdb9bf8a000cd6a3f4073879696b514038e5bff78a86300/Pillow-2.5.3.win-amd64-py2.7.exe#md5=33c3a581ff1538b4f79b4651084090c8)
-Так как программа редактирует изображения, с использованием Python-модуля _Pillow_, то его нужно [скачать](https://files.pythonhosted.org/packages/d0/3e/4cc798796d4c3cdb9bf8a000cd6a3f4073879696b514038e5bff78a86300/Pillow-2.5.3.win-amd64-py2.7.exe#md5=33c3a581ff1538b4f79b4651084090c8) и установить (как это сдеать для macOS или Linux смотрите ниже), если же он уже установлен – переходим к следующему шагу.
+Так как программа редактирует изображения, с использованием Python-модуля _Pillow_, то его нужно [скачать](https://files.pythonhosted.org/packages/d0/3e/4cc798796d4c3cdb9bf8a000cd6a3f4073879696b514038e5bff78a86300/Pillow-2.5.3.win-amd64-py2.7.exe#md5=33c3a581ff1538b4f79b4651084090c8) и установить (как это [сделать](https://github.com/StasF1/turboCharger/issues/2) для macOS или Linux), если же он уже установлен – переходим к следующему шагу.
 
 ## Выбор типа проекта
 
@@ -78,35 +78,9 @@ python Main.py
 
 -----------------
 # DEBUGGING
-В случае, если у вас **что-то не работет** и решения нет – не стесняйтесь нажимать на `New Issue` и создавать сообщение о возникшей проблеме (см. вторую вкладку _Issues_ выше)
+**[Типичные проблемы](https://github.com/StasF1/turboCharger/issues?utf8=✓&q=is%3Aissue+is%3Aclosed+label%3A%22good+first+issue%22+)** при первом запуске:
+- [Pillow](https://github.com/StasF1/turboCharger/issues/2)
+- [Make Python2 executable](https://github.com/StasF1/turboCharger/issues/3)
 
-Также ниже описаны возможные ошибки и их решения.
-
-## Make Python2 executable
-Выдаёт ошибку:
-
-```bash
-'python' is not recognized as an internal or external command,
-operable program or batch file.
-```
-
-Заходим в системные переменные и добавляем к уже существующей переменной _Path_ путь `C:\Python27` (или тот путь, где сохранён _Python27_).
-
-## [Pillow](https://files.pythonhosted.org/packages/d0/3e/4cc798796d4c3cdb9bf8a000cd6a3f4073879696b514038e5bff78a86300/Pillow-2.5.3.win-amd64-py2.7.exe#md5=33c3a581ff1538b4f79b4651084090c8)
-Выдаёт ошибку:
-
-```python
-Traceback (most recent call last):
-  File "Main.py", line 11, in <module>
-    import PIL;             from PIL    import ImageFont, Image, ImageDraw
-ImportError: No module named PIL
-```
-
-Так как программа редактирует изображения, с использованием Python-модуля _Pillow_, то его нужно [скачать](https://files.pythonhosted.org/packages/d0/3e/4cc798796d4c3cdb9bf8a000cd6a3f4073879696b514038e5bff78a86300/Pillow-2.5.3.win-amd64-py2.7.exe#md5=33c3a581ff1538b4f79b4651084090c8) и установить.
-
-Для macOS/Linux, в командной строке ввести:
-```bash
-pip install Pillow
-```
-
+Также, в случае, если у вас **что-то не работет** и решения нет – не стесняйтесь нажимать на [`New Issue`](https://github.com/StasF1/turboCharger/issues?utf8=✓&q=) и создавать сообщение о возникшей проблеме.
 
