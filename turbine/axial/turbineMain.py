@@ -27,7 +27,6 @@
 #-----------------------------------------------------------------------
 
 ## Loading data & calling some fuctions
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Funcion for math solvers (pi, sin, cos, etc.) & other
 from __future__         import division
@@ -60,14 +59,14 @@ from turbineDict import(
     alpha_1, beta_1Blade, RELt1_l1, m, alpha_0, delta, RELt2_l2, beta
 )
 
-## Setting some parameters & coefficients values
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Converting data to SI from dictionary | Перевод в СИ
 N_e = N_e*1e+03 # -> V
 g_e = g_e*1e-03 # -> kg/(V*h) or g/(kV*h)
 if issubclass(type(delta), float):    delta = delta*1e-03; # -> m
 
 execfile('include/defaultValuesCoefficients.py') # default values
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 ## Precalculations
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

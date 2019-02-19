@@ -27,7 +27,7 @@
 #-----------------------------------------------------------------------
 
 ## Loading data & calling some fuctions
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # Funcion for math solvers (pi, sin, cos, etc.) & other
 from __future__         import division    
 from PIL                import ImageFont, Image, ImageDraw
@@ -63,9 +63,6 @@ from compressorDict import(
     roundDiamToSTD, deltaDiam, iDeg, z_K, tau_1, tau_2, beta_2Blade,
 )
 
-
-## Setting some parameters & coefficients values
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Converting data to SI from dictionary | Перевод в СИ
 N_e = N_e*1e03; # -> V
 g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
@@ -74,6 +71,7 @@ D = D*1e-02;      S = S*1e-02; # -> m
 
 execfile('include/defaultValuesCoefficients.py') # default values
 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 ## Precalculations
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,7 +88,7 @@ else:
 p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber); # Pa
 
 # Flow volume | Расход
-if 'VER1' in projectType:
+if 'TYPE1' in projectType:
     G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
 
 # Wheel diameter | Предварительная оценка диаметра рабочего колеса и установка параметров зависящих от него  
@@ -100,7 +98,7 @@ D_2_mm0 = D_2*1e03; # mm
 # Calculation pressure degree increase with successive approximation method 
 # Определение степени повышения давления методом последовательных приближений
 eta_KsStagn = etaPlot(eta_KsStagn, D_2)
-if 'VER1' in projectType:
+if 'TYPE1' in projectType:
     Pi_K = 1;
     validity = 1e-04;
     while abs(piK(l_0, p_e, eta_KsStagn, Pi_K) - Pi_K) > validity:
