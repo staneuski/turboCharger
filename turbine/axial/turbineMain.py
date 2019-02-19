@@ -69,8 +69,6 @@ if issubclass(type(delta), float):    delta = delta*1e-03; # -> m
 
 execfile('include/defaultValuesCoefficients.py') # default values
 
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
 ## Precalculations
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -27,6 +27,7 @@
 #-----------------------------------------------------------------------
 
 ## Loading data & calling some fuctions
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Funcion for math solvers (pi, sin, cos, etc.) & other
 from __future__         import division
@@ -61,6 +62,7 @@ from turbineDict import(
 )
 
 ## Setting some parameters & coefficients values
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Converting data to SI from dictionary | Перевод в СИ
 N_e = N_e*1e+03; # -> V
 g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
@@ -69,15 +71,15 @@ if issubclass(type(delta), float):    delta = delta*1e-03; # -> m
 execfile('include/defaultValuesCoefficients.py') # default values
 
 
-# Setting values using balance coefficients from dictionary
-eta_Te         = etaPlot(eta_Te,         D_2K)
-alpha_1        = alphaPlot(alpha_1,      D_2K)
-phiLosses      = phiPlot(phiLosses,      D_2K)
-psiLosses      = psiPlot(psiLosses,      D_2K)
+## Sets values using balance coefficients from dictionary
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eta_Te = etaPlot(eta_Te, D_2K)
+alpha_1 = alphaPlot(alpha_1, D_2K)
+phiLosses = phiPlot(phiLosses, D_2K)
+psiLosses = psiPlot(psiLosses, D_2K)
 outerDiamRatio = relD_1H(outerDiamRatio, D_2K)
 innerDiamRatio = relD_2B(innerDiamRatio, D_2K)
 
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 ## Precalculations
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,7 +94,7 @@ else:
  in commonDict.py file!\n');
 
 # Flow volume | Расход
-if 'ver1' in projectType:
+if 'VER1' in projectType:
     G_K = N_e*g_e*l_0*alpha*phi/3600; # kg/s
 
 # Inlet turbine temperature (for HW) | Температура перед турбиной
@@ -288,6 +290,7 @@ https://github.com/StasF1/turboCharger/issues"#u'\n\N{COPYRIGHT SIGN} 2018 Stani
 
 
 ## Report generation
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 execfile('include/reportGenerator.py') # saving the report
 execfile('include/picturesEditor.py') # editing pictures
 execfile('include/createResultsFolder.py') # saving the results to the resultsFolder
