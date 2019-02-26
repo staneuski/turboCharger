@@ -18,58 +18,59 @@ def deltaPlotValue(balanceCoef, delta, downValue):
 
 # Coeficients
 def zPlot(balanceCoef, D):
-    if (D < 0.04) | (D > 0.24):
-        exit('Error: No data for that wheel diameter!\n\
-It equals %0.0f cm but must be from 4 to 24 cm.' %(D*1e+02));
+    if (D < 0.04) | (D > 0.8):
+        exit('Error 30: No data for that wheel diameter!\n\
+It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return deltaPlotValue(balanceCoef, 9,\
-    -150*pow(D, 2) + 127*D + 2.16)
+    141.063*pow(D, 3) - 228.472*pow(D, 2) + 134.588*D + 2.44075)
 
 def etaPlot(balanceCoef, D):
-    if (D < 0.04) | (D > 0.24):
-        exit('Error: No data for that wheel diameter!\n\
-It equals %0.0f cm but must be from 4 to 24 cm.' %(D*1e+02));
+    if (D < 0.04) | (D > 0.8):
+        exit('Error 15: No data for that wheel diameter!\n\
+It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return plotValue(balanceCoef,\
-    24.4221*pow(D, 3) - 14.4807*pow(D, 2) + 2.86602*D + 0.638529,\
-    13.6396*pow(D, 3) - 10.5443*pow(D, 2) + 2.74411*D + 0.552028)
+    -1.41956*pow(D, 4) + 3.59445*pow(D, 3) - 3.19974*pow(D, 2) + 1.20019*D + 0.70186,\
+    -2.54297*pow(D, 4) + 5.79527*pow(D, 3) - 4.69133*pow(D, 2) + 1.64249*D + 0.603052)
 
 def HPlot(balanceCoef, D):
-    if (D < 0.04) | (D > 0.24):
-        exit('Error: No data for that wheel diameter!\n\
-It equals %0.0f cm but must be from 4 to 24 cm.' %(D*1e+02));
+    import math
+    if (D < 0.04) | (D > 0.8):
+        exit('Error 5: No data for that wheel diameter!\n\
+It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return plotValue(balanceCoef,\
-    -2.3    *pow(D, 2) + 1.094  *D + 0.60992,\
-    -1.90476*pow(D, 2) + 1.13333*D + 0.487714)
+    0.0485923*math.log(D) + 0.80737,\
+    -2.28399*pow(D, 4) + 5.05698*pow(D, 3) - 4.02875*pow(D, 2) + 1.40783*D + 0.478618)
     
 def phiPlot(balanceCoef, D):
-    if (D < 0.04) | (D > 0.24):
-        exit('Error: No data for that wheel diameter!\n\
-It equals %0.0f cm but must be from 4 to 24 cm.' %(D*1e+02));
+    if (D < 0.04) | (D > 0.8):
+        exit('Error 6: No data for that wheel diameter!\n\
+It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return plotValue(balanceCoef,\
-    1.60098*pow(D, 2) - 0.639744*D + 0.372266,\
-    0.49986*pow(D, 2) - 0.216037*D + 0.283293)
+    1.21576*pow(D, 4) - 2.47517*pow(D, 3) + 1.77501*pow(D, 2) - 0.528671*D + 0.365277,\
+    0.84364*pow(D, 4) - 1.74951*pow(D, 3) + 1.27749*pow(D, 2) - 0.384933*D + 0.292871)
     
 def relSpeedsPlot(balanceCoef, D):
-    if (D < 0.04) | (D > 0.24):
-        exit('Error: No data for that wheel diameter!\n\
-It equals %0.0f cm but must be from 4 to 24 cm.' %(D*1e+02));
+    if (D < 0.04) | (D > 0.8):
+        exit('Error 27: No data for that wheel diameter!\n\
+It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return plotValue(balanceCoef,\
-    2.94803 *pow(D, 2) - 1.29351*D + 1.23615,\
-    -2.95225*pow(D, 2) + 1.61242*D + 0.774654)
+    1.71023 *pow(D, 4) - 3.78212*pow(D, 3) + 2.99991*pow(D, 2) - 1.05122*D + 1.23182,\
+    -6.37691*pow(D, 4) + 12.3393*pow(D, 3) - 8.57209*pow(D, 2) + 2.54654*D + 0.734892)
 
 def relD_1HPlot(balanceCoef, D):
-    if (D < 0.04) | (D > 0.24):
-        exit('Error: No data for that wheel diameter!\n\
-It equals %0.0f cm but must be from 4 to 24 cm.' %(D*1e+02));
+    if (D < 0.04) | (D > 0.8):
+        exit('Error 13: No data for that wheel diameter!\n\
+It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return plotValue(balanceCoef,\
     -0.05*D + 0.712,\
     -0.35*D + 0.634)
 
 def relD_1BPlot(balanceCoef, D):
-    if (D < 0.04) | (D > 0.24):
-        exit('Error: No data for that wheel diameter!\n\
-It equals %0.0f cm but must be from 4 to 24 cm.' %(D*1e+02));
+    if (D < 0.04) | (D > 0.8):
+        exit('Error 13: No data for that wheel diameter!\n\
+It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return deltaPlotValue(balanceCoef, 0.06,\
-    0.297619*pow(D, 2) + 0.132184*D + 0.192685)
+    0.260417*pow(D, 2) + 0.0280449*D + 0.198365)
     
     
 
