@@ -75,9 +75,9 @@ execfile('include/defaultValuesCoefficients.py') # default values
 
 ## Precalculations
 # ~~~~~~~~~~~~~~~~
-# Lower heat of combustion for fuel | Низшая теплота сгорания в зависимости от типа ДВС
+# Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
 if 'SI' in engineType:
-    l_0 = 14.28 # kg \\\\\\ проверить!
+    l_0 = 14.84 # kg
 elif 'DIESEL' in engineType:
     l_0 = 14.31 # kg
 else:
