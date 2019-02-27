@@ -21,9 +21,9 @@
 
 В файле _commonDict.py_:
 
--  Для расчёта курсового проекта выставляем параметр  `projectType = "termPaper"` и изменяем данные для своего двигателя в соответвии с техническим заданием.
+-  Для расчёта по показателям двигателя выставляем параметр  `projectType = "TYPE1"` и выставляем данные своего двигателя.
 
--  Для расчёта домашнего задания выставляем параметр `projectType = "HW"` и задаём степень повышения давления и расход 
+-  Для расчёта по расходу и степени повышения давления выставляем параметр `projectType = "TYPE2"` и задаём степень повышения давления и расход.
 
 ## Компрессор
 
@@ -79,6 +79,7 @@ python turbineMain.py
 -----------------
 # DEBUGGING
 **[Типичные проблемы](https://github.com/StasF1/turboCharger/issues?utf8=✓&q=is%3Aissue+is%3Aclosed+label%3A%22good+first+issue%22+)** при первом запуске:
+
 - [Pillow](https://github.com/StasF1/turboCharger/issues/2)
 - [Make Python2 executable](https://github.com/StasF1/turboCharger/issues/3)
 
