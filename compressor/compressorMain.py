@@ -60,7 +60,7 @@ from compressorDict import(
     dzeta_inlet, dzeta_BA, dzeta_TF, alpha_wh,
     relD_1H, relD_1B, relW_2rToC_1a, diffuserWideCoef, diffuserDiamCoef,
       relDiffOutToCompOut, n_housing,
-    roundDiamToSTD, deltaDiam, iDeg, z_K, tau_1, tau_2, beta_2Blade,
+    estimD_2, roundDiamToSTD, iDeg, z_K, tau_1, tau_2, beta_2Blade
 )
 
 # Converting data to SI from dictionary | Перевод в СИ
@@ -91,9 +91,14 @@ p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber) # Pa
 if 'TYPE1' in projectType:
     G_K = N_e*g_e*l_0*alpha*phi/3600 # kg/s
 
-# Wheel diameter | Предварительная оценка диаметра рабочего колеса и установка параметров зависящих от него  
-D_2 = (160*G_K + 40 + deltaDiam)*1e-03 # m
-D_2_mm0 = D_2*1e03 # mm
+# Wheel diameter | Предварительная оценка диаметра рабочего колеса и установка параметров зависящих от него
+if issubclass(type(estimD_2), str):
+    D_2 = (160*G_K + 40)*1e-03 # m
+else:
+    D_2 = estimD_2*1e-02 # m
+
+D_2_mm0 = D_2*1e+03 # mm
+    
 
 # Calculation pressure degree increase with successive approximation method 
 # Определение степени повышения давления методом последовательных приближений
@@ -145,6 +150,10 @@ F_1 = G_K/c_1/rho_1 # | Площадь поперечного сечения в 
 # | Наружный диаметр колеса на входе D_1H (13)
 relD_1H = relD_1HPlot(relD_1H, D_2)
 relD_1B = relD_1BPlot(relD_1B, D_2)
+if relD_1B/relD_1H >= 1:    exit('Error 13:\
+ Relation relD_1B/relD_1H = %0.2f > 1.\n\
+Square root argument is less than 0!' %(relD_1B/relD_1) )
+
 D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1B/relD_1H, 2)) )
 
 D_1B = relD_1B/relD_1H*D_1H # | Внутренний диаметер на входе (втулочный диаметр) (14)
@@ -184,11 +193,11 @@ w_1H = math.sqrt(pow(c_1Tau, 2) + pow(u_1H, 2)) # | Относительная �
 
 # | Число маха на наружном диаметре входа в колесо (24)
 M_w1 = w_1H/math.sqrt(k*R*T_1)
-if M_w1 > 0.9:
-    print 'Warning!\nMach number (M = {0:.2f}) is too high!' .format(M_w1)
-    print 'Try to change "tau_1" &/or other parameters.\n'
+if M_w1 > 0.9:    print 'Warning 24:\
+ Mach number (M = {0:.2f}) is too high!\n\
+Try to change "tau_1" &/or other parameters.\n' .format(M_w1)
       
-w_1 = math.sqrt(pow(c_1Tau, 2) + pow(u_1, 2)) # | Относительная скорость на среднем диаметре входа в колесо (25)
+w_1 = math.sqrt(pow(c_1Tau, 2) + pow(u_1, 2)) #   Относительная скорость на среднем диаметре входа в колесо (25)
 
 L_BA = dzeta_BA*pow(w_1, 2)/2 # | Удельная работа потерь во входном вращающемся направляющем аппарате колеса (26)
 

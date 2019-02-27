@@ -32,5 +32,4 @@ diffuserDiamCoef    = defaultValue(diffuserDiamCoef,    1.8)
 eta_diff            = defaultValue(eta_diff,            0.75)
 relDiffOutToCompOut = defaultValue(relDiffOutToCompOut, 1.4)
 n_housing           = defaultValue(n_housing,           1.9)
-deltaDiam           = defaultValue(deltaDiam,           0)
 
