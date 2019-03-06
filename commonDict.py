@@ -21,7 +21,6 @@ projectType = "TYPE1"
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 ## Standart paramaters
-## ~~~~~~~~~~~~~~~~~~~
 p_a         = 0.1013 # MPa, atmospheric pressure | атмосферное давление
 T_a         = 293 # К, temperature | температура
 k           = 1.4 # isentropy coefficient | коэффициент изоэнтропы
@@ -30,7 +29,6 @@ c_p         = 1005 # J/(kg*K), isobar heat capacity | изобарная теп�
 
 
 ## Engine data | Данные ДВС
-## ~~~~~~~~~~~~~~~~~~~~~~~~
 engineType  = "DIESEL" # type of the engine: "DIESEL" or "SI" | вид ДВС: для ВоС - "DIESEL", для ВЭИ - "SI"
 strokeNumber= 4 # number of strokes | тактность ДВС
 pistonNumber= 4 # piston number | число цилиндров
@@ -48,7 +46,6 @@ phi         = 1.025 # expulsion coefficient | коэффициент проду�
 
 
 ## Other paramaters
-## ~~~~~~~~~~~~~~~~
 E           = 0.7 # 0.6…0.75 - heat efficiency coefficient | коэффициент тепловой эффективности
 T_ca        = 309 # K, coolant temperature | температура охлаждающего агента (воды)
 T_0Stagn    = 874 # K temperature of inlet turbine gases | температура газов перед турбиной

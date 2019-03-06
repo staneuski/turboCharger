@@ -1,3 +1,9 @@
 commonDictAX.py
 commonDictPR.py
+commonDictDEF.py
+
 compressor/compressorDictPR.py
+compressor/compressorDictPROLD.py
+
+turbine/radial/turbineResults
+turbine/axial/turbineResults

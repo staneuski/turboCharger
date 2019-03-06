@@ -43,25 +43,10 @@ from defaultValue       import defaultValue
 from plotToFunction     import zPlot, etaPlot, HPlot, phiPlot,\
                                    relSpeedsPlot, relD_1HPlot, relD_1BPlot
 
-# Loading input data from project dictionary
-from commonDict import(
-    projectType,
-    p_a, T_a, k, R, c_p,
-    engineType, strokeNumber, pistonNumber, S, D,
-    N_e, n, g_e,
-    alpha, eta_v, phi,
-    Pi_K, G_K
-)
+# Loading input data from project dictionaries
 
-from compressorDict import(
-    T_aStagn, p_aStagn, c_0,
-    sigma_0, sigma_c, sigma_v,
-    eta_KsStagn, H_KsStagn, phi_flow, eta_diff,
-    dzeta_inlet, dzeta_BA, dzeta_TF, alpha_wh,
-    relD_1H, relD_1B, relW_2rToC_1a, diffuserWideCoef, diffuserDiamCoef,
-      relDiffOutToCompOut, n_housing,
-    estimD_2, roundDiamToSTD, iDeg, z_K, tau_1, tau_2, beta_2Blade
-)
+from commonDict         import *
+from compressorDict     import *
 
 # Converting data to SI from dictionary | Перевод в СИ
 N_e = N_e*1e03 # -> V
@@ -70,6 +55,7 @@ p_aStagn = p_aStagn*1e06 # -> Pa
 D = D*1e-02;      S = S*1e-02 # -> m
 
 execfile('include/defaultValuesCoefficients.py') # default values
+execfile('../programFiles/logo.py') # printing the logo
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -80,9 +66,8 @@ if 'SI' in engineType:
     l_0 = 14.84 # kg
 elif 'DIESEL' in engineType:
     l_0 = 14.31 # kg
-else:
-    exit('Set type of the engine correctly ("DIESEL" or "SI")\
- in commonDict.py file!\n')
+else:   exit('Set type of the engine correctly ("DIESEL" or "SI")\
+ in commonDict.py dictionary!\n')
       
 # Effective pressure | Среднее эффективное давление
 p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber) # Pa
@@ -91,7 +76,7 @@ p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber) # Pa
 if 'TYPE1' in projectType:
     G_K = N_e*g_e*l_0*alpha*phi/3600 # kg/s
 
-# Wheel diameter | Предварительная оценка диаметра рабочего колеса и установка параметров зависящих от него
+# Wheel diameter | Предварительная оценка диаметра рабочего колеса и установка параметров зависящих от него (2.25)
 if issubclass(type(estimD_2), str):
     D_2 = (160*G_K + 40)*1e-03 # m
 else:
@@ -152,7 +137,7 @@ relD_1H = relD_1HPlot(relD_1H, D_2)
 relD_1B = relD_1BPlot(relD_1B, D_2)
 if relD_1B/relD_1H >= 1:    exit('Error 13:\
  Relation relD_1B/relD_1H = %0.2f > 1.\n\
-Square root argument is less than 0!' %(relD_1B/relD_1) )
+Square root argument is less than 0!' %(relD_1B/relD_1H) )
 
 D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1B/relD_1H, 2)) )
 
@@ -195,8 +180,8 @@ w_1H = math.sqrt(pow(c_1Tau, 2) + pow(u_1H, 2)) # Относительная с�
 M_w1 = w_1H/math.sqrt(k*R*T_1)
 if M_w1 > 0.9:    print 'Warning 24:\
  Mach number is too high!\n\
-It is {0:.2f} but must be less than 0.9\n\
-Try to change "tau_1" &/or other parameters.\n' .format(M_w1)
+It must be less than 0.9 but it equals {0:.3f}\n\
+Try to increase "tau_1", "relD_1H" &/or decrease "phi_flow", "relD_1B".\n' .format(M_w1)
       
 w_1 = math.sqrt(pow(c_1Tau, 2) + pow(u_1, 2)) # Относительная скорость на среднем диаметре входа в колесо (25)
 
@@ -247,25 +232,75 @@ b_2 = G_K/math.pi/D_2/c_2r/rho_2/tau_2 # Ширина колеса на выхо
 
 T_2Stagn = T_2 + pow(c_2, 2)/2/c_p # Температура заторможенного потока на выходе из колеса (43)
 
-b_4 = diffuserWideCoef * b_2 # Ширина безлопаточного диффузора на выходе (44)
+if 'VANELESS' in diffuserType: # Расчёт параметров безлопаточного диффузора
+    b_4 = vanelessWideCoef * b_2 # Ширина безлопаточного диффузора на выходе (44)
 
-D_4 = diffuserDiamCoef * D_2 # Диаметр безлопаточного диффузора на выходе (45)
+    D_4 = vanelessDiamCoef * D_2 # Диаметр безлопаточного диффузора на выходе (45)
 
-n_4 = (eta_diff * k/(k - 1))/(eta_diff * k/(k - 1) - 1) # Показатель политропы сжатия в диффузоре (46)
+    n_4 = (eta_diff * k/(k - 1))/(eta_diff * k/(k - 1) - 1) # Показатель политропы сжатия в диффузоре (46)
+    
+    # Температура на выходе из диффузора (методом последовательных приближений) (47)
+    T_4 = T_2
+    validity = 1e-02
+    while abs(diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4) - T_4) > validity:
+        T_4 = T_4 + validity
+    else:
+        T_4 = diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4)
 
-# Температура на выходе из диффузора (методом последовательных приближений) (47)
-T_4 = T_2
-validity = 1e-02
-while abs(diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4) - T_4) > validity:
-    T_4 = T_4 + validity
-else:
-    T_4 = diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4)
+    p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1)) # Давление на выходе из диффузора (48)
+    
+    rho_4 = p_4/R/T_4 # Плотность на выходе из колеса (49)
 
-p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1)) # Давление на выходе из колеса (48)
+    c_4 = c_2*D_2*b_2*rho_2/D_4/b_4/rho_4 # Скорость на выходе из диффузора (50)
+    
+else: # Расчёт параметров лопаточного диффузора по МУ Федюшкина (F##)
+    n_4 = n_diffuser
+    # Проверка на число лопаток относительно их количества в РК (F50)
+    if (z_diffuser < z_K - 5) | (z_diffuser > z_K + 2):   exit('Error F50:\
+ Number of diffuser vanes is not in the allowable diapason!\n\
+It must be less than number of %0.0f blades the wheel.' %z_K)
+ 
+    b_3 = vanelessWideCoef * b_2 # Ширина безлопаточной части диффузора на выходе (44)
 
-rho_4 = p_4/R/T_4 # Плотность на выходе из колеса (49)
+    D_3 = vanelessDiamCoef * D_2 # Диаметр безлопаточной части диффузора на выходе (45)
 
-c_4 = c_2*D_2*b_2*rho_2/D_4/b_4/rho_4 # Скорость на выходе из диффузора (50)
+    n_3 = (eta_diff * k/(k - 1))/(eta_diff * k/(k - 1) - 1) # Показатель политропы сжатия безлопаточной части диффузора (46)
+    
+    # Температура на выходе из диффузора (методом последовательных приближений) (47)
+    T_3 = T_2 - 40
+    validity = 1e-02
+    while abs(diffOutTemp(b_2, D_2, T_2, c_2, b_3, D_3, T_3, n_3) - T_3) > validity:
+        T_3 = T_3 + validity
+    else:
+        T_3 = diffOutTemp(b_2, D_2, T_2, c_2, b_3, D_3, T_3, n_3)
+
+    p_3 = p_2*pow(T_3/T_2, n_3/(n_3 - 1)) # Давление на выходе из колеса (48)
+    
+    rho_3 = p_3/R/T_3 # Плотность на выходе из безлопаточной части диффузора (49)
+    
+    c_3 = c_2*D_2*b_2*rho_2/D_3/b_3/rho_3 # Скорость на выходе из безлопаточной части диффузора (F46)
+        
+    D_4 = vanedDiamCoef * D_2 # Диаметр лопаточного диффузора на выходе (F47)
+    
+    b_4 = vanedWideCoef * b_3 # Ширина лопаточного диффузора на выходе (F48)
+    
+    alpha_4 = alpha_2 + deltaDegDiff # Угол наклона лопаток на выходе из диффузора (F49)
+    
+    # Температура на выходе из лопаточной части диффузора (F51)
+    T_4 = T_3
+    validity = 1e-02
+    b_3COEF = b_3*tau_3*math.sin(math.radians(alpha_2))
+    b_4COEF = b_4*tau_4*math.sin(math.radians(alpha_4))
+    while abs(diffOutTemp(b_3COEF, D_3, T_3, c_3, b_4COEF, D_4, T_4, n_4) - T_4) > validity:
+        T_4 = T_4 + validity
+    else:
+        T_4 = diffOutTemp(b_3COEF, D_3, T_3, c_3, b_4COEF, D_4, T_4, n_4)
+
+    p_4 = p_2*pow(T_4/T_3, n_diffuser/(n_4 - 1)) # Давление на выходе из лопаточной части диффузора (F54)
+    
+    rho_4 = p_4/R/T_4 # Плотность на выходе из колеса (F54)
+
+    c_4 = c_3*D_3*b_3COEF/D_4/b_4COEF/rho_4 # Скорость на выходе из диффузора (50)
 
 c_K = c_4/relDiffOutToCompOut # Скорость на выходе из компрессора (51)
 
@@ -300,13 +335,6 @@ differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100 # Расхождение с п
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
 D_2_mm = D_2*1e+03
-print '-----------------------------------------------------------------------'
-print '      ___      |'
-print '    _|o_ |_    |   Language: Python'
-print '   /  ___| \   |   Version:  2.7'
-print '   \_| ____/   |   Website:  https://github.com/StasF1/turboCharger'
-print '     |__o|     |'
-print '-----------------------------------------------------------------------'
 print 'Diameter of the wheel is {0:.0f} mm\n' .format(D_2_mm) # (15)
 print 'Actual pressure degree increase is {0:.2f}' .format(Pi_KStagn) # (57)
 print 'When precalculated/setted, pressure degree increase is {0:.1f}' .format(Pi_K)
@@ -331,7 +359,11 @@ execfile('include/savingParametersForTurbine.py') # make extra dictionary for tu
 
 ## Report generation
 # ~~~~~~~~~~~~~~~~~~
-execfile('include/reportGenerator.py') # saving the report
+if 'VANELESS' in diffuserType: # ЛД
+    execfile('include/reportGeneratorVANELESS.py') # saving the report for vaneless diffuser
+else: # БЛД
+    execfile('include/reportGeneratorVANED.py') # saving the report for vaned diffuser
+
 execfile('include/picturesEditor.py') # editing pictures
 execfile('include/createResultsFolder.py') # saving the results to the resultsFolder
 

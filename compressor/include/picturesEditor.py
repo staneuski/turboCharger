@@ -20,8 +20,9 @@ font = ImageFont.truetype("../programFiles/fontGOST.ttf", 22)
 # axisCut.png
 axisCut=Image.open("../programFiles/compressor/axisCut.png")
 d = ImageDraw.Draw(axisCut)
-d.text((331, 69),  str(round(b_4*1e+03, 2)), (0,0,0), font=font)
-# d.text((331, 115), str(round(b_3*1e+03, 2)), (0,0,0), font=font)
+d.text((331, 67),  str(round(b_4*1e+03, 2)), (0,0,0), font=font)
+if 'VANED' in diffuserType:
+ d.text((331,132), str(round(b_3*1e+03, 2)), (0,0,0), font=font)
 d.text((217, 168), str(round(b_2*1e+03, 2)), (0,0,0), font=font)
 
 axisCut = axisCut.rotate(-90)
@@ -30,17 +31,18 @@ d.text((75, 82),  str(round(D_1H*1e+03, 2)), (0,0,0), font=font)
 d.text((75, 127), str(round(D_1*1e+03, 2)), (0,0,0), font=font)
 d.text((75, 163), str(round(D_1B*1e+03, 2)), (0,0,0), font=font)
 d.text((75, 348), str(round(D_2*1e+03, 2)), (0,0,0), font=font)
-# d.text((75, 370), str(round(D_3*1e+03, 2)), (0,0,0), font=font)
+if 'VANED' in diffuserType: # ЛД
+ d.text((75,387), str(round(D_3*1e+03, 2)), (0,0,0), font=font)
 d.text((75, 422), str(round(D_4*1e+03, 2)), (0,0,0), font=font)
 
 axisCut.rotate(90).save("axisCut.png")
 
 # perpendicularCut.png
-# perpendicularCut=Image.open("perpendicularCut.png")
-# d = ImageDraw.Draw(perpendicularCut)
-# d.text((?, ?), str(alpha_3), (0,0,0), font=font)
-# d.text((?, ?), str(alpha_4), (0,0,0), font=font)
-# perpendicularCut.save("dimensionedPerpendicularCut.png")
+perpendicularCut=Image.open("../programFiles/compressor/perpendicularCut.png")
+d = ImageDraw.Draw(perpendicularCut)
+d.text((113, 327), str("{0}deg" .format(round(alpha_2, 1))), (0,0,0), font=font)
+d.text((207, 111), str("{0}deg" .format(round(alpha_4, 1))), (0,0,0), font=font)
+perpendicularCut.save("perpendicularCut.png")
 
 # blades.png
 blades=Image.open("../programFiles/compressor/blades.png")

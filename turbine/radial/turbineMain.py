@@ -39,26 +39,10 @@ from os             import path;\
 from defaultValue   import defaultValue
 from plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot, relD_1H, relD_2B
       
-# Loading input data from project dictionary
-from commonDict import(
-    projectType,
-    p_a,
-    engineType, N_e, n, g_e,
-    alpha, phi,
-    G_K,
-    T_0Stagn
-)
-
-from solvedParameters import(
-    u_2K, D_2K, n_TCh, eta_KsStagnRated, L_KsStagn, N_K, p_vStagn
-)
-
-from turbineDict import(
-    R_Exh, c_pExh, k_Exh, dragInletRatio,
-    eta_Te, sigma_esc, ro, phiLosses, psiLosses, dzeta, eta_m,
-    diameterRatio, outerDiamRatio, innerDiamRatio, alpha_1,
-     beta_1Blade, delta, beta
-)
+# Loading input data from project dictionaries
+from commonDict       import *
+from turbineDict      import *
+from solvedParameters import *
 
 # Converting data to SI from dictionary | Перевод в СИ
 N_e = N_e*1e+03; # -> V
@@ -66,6 +50,7 @@ g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
 if issubclass(type(delta), float):    delta = delta*1e-03; # -> m
 
 execfile('include/defaultValuesCoefficients.py') # default values
+execfile('../../programFiles/logo.py') # printing the logo
 
 # Sets values using balance coefficients from dictionary
 eta_Te = etaPlot(eta_Te, D_2K)
@@ -262,13 +247,6 @@ differenceN = abs(N_K - N_T)/N_K*100; # % | 64. Расхождение с мощ
 ## Displaying the results
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
-print '-----------------------------------------------------------------------'
-print '      ___      |'
-print '    _|o_ |_    |   Language: Python'
-print '   /  ___| \   |   Version:  2.7'
-print '   \_| ____/   |   Website:  https://github.com/StasF1/turboCharger'
-print '     |__o|     |'
-print '-----------------------------------------------------------------------'
 print "Energy conversion efficiency coeficients are:\n\
     eta_Te  = {0:.4f} - setted\n\
     eta_Te' = {1:.4f} - rated"\

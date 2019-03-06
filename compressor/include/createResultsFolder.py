@@ -25,3 +25,5 @@ shutil.move("compressorReport.md",   "compressorResults/compressorReport.md")
 shutil.move("axisCut.png",           "compressorResults/axisCut.png")
 shutil.move("blades.png",            "compressorResults/blades.png")
 shutil.move("outWheel.png",          "compressorResults/outWheel.png")
+if 'VANED' in diffuserType:
+    shutil.move("perpendicularCut.png",          "compressorResults/perpendicularCut.png")
