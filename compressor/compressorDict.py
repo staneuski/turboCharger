@@ -29,7 +29,7 @@ from commonDict import(p_a, T_a)
 # для диаметров меньших 85 мм)
 roundDiamToSTD = 'OFF'
 
-diffuserType   = 'VANED' #'VANELESS' для БЛД / 'VANED' для ЛД
+diffuserType   = 'VANELESS' #'VANELESS' для БЛД / 'VANED' для ЛД
 
 # 'EQV' - предварительная оценка диаметра по формуле
 # (для компрессоров с небольшим расходом и D_2 <= 24см)

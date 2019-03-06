@@ -38,11 +38,12 @@ d.text((75, 422), str(round(D_4*1e+03, 2)), (0,0,0), font=font)
 axisCut.rotate(90).save("axisCut.png")
 
 # perpendicularCut.png
-perpendicularCut=Image.open("../programFiles/compressor/perpendicularCut.png")
-d = ImageDraw.Draw(perpendicularCut)
-d.text((113, 327), str("{0}deg" .format(round(alpha_2, 1))), (0,0,0), font=font)
-d.text((207, 111), str("{0}deg" .format(round(alpha_4, 1))), (0,0,0), font=font)
-perpendicularCut.save("perpendicularCut.png")
+if 'VANED' in diffuserType: # ЛД
+    perpendicularCut=Image.open("../programFiles/compressor/perpendicularCut.png")
+    d = ImageDraw.Draw(perpendicularCut)
+    d.text((113, 327), str("{0}deg" .format(round(alpha_2, 1))), (0,0,0), font=font)
+    d.text((207, 111), str("{0}deg" .format(round(alpha_4, 1))), (0,0,0), font=font)
+    perpendicularCut.save("perpendicularCut.png")
 
 # blades.png
 blades=Image.open("../programFiles/compressor/blades.png")
