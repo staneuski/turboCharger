@@ -1,5 +1,3 @@
-[**Стабильная версия**](https://github.com/StasF1/turboCharger/archive/2f434710fcaaf7b3490b27ce547eeb675d5640c9.zip)
-
 # Описание
 Программа производит 0D расчёт турбокомпрессора. Написана на языке **_Python 2_**.
 
@@ -7,10 +5,17 @@
 
 По результатам расчёта генерируется отчёт _compressorReport.md_ или _turbineReport.md_ (кроме осевой турбины) на языке **Markdown**. И сохраняются рисунки с уже выставленными _размерами_ на них. Всё это располагается в папке _compressorReport_ или _turbineReport.md_.
 
-##### Пример получемых рисунков
+### История версий
+* [Version 4](https://github.com/StasF1/turboCharger/archive/23c3878565af05910581e47e9200a30342e29283.zip) - текущая стабильная версия (проверена на WindowsOS, macOS и Linux). Добавлена возможность расчёта лопаточного диффузора компрессора
+* [Version 3](https://github.com/StasF1/turboCharger/archive/2f434710fcaaf7b3490b27ce547eeb675d5640c9.zip) - добавлен расчёт осевой турбины
+* [Version 2](https://github.com/StasF1/turboCharger/archive/b662077078b15b35b4018b8175d48d35511bdbf9.zip) - добавлена возможность выставления значений с рисунков 2.2 и 3.7 автоматически с помощью весовых коэффициентов
+* [Version 1](https://github.com/StasF1/turboCharger/archive/6426ec34df5ef5c2d30bfc3fbf852d39bd998852.zip) - все значения коэффициентов задаются вручную
 
-![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/compressor/dimensionedAxisCut.png)
-![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/compressor/dimensionedBlades.png)
+#### Пример получаемых рисунков
+
+![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/axisCut.png)
+![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/blades.png)
+![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/inTurbineWheel.png)
 
 # Порядок работы с программой
 
