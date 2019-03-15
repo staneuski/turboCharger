@@ -4,6 +4,8 @@ commonDictDEF.py
 
 compressor/compressorDictPR.py
 compressor/compressorDictPROLD.py
-
 turbine/radial/turbineResults
 turbine/axial/turbineResults
+results
+turbineDictDEF.py
+compressorPR.py

@@ -10,14 +10,20 @@
 #     createResultsFolder
 #
 # Description
-#     Creates folder turbineResults and move results there
+#     Creates folder ../../results/turbine and move results
+#     there
 # 
 #-----------------------------------------------------------------------
 
 # Creating dir if needed
-if not os.path.exists("turbineResults"):   os.makedirs("turbineResults")
+if not os.path.exists("../../results/turbine"):   os.makedirs("../../results/turbine")
 
-shutil.copyfile("turbineDict.py",  "turbineResults/turbineDict.py")
-shutil.move("turbineReport.md",    "turbineResults/turbineReport.md")
-shutil.move("axisCut.png",         "turbineResults/axisCut.png")
-shutil.move("radialCut.png",  "turbineResults/radialCut.png")
+shutil.copyfile("../../commonDict.py",  "../../results/commonDict.py")
+
+shutil.copyfile("turbineDict.py",  "../../results/turbine/turbineDict.py")
+shutil.copyfile("turbine.log",     "../../results/turbine/turbine.log")
+shutil.move("turbineReport.md",    "../../results/turbine/turbineReport.md")
+shutil.move("axisCut.png",         "../../results/turbine/axisCut.png")
+shutil.move("radialCut.png",       "../../results/turbine/radialCut.png")
+
+if not os.path.exists("../../results"):   os.makedirs("../../results")

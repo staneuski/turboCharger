@@ -99,7 +99,7 @@ r.write("14. Окружная составляющая $$c_{1u}$$ абсолют
 r.write("![alt text](axisCut.png)\n\
 <center><b> Рисунок 1 </b> - <i>Схема ступени осевой турбины</i></center>\n\n"
  )
-r.write("![alt text](axisCut.png)\n\
+r.write("![alt text](radialCut.png)\n\
 <center><b> Рисунок 2 </b> - <i>Векторные планы\
  скоростей на входе и выходе из рабочего колеса</i></center>\n\n"
  )

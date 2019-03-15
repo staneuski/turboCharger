@@ -15,15 +15,16 @@
 #-----------------------------------------------------------------------
 
 # Creating directory if needed 
-if not os.path.exists("compressorResults"):   os.makedirs("compressorResults")
+if not os.path.exists("../results/compressor"):   os.makedirs("../results/compressor")
 
 shutil.copyfile("solvedParameters.py", "../turbine/axial/solvedParameters.py")
 shutil.move("solvedParameters.py",   "../turbine/radial/solvedParameters.py")
 
-shutil.copyfile("compressorDict.py", "compressorResults/compressorDict.py")
-shutil.move("compressorReport.md",   "compressorResults/compressorReport.md")
-shutil.move("axisCut.png",           "compressorResults/axisCut.png")
-shutil.move("blades.png",            "compressorResults/blades.png")
-shutil.move("outWheel.png",          "compressorResults/outWheel.png")
+shutil.copyfile("compressorDict.py", "../results/compressor/compressorDict.py")
+shutil.copyfile("compressor.log",    "../results/compressor/compressor.log")
+shutil.move("compressorReport.md",   "../results/compressor/compressorReport.md")
+shutil.move("axisCut.png",           "../results/compressor/axisCut.png")
+shutil.move("blades.png",            "../results/compressor/blades.png")
+shutil.move("outWheel.png",          "../results/compressor/outWheel.png")
 if 'VANED' in diffuserType:
-    shutil.move("perpendicularCut.png",          "compressorResults/perpendicularCut.png")
+    shutil.move("perpendicularCut.png", "../results/compressor/perpendicularCut.png")

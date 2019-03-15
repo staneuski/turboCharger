@@ -10,16 +10,20 @@
 #     createResultsFolder
 #
 # Description
-#     Creates folder turbineResults and move results there
+#     Creates folder ../../results/turbine and moves
+#     results there
 # 
 #-----------------------------------------------------------------------
 
 # Creating dir if needed
-if not os.path.exists("turbineResults"):   os.makedirs("turbineResults")
+if not os.path.exists("../../results/turbine"):   os.makedirs("../../results/turbine")
 
-shutil.copyfile("turbineDict.py",  "turbineResults/turbineDict.py")
-shutil.move("turbineReport.md",    "turbineResults/turbineReport.md")
-shutil.move("axisCut.png",         "turbineResults/axisCut.png")
-shutil.move("inTurbineWheel.png",  "turbineResults/inTurbineWheel.png")
-shutil.move("outTurbineWheel.png", "turbineResults/outTurbineWheel.png")
-shutil.copyfile("../../programFiles/turbine/radial/i-sPlot.png", "turbineResults/i-sPlot.png")
+shutil.copyfile("../../commonDict.py",  "../../results/commonDict.py")
+
+shutil.copyfile("turbineDict.py",  "../../results/turbine/turbineDict.py")
+# shutil.copyfile("turbine.log",     "../../results/turbine/turbine.log")
+shutil.move("turbineReport.md",    "../../results/turbine/turbineReport.md")
+shutil.move("axisCut.png",         "../../results/turbine/axisCut.png")
+shutil.move("inTurbineWheel.png",  "../../results/turbine/inTurbineWheel.png")
+shutil.move("outTurbineWheel.png", "../../results/turbine/outTurbineWheel.png")
+shutil.copyfile("../../programFiles/turbine/radial/i-sPlot.png", "../../results/turbine/i-sPlot.png")
