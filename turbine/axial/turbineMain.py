@@ -37,8 +37,7 @@ import math, os, shutil, sys
 from os             import path;\
     sys.path.append( path.dirname( path.dirname( path.dirname( path.abspath(__file__) ) ) ) )
 from defaultValue   import defaultValue
-from plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot, relD_1H, relD_2B
-      
+
 # Loading input data from project dictionaries
 from commonDict       import *
 from turbineDict      import *
@@ -85,20 +84,20 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) ) # 7. Да�
 # 8. Проверка соотношения полного давления перед впускными клапанами поршневой части и давлением газа на входе в турбину
 pressureRelation = p_vStagn/p_0Stagn
 if (pressureRelation <= 1.1):
-    exit("Error 8: Scavenging cannot be happen because the pressure ratio is too small!\n\
+    exit("\nError 8: Scavenging cannot be happen because the pressure ratio is too small!\n\
 It equals %0.2f, but must be more than 1.1\n" %pressureRelation)
 
 L_cS = L_TsStagn*(1 - rho) # 9. Изоэнтропная работа расширения (располагаемый теплоперепад) в сопловом аппарате
 
 c_1 = phiLosses*math.sqrt( 2*L_cS ) # 11. Абсолютная скорость с1 на выходе из соплового аппарата
 
-c_1r = c_1*math.sin(math.radians( alpha_1 )) # 13. Радиальная составляющая абсолютной скорости (c_1r == w_1r)
+c_1a = c_1*math.sin(math.radians( alpha_1 )) # 13. Радиальная составляющая абсолютной скорости (c_1a == w_1a)
 
 c_1u = c_1*math.cos(math.radians( alpha_1 )) # 14. Окружная составляющая абсолютной скорости на выходе из соплового аппарата
 
 w_1u = c_1u - u_1; # 15. Окружная составляющая относительной скорости на выходе из соплового аппарата
 
-beta_1 = beta_1Blade - math.degrees(math.atan( w_1u/c_1r )) # 16. Значение угла β_1 наклона вектора относительной скорости w_1
+beta_1 = beta_1Blade - math.degrees(math.atan( w_1u/c_1a )) # 16. Значение угла β_1 наклона вектора относительной скорости w_1
 
 T_1 = T_0Stagn - pow(c_1, 2)/2/c_pExh # 17. Температура газа на входе в колесо
 
@@ -113,8 +112,8 @@ D_1 = 60*u_1/math.pi/n_TCh # 20. Средний диаметр решеток с
 # 21. Высота лопаток соплового аппарата
 l_1 = G_T/math.pi/D_1/ro_1/c_1/math.sin(math.radians( alpha_1 ))
 if (l_1/D_1 < 0.16) | (l_1/D_1 > 0.25):
-    exit("Error 21: Blade height 'l_1' is not in the allowable diapason!\n\
-It equals %0.1f but must be from 0.16 to 0.25" %(l_1/D_1));
+    exit("\nError 21: Blade height 'l_1' is not in the allowable diapason!\n\
+It equals %0.2f but must be from 0.16 to 0.25" %(l_1/D_1));
 
 t_1_0 = RELt1_l1*l_1 # 22. Шаг решётки соплового аппарата
 
@@ -130,7 +129,7 @@ if (M_c1 > 0.4) & (M_c1 < 0.6):
 elif M_c1 >= 0.6:
     a_1 = t_1*math.sin(math.radians( alpha_1 ))
 else:
-    exit("Error 26: Mach number is not in the allowable diapason!\n\
+    exit("\nError 26: Mach number is not in the allowable diapason!\n\
 It equals %0.1f but must be at least more then 0.4" %(M_c1));
 
 b_1 = t_1*2*math.sin(math.radians( alpha_1 ))*math.sin(math.radians(alpha_0 + alpha_1))\
@@ -152,9 +151,9 @@ w_2a = G_T/F_2/ro_2 # 36. Осевая составляющая относите
 
 beta_2_0 = math.degrees(math.asin( w_2a/w_2 )) # 37. Угол β_2 наклона вектора относительной скорости w2 на выходе из рабочего колеса
 
-G_losses = delta*G_T/l_1/math.sin(math.radians( beta_2_0 )) # 35. Утечки через этот радиальный зазор Δ между корпусом и колесом турбины составят
+G_losses = delta*G_T/l_1/math.sin(math.radians( beta_2_0 )) # 38. Утечки через этот радиальный зазор Δ между корпусом и колесом турбины составят
 
-G_F2 = G_T - G_losses # 36. Расход через сечение F_2
+G_F2 = G_T - G_losses # 39. Расход через сечение F_2
 
 c_2a = G_F2/F_2/ro_2 # 40. Осевые составляющие относительной w_2a и абсолютной с_2а скоростей на выходе из колеса (w_2a == с_2а)
 
@@ -167,7 +166,7 @@ c_2 = math.sqrt(pow(c_2a, 2) + pow(c_2u, 2)) # 43. Абсолютная скор
 # 44. Угол α_2 выхода потока из колеса в абсолютном движении
 alpha_2 = math.degrees(math.asin( c_2a/c_2 ));
 if (alpha_2 < 80) | (alpha_2 > 100):
-    exit("Error 44: Angle 'alpha_2' is not in the allowable diapason!\n\
+    exit("\nError 44: Angle 'alpha_2' is not in the allowable diapason!\n\
 It equals %0.1f but must be from 80 to 100 degrees." %alpha_2);
 
 t_2_0 = RELt2_l2*l_1 # 45. Шаг решётки рабочего колеса
@@ -176,7 +175,7 @@ z_2 = round( math.pi*D_1/t_2_0 ) # 46. Число лопаток рабочег�
 
 t_2 = math.pi*D_1/z_2 # 47. Шаг решётки рабочего колеса с учётом округления числа лопаток
 
-M_c2  = w_2/math.sqrt( k_Exh*R_Exh*T_2 ) # 48. Число Маха на выходе из сопловой решетки
+M_w2  = w_2/math.sqrt( k_Exh*R_Exh*T_2 ) # 48. Число Маха на выходе из сопловой решетки
 
 # 49. Ширина решетки в наиболее узкой ее части
 if (M_c1 > 0.4) & (M_c1 < 0.6):
@@ -184,7 +183,7 @@ if (M_c1 > 0.4) & (M_c1 < 0.6):
 elif M_c1 >= 0.6:
     a_2 = t_2*math.sin(math.radians( beta_2 ))
 else:
-    exit("Error 49: Mach number is not in the allowable diapason!\n\
+    exit("\nError 49: Mach number is not in the allowable diapason!\n\
 It equals %0.1f but must be at least more then 0.4" %(M_c1));
 
 b_2 = 2*t_2*math.sin(math.radians( beta_2 ))*math.sin(math.radians(beta_1 + beta_2))\
@@ -209,8 +208,8 @@ L_Tu = u_1*(c_1u + c_2u); # 58. Работа L′_тu на окружности 
 # 59. Окружной КПД η_тu турбины
 eta_Tu = L_Tu/L_TsStagn;
 if (eta_Tu < 0.8) | (eta_Tu > 0.9):
-    exit("Error 59: Angle 'eta_Tu' is not in the allowable diapason!\n\
-It equals %0.3f but must be from 0.8 to 0.9" %eta_Tu);
+    print "\nError 59: ECE 'eta_Tu' is not in the allowable diapason!\n\
+It equals {0:.3f} but must be from 0.8 to 0.9\n" .format(eta_Tu)
 
 Z_y = L_Tu*G_losses/G_T; # 60. Потери Z_у, обусловленные утечкой газа через радиальные зазоры между колесом и корпусом
 
@@ -242,13 +241,13 @@ print "Energy conversion efficiency coeficients are:\n\
     eta_Te  = {0:.4f} - setted\n\
     eta_Te' = {1:.4f} - rated"\
     .format(eta_Te, eta_TeRated) # (dict) & (60)
-print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta) # (61)
+print '\nError of calculation between them is {0:.3f}%\n' .format(differenceEta) # (61)
 
 print "Power consumption:\n\
     N_c = {N_K_kW:.3f} kW - of compressor\n\
     N_t = {N_T_kW:.3f} kW - of turbine"\
     .format(N_K_kW = N_K*1e-03, N_T_kW = N_T*1e-03) # (compressor) & (63)
-print 'Error of calculation between them is {0:.3f}%\n' .format(differenceN) # (62)
+print '\nError of calculation between them is {0:.3f}%\n' .format(differenceN) # (62)
 
 print "If something doesn't work correctly make the new issue or check the others:\n\
 https://github.com/StasF1/turboCharger/issues"#u'\n\N{COPYRIGHT SIGN}
@@ -257,7 +256,7 @@ print '2018 Stanislau Stasheuski'
 
 ## Report generation
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# execfile('include/reportGenerator.py') # saving the report
+execfile('include/reportGenerator.py') # saving the report
 execfile('include/picturesEditor.py') # editing pictures
 execfile('include/createResultsFolder.py') # saving the results to the resultsFolder
 

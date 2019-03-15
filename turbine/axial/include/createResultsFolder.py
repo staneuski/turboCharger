@@ -18,6 +18,6 @@
 if not os.path.exists("turbineResults"):   os.makedirs("turbineResults")
 
 shutil.copyfile("turbineDict.py",  "turbineResults/turbineDict.py")
-# shutil.move("turbineReport.md",    "turbineResults/turbineReport.md")
+shutil.move("turbineReport.md",    "turbineResults/turbineReport.md")
 shutil.move("axisCut.png",         "turbineResults/axisCut.png")
 shutil.move("radialCut.png",  "turbineResults/radialCut.png")
