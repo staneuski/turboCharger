@@ -16,13 +16,14 @@
 #-----------------------------------------------------------------------
 
 # Creating dir if needed
-if not os.path.exists("../../results/turbine"):   os.makedirs("../../results/turbine")
+if not os.path.exists("../../results/turbine/radial/"):   os.makedirs("../../results/turbine/radial/")
 
 shutil.copyfile("../../commonDict.py",  "../../results/commonDict.py")
 
-shutil.move("turbineReport.md",    "../../results/turbineReport.md")
-shutil.copyfile("turbineDict.py",  "../../results/turbine/turbineDict.py")
-shutil.move("axisCut.png",         "../../results/turbine/axisCut.png")
-shutil.move("inTurbineWheel.png",  "../../results/turbine/inTurbineWheel.png")
-shutil.move("outTurbineWheel.png", "../../results/turbine/outTurbineWheel.png")
-shutil.copyfile("../../programFiles/turbine/radial/i-sPlot.png", "../../results/turbine/i-sPlot.png")
+shutil.move("radialTurbineReport.md", "../../results/radialTurbineReport.md")
+shutil.copyfile("turbineDict.py",     "../../results/turbine/radial/turbineDict.py")
+shutil.copyfile("solvedParameters.py","../../results/turbine/radial/solvedParameters.py")
+shutil.move("axisCut.png",            "../../results/turbine/radial/axisCut.png")
+shutil.move("inTurbineWheel.png",     "../../results/turbine/radial/inTurbineWheel.png")
+shutil.move("outTurbineWheel.png",    "../../results/turbine/radial/outTurbineWheel.png")
+shutil.copyfile("../../programFiles/turbine/radial/i-sPlot.png", "../../results/turbine/radial/i-sPlot.png")

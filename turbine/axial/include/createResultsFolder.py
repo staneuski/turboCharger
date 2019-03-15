@@ -16,11 +16,12 @@
 #-----------------------------------------------------------------------
 
 # Creating dir if needed
-if not os.path.exists("../../results/turbine"):   os.makedirs("../../results/turbine")
+if not os.path.exists("../../results/turbine/axial/"):   os.makedirs("../../results/turbine/axial")
 
 shutil.copyfile("../../commonDict.py",  "../../results/commonDict.py")
 
-shutil.move("turbineReport.md",    "../../results/turbineReport.md")
-shutil.copyfile("turbineDict.py",  "../../results/turbine/turbineDict.py")
-shutil.move("axisCut.png",         "../../results/turbine/axisCut.png")
-shutil.move("radialCut.png",       "../../results/turbine/radialCut.png")
+shutil.move("axialTurbineReport.md","../../results/axialTurbineReport.md")
+shutil.copyfile("turbineDict.py",   "../../results/turbine/axial/turbineDict.py")
+shutil.copyfile("solvedParameters.py","../../results/turbine/axial/solvedParameters.py")
+shutil.move("axisCut.png",          "../../results/turbine/axial/axisCut.png")
+shutil.move("radialCut.png",        "../../results/turbine/axial/radialCut.png")

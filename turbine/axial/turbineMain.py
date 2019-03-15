@@ -84,7 +84,7 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) ) # 7. Да�
 # 8. Проверка соотношения полного давления перед впускными клапанами поршневой части и давлением газа на входе в турбину
 pressureRelation = p_vStagn/p_0Stagn
 if (pressureRelation <= 1.1):
-    exit("\nError 8: Scavenging cannot be happen because the pressure ratio is too small!\n\
+    exit("\nError 8: Scavenging cannot happen because the pressure ratio is too small!\n\
 It equals %0.2f, but must be more than 1.1\n" %pressureRelation)
 
 L_cS = L_TsStagn*(1 - rho) # 9. Изоэнтропная работа расширения (располагаемый теплоперепад) в сопловом аппарате
