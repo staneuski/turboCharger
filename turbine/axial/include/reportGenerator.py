@@ -96,10 +96,10 @@ r.write("14. Окружная составляющая $$c_{1u}$$ абсолют
  из соплового аппарата:\
  \n$$\n c_{1u} \equiv w_{1r} = c_{1}\cos\\alpha_{1} = %0.3f\quad м/с \n$$\n\n"
  %c_1u)
-r.write("![alt text](axisCut.png)\n\
+r.write("![alt text](turbine/axisCut.png)\n\
 <center><b> Рисунок 1 </b> - <i>Схема ступени осевой турбины</i></center>\n\n"
  )
-r.write("![alt text](radialCut.png)\n\
+r.write("![alt text](turbine/radialCut.png)\n\
 <center><b> Рисунок 2 </b> - <i>Векторные планы\
  скоростей на входе и выходе из рабочего колеса</i></center>\n\n"
  )

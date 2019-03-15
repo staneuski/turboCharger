@@ -20,9 +20,8 @@ if not os.path.exists("../../results/turbine"):   os.makedirs("../../results/tur
 
 shutil.copyfile("../../commonDict.py",  "../../results/commonDict.py")
 
+shutil.move("turbineReport.md",    "../../results/turbineReport.md")
 shutil.copyfile("turbineDict.py",  "../../results/turbine/turbineDict.py")
-# shutil.copyfile("turbine.log",     "../../results/turbine/turbine.log")
-shutil.move("turbineReport.md",    "../../results/turbine/turbineReport.md")
 shutil.move("axisCut.png",         "../../results/turbine/axisCut.png")
 shutil.move("inTurbineWheel.png",  "../../results/turbine/inTurbineWheel.png")
 shutil.move("outTurbineWheel.png", "../../results/turbine/outTurbineWheel.png")

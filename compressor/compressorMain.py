@@ -335,7 +335,6 @@ differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100 # Расхождение с п
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
 D_2_mm = D_2*1e+03
-
 print 'Diameter of the wheel is {0:.0f} mm\n' .format(D_2_mm) # (15)
 
 print 'Parameters by cuts:'
@@ -343,7 +342,7 @@ if 'VANELESS' in diffuserType:  print '\
     1-1: T_1 = {0:.0f} K,   p_1 = {1:.4f} MPa\n\
     2-2: T_2 = {2:.0f} K,   p_2 = {3:.4f} MPa\n\
     4-4: T_4 = {4:.0f} K,   p_4 = {5:.4f} MPa\n'\
-    .format(T_1, p_1*1e-06, T_2, p_2, p_1*1e-06, T_4, p_4*1e-06)
+    .format(T_1, p_1*1e-06, T_2, p_2, T_4, p_4*1e-06)
 else:   print '\
     1-1: T_1 = {0:.0f} K,   p_1 = {1:.4f} MPa\n\
     2-2: T_2 = {2:.0f} K,   p_2 = {3:.4f} MPa\n\

@@ -20,9 +20,8 @@ if not os.path.exists("../results/compressor"):   os.makedirs("../results/compre
 shutil.copyfile("solvedParameters.py", "../turbine/axial/solvedParameters.py")
 shutil.move("solvedParameters.py",   "../turbine/radial/solvedParameters.py")
 
+shutil.move("compressorReport.md",   "../results/compressorReport.md")
 shutil.copyfile("compressorDict.py", "../results/compressor/compressorDict.py")
-shutil.copyfile("compressor.log",    "../results/compressor/compressor.log")
-shutil.move("compressorReport.md",   "../results/compressor/compressorReport.md")
 shutil.move("axisCut.png",           "../results/compressor/axisCut.png")
 shutil.move("blades.png",            "../results/compressor/blades.png")
 shutil.move("outWheel.png",          "../results/compressor/outWheel.png")
