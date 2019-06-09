@@ -6,7 +6,7 @@
 По результатам расчёта генерируется отчёт  _compressorReport.md_, _axialTurbineReport.md_  или radialTurbineReport.md на языке **Markdown**. И сохраняются рисунки с уже выставленными _размерами_ на них. Всё это располагается в папке results/, создаваемой автоматически. Программа писалась для чтения отчётов  Markdown-редакторе [Typora](https://typora.io), и желательно использовать  его для правильного отображения Latex-формул в файлах формата _.md_.
 
 ### История версий
-* [Version 4](https://github.com/StasF1/turboCharger/archive/23c3878565af05910581e47e9200a30342e29283.zip) - текущая стабильная версия (проверена на WindowsOS, macOS и Linux). Добавлена возможность расчёта лопаточного диффузора компрессора
+* [Version 4](https://github.com/StasF1/turboCharger/archive/master.zip) - текущая стабильная версия (проверена на WindowsOS, macOS и Linux). Добавлена возможность расчёта лопаточного диффузора компрессора
 * [Version 3](https://github.com/StasF1/turboCharger/archive/2f434710fcaaf7b3490b27ce547eeb675d5640c9.zip) - добавлен расчёт осевой турбины
 * [Version 2](https://github.com/StasF1/turboCharger/archive/b662077078b15b35b4018b8175d48d35511bdbf9.zip) - добавлена возможность выставления значений с рисунков 2.2 и 3.7 автоматически с помощью весовых коэффициентов
 * [Version 1](https://github.com/StasF1/turboCharger/archive/6426ec34df5ef5c2d30bfc3fbf852d39bd998852.zip) - все значения коэффициентов задаются вручную
