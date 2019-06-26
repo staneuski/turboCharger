@@ -8,7 +8,7 @@
 Программа писалась для чтения отчётов  Markdown-редакторе [Typora](https://typora.io). Желательно использовать его для правильного отображения Latex-формул в файлах формата _.md_.
 
 #### Примеры отчётов
-|Вариант расчёта         |Настройки        |.pdf                    |
+|Вариант расчёта         |Настройки        |Отчёт                   |
 |-----------------------:|----------------:|:-----------------------|
 |     Компрессор         | По умолчанию    |[compressorReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v4.1/compressorReport.pdf)|
 |Радиально-осевая турбина| По умолчанию    |[radialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v4.1/radialTurbineReport.pdf)|
