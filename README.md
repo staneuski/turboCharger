@@ -15,7 +15,7 @@
 |Осевая турбина          | Не по умолчанию |[axialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v4.1/axialTurbineReport.pdf)|
 
 # Требования
-1. [Python 2](https://www.python.org)
+1. [Python 2](https://www.python.org/downloads/)
 2. Pillow - Python-модуль для редактирования изображений ([как его скачать](https://github.com/StasF1/turboCharger/issues/2))
 3. Markdown-редактор ([Typora](https://typora.io), желательно)
 
