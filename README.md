@@ -45,7 +45,7 @@ turboCharger-4.1
 │   └── turbine
 │       ├── axial
 │       └── radial
-├── results*            # результаты расчётов и копии словарей (Dict.py-файлы)
+├── results*            # результаты расчётов и копии словарей (Dict.py-файлов)
 │   ├── compressor
 │   └── turbine
 │       ├── axial
