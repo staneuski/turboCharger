@@ -21,7 +21,7 @@
 
 # История версий
 
-### [Скачать текущую стабильную версию _v-4.1_](https://github.com/StasF1/turboCharger/archive/v4.1.zip)
+### [Скачать текущую стабильную версию: _v-4.1_](https://github.com/StasF1/turboCharger/archive/v4.1.zip)
 
 |Версия|Скачать|   |
 |-----:|------:|:--|
