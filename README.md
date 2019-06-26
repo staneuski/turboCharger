@@ -6,8 +6,9 @@
 Если программа выводит ошибку `Error XX: `, то её номер - соответсвующий пункт в методичке, в котором присутствуют некоторые ограничения и результат расчёта не удовлетворяет им.
 
 ### Пример получаемых рисунков
-![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/axisCut.png)
 ![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/inTurbineWheel.png)
+
+Больше примеров можно найти [тут](https://github.com/StasF1/turboCharger/wiki/Примеры-получаемых-рисунков)
 
 # История версий
 * [Version 4](https://github.com/StasF1/turboCharger/archive/v4.1.zip) - текущая стабильная версия (проверена на WindowsOS, macOS и Linux). Добавлена возможность расчёта лопаточного диффузора компрессора
