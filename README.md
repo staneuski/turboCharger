@@ -49,7 +49,6 @@ turboCharger-4.1
     │   └── include     # include-файлы вложенные в turbineMain.py
     └── radial
         └── include     # include-файлы вложенные в turbineMain.py
- 
 
 # *создаётся при проведённом расчёте
 ```
