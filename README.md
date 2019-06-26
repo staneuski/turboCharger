@@ -16,7 +16,7 @@
 * [Version 4.1](https://github.com/StasF1/turboCharger/releases/tag/v4.1) - **текущая _стабильная_ версия** (проверена на WindowsOS, macOS и Linux). Добавлена возможность расчёта лопаточного диффузора компрессора
 * [Version 3](https://github.com/StasF1/turboCharger/tree/2f434710fcaaf7b3490b27ce547eeb675d5640c9) - добавлен расчёт осевой турбины. [Скачать v-3.0](https://github.com/StasF1/turboCharger/archive/2f434710fcaaf7b3490b27ce547eeb675d5640c9.zip)
 * [Version 2](https://github.com/StasF1/turboCharger/tree/b662077078b15b35b4018b8175d48d35511bdbf9) - добавлена возможность выставления значений с рисунков 2.2 и 3.7 автоматически с помощью весовых коэффициентов. [Скачать v-2.0](https://github.com/StasF1/turboCharger/archive/b662077078b15b35b4018b8175d48d35511bdbf9.zip)
-* [Version 1, Beta](https://github.com/StasF1/turboCharger/tree/ 6426ec34df5ef5c2d30bfc3fbf852d39bd998852) - все значения коэффициентов задаются вручную. [Скачать v-1-beta](https://github.com/StasF1/turboCharger/archive/6426ec34df5ef5c2d30bfc3fbf852d39bd998852.zip)
+* [Version 1, Beta](https://github.com/StasF1/turboCharger/tree/6426ec34df5ef5c2d30bfc3fbf852d39bd998852) - все значения коэффициентов задаются вручную. [Скачать v-1-beta](https://github.com/StasF1/turboCharger/archive/6426ec34df5ef5c2d30bfc3fbf852d39bd998852.zip)
 
 # Требования
 1. [Python 2](https://www.python.org)
