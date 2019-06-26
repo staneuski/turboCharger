@@ -21,9 +21,26 @@
 3. Markdown-редактор ([Typora](https://typora.io), желательно)
 
 # Порядок работы с программой
-Подробное руководство по работе с программой с шагами выложено в [Wiki](https://github.com/StasF1/turboCharger/wiki)
+Подробное руководство по работе с программой выложено в [Wiki](https://github.com/StasF1/turboCharger/wiki)
 
----
+# Структура
+```gitignore
+turboCharger-4.1
+├── compressor
+│   └── include        # include-файлы вложенные в compressorMain.py
+├── programFiles       # шрифты, бланки картинок и проч.
+│   ├── compressor
+│   └── turbine
+│       ├── axial
+│       └── radial
+├── turbine
+│   ├── axial
+│   │   └── include     # include-файлы вложенные в turbineMain.py
+│   └── radial
+│       └── include     # include-файлы вложенные в turbineMain.py
+└── *results*           # создаётся при проведённом расчёте
+```
+
 # DEBUGGING
 **[Типичные проблемы](https://github.com/StasF1/turboCharger/issues?utf8=✓&q=is%3Aissue+is%3Aclosed+label%3A%22good+first+issue%22+)** при первом запуске:
 
