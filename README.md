@@ -48,7 +48,7 @@ turboCharger-4.1
 │   │   └── include     # include-файлы вложенные в turbineMain.py
 │   └── radial
 │       └── include     # include-файлы вложенные в turbineMain.py
-└── results*            # папка с результатами расчётов
+└── results*            # результаты расчётов
 
 # *создаётся при проведённом расчёте
 ```
