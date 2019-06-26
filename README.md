@@ -53,6 +53,7 @@ turboCharger-4.1
 # *создаётся при проведённом расчёте
 ```
 
+---
 # DEBUGGING
 **[Типичные проблемы](https://github.com/StasF1/turboCharger/issues?utf8=✓&q=is%3Aissue+is%3Aclosed+label%3A%22good+first+issue%22+)** при первом запуске:
 
