@@ -1,11 +1,18 @@
 # Описание
 Программа производит 0D расчёт турбокомпрессора. Написана на языке **_Python 2_**.
 
-По результатам расчёта генерируется отчёт  _compressorReport.md_, _axialTurbineReport.md_  или _radialTurbineReport.md_ на языке **Markdown**. И сохраняются рисунки ([примеры рисунков](https://github.com/StasF1/turboCharger/wiki/Примеры-получаемых-рисунков)) с уже выставленными _размерами_ на них. Всё это располагается в папке _results/_, создаваемой автоматически. 
+По результатам расчёта генерируется отчёт  _compressorReport.md_, _axialTurbineReport.md_  или _radialTurbineReport.md_ на языке **Markdown**. И сохраняются рисунки с уже выставленными _размерами_ на них ([примеры таких рисунков](https://github.com/StasF1/turboCharger/wiki/Примеры-рисунков)). Всё это располагается в папке _results/_, создаваемой автоматически.
 
 ![alt text](https://github.com/StasF1/READMEPictures/blob/master/turboCharger/inTurbineWheel.png)
 
 Программа писалась для чтения отчётов  Markdown-редакторе [Typora](https://typora.io). Желательно использовать его для правильного отображения Latex-формул в файлах формата _.md_.
+
+#### Примеры отчётов
+|Вариант расчёта         |Настройки        |.pdf                    |
+|-----------------------:|----------------:|:-----------------------|
+|     Компрессор         | По умолчанию    |[compressorReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v4.1/compressorReport.pdf)|
+|Радиально-осевая турбина| По умолчанию    |[radialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v4.1/radialTurbineReport.pdf)|
+|Осевая турбина          | Не по умолчанию |[axialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v4.1/axialTurbineReport.pdf)|
 
 # Требования
 1. [Python 2](https://www.python.org)
