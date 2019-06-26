@@ -9,6 +9,11 @@
 
 Если программа выводит ошибку `Error XX: `, то её номер - соответсвующий пункт в методичке, в котором присутствуют некоторые ограничения и результат расчёта не удовлетворяет им.
 
+# Требования
+1. [Python 2](https://www.python.org)
+2. Pillow - Python-модуль для редактирования изображений ([как его скачать](https://github.com/StasF1/turboCharger/issues/2))
+3. Markdown-редактор ([Typora](https://typora.io), желательно)
+
 # История версий
 
 ### [Скачать текущую стабильную версию](https://github.com/StasF1/turboCharger/archive/v4.1.zip)
@@ -24,11 +29,6 @@
 [v-3.0](https://github.com/StasF1/turboCharger/archive/2f434710fcaaf7b3490b27ce547eeb675d5640c9.zip)
 [v-2.0](https://github.com/StasF1/turboCharger/archive/b662077078b15b35b4018b8175d48d35511bdbf9.zip)
 [v-1-beta](https://github.com/StasF1/turboCharger/archive/6426ec34df5ef5c2d30bfc3fbf852d39bd998852.zip)
-
-# Требования
-1. [Python 2](https://www.python.org)
-2. Pillow - Python-модуль для редактирования изображений ([как его скачать](https://github.com/StasF1/turboCharger/issues/2))
-3. Markdown-редактор ([Typora](https://typora.io), желательно)
 
 # Порядок работы с программой
 Подробное руководство по работе с программой выложено в [Wiki](https://github.com/StasF1/turboCharger/wiki)
