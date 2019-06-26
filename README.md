@@ -31,7 +31,7 @@
 [v-1-beta](https://github.com/StasF1/turboCharger/archive/6426ec34df5ef5c2d30bfc3fbf852d39bd998852.zip)
 
 # Порядок работы с программой
-Подробное руководство по работе с программой выложено в [Wiki](https://github.com/StasF1/turboCharger/wiki)
+Подробное руководство по работе с программой (версии v-4.1) выложено в [Wiki](https://github.com/StasF1/turboCharger/wiki)
 
 # Структура
 ```gitignore
