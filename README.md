@@ -43,12 +43,13 @@ turboCharger-4.1
 │   └── turbine
 │       ├── axial
 │       └── radial
-├── turbine
-│   ├── axial
-│   │   └── include     # include-файлы вложенные в turbineMain.py
-│   └── radial
-│       └── include     # include-файлы вложенные в turbineMain.py
-└── results*            # результаты расчётов
+├── results*            # результаты расчётов
+└── turbine
+    ├── axial
+    │   └── include     # include-файлы вложенные в turbineMain.py
+    └── radial
+        └── include     # include-файлы вложенные в turbineMain.py
+ 
 
 # *создаётся при проведённом расчёте
 ```
