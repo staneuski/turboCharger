@@ -37,8 +37,8 @@
 ```gitignore
 turboCharger-4.1
 ├── compressor
-│   └── include        # include-файлы вложенные в compressorMain.py
-├── programFiles       # шрифты, бланки картинок и проч.
+│   └── include         # include-файлы вложенные в compressorMain.py
+├── programFiles        # шрифты, бланки картинок и проч.
 │   ├── compressor
 │   └── turbine
 │       ├── axial
