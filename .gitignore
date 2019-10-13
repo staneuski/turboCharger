@@ -1,12 +1,6 @@
-commonDictAX.py
-commonDictPR.py
-commonDictDEF.py
+# Files
+*.pyc
+solvedParameters.py
 
-compressor/compressorDictPR.py
-compressor/compressorDictPROLD.py
-turbine/radial/turbineResults
-turbine/axial/turbineResults
-results
-turbineDictDEF.py
-compressorPR.py
-turbineDictPR.py
+# Folders
+results/
