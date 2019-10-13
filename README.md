@@ -40,7 +40,7 @@ _⚠ ВНИМАНИЕ:_ По завершении расчёта создаёт�
 turboCharger-4.1
 ├── compressor
 │   └── include         # include-файлы вложенные в compressorMain.py
-├── etc        # шрифты, бланки картинок и проч.
+├── etc                 # шрифты, бланки картинок и проч.
 │   ├── compressor
 │   └── turbine
 │       ├── axial
