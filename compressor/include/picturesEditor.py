@@ -15,10 +15,10 @@
 #-----------------------------------------------------------------------
 
 # Loading Fonts
-font = ImageFont.truetype("../programFiles/fontGOST.ttf", 22)
+font = ImageFont.truetype("../etc/fontGOST.ttf", 22)
  
 # axisCut.png
-axisCut=Image.open("../programFiles/compressor/axisCut.png")
+axisCut=Image.open("../etc/compressor/axisCut.png")
 d = ImageDraw.Draw(axisCut)
 d.text((331, 67),  str(round(b_4*1e+03, 2)), (0,0,0), font=font)
 if 'VANED' in diffuserType:
@@ -39,14 +39,14 @@ axisCut.rotate(90).save("axisCut.png")
 
 # perpendicularCut.png
 if 'VANED' in diffuserType: # ЛД
-    perpendicularCut=Image.open("../programFiles/compressor/perpendicularCut.png")
+    perpendicularCut=Image.open("../etc/compressor/perpendicularCut.png")
     d = ImageDraw.Draw(perpendicularCut)
     d.text((113, 327), str("{0}deg" .format(round(alpha_2, 1))), (0,0,0), font=font)
     d.text((207, 111), str("{0}deg" .format(round(alpha_4, 1))), (0,0,0), font=font)
     perpendicularCut.save("perpendicularCut.png")
 
 # blades.png
-blades=Image.open("../programFiles/compressor/blades.png")
+blades=Image.open("../etc/compressor/blades.png")
 d = ImageDraw.Draw(blades)
 d.text((38, 98),  str(round(beta_1Blade, 2)), (0,0,0), font=font)
 d.text((95, 120), str(round(beta_1,      2)), (0,0,0), font=font)
@@ -59,10 +59,10 @@ d.text((430, 160), str("{0} m/s" .format(round(w_1, 1))), (0,0,0), font=font)
 blades.save("blades.png")
 
 # Change font size
-font = ImageFont.truetype("../programFiles/fontGOST.ttf", 12)
+font = ImageFont.truetype("../etc/fontGOST.ttf", 12)
 
 # outWheel.png
-outWheel = Image.open("../programFiles/compressor/outWheel.png")
+outWheel = Image.open("../etc/compressor/outWheel.png")
 d = ImageDraw.Draw(outWheel)
 d.text((250, 393), str(" = {0} RPM" .format(round(n_tCh))), (0,0,0), font=font)
 d.text((10, 80),   str("{0} deg" .format(round(beta_2Blade, 2))), (0,0,0), font=font)

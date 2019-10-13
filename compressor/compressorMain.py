@@ -55,7 +55,7 @@ p_aStagn = p_aStagn*1e06 # -> Pa
 D = D*1e-02;      S = S*1e-02 # -> m
 
 execfile('include/defaultValuesCoefficients.py') # default values
-execfile('../programFiles/logo.py') # printing the logo
+execfile('../etc/logo.py') # printing the logo
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 

@@ -15,10 +15,10 @@
 #-----------------------------------------------------------------------
 
 # Loading Fonts
-font = ImageFont.truetype('../../programFiles/fontGOST.ttf', 18)
+font = ImageFont.truetype('../../etc/fontGOST.ttf', 18)
 
 # axisCut.png
-axisCut = Image.open('../../programFiles/turbine/axial/axisCut.png')
+axisCut = Image.open('../../etc/turbine/axial/axisCut.png')
 d = ImageDraw.Draw(axisCut)
 d.text((148, 283), str('{0}' .format(round(b_1*1e+03, 1))), (0,0,0), font=font)
 d.text((298, 283), str('{0}' .format(round(b_2*1e+03, 1))), (0,0,0), font=font)
@@ -34,7 +34,7 @@ d.text((500, 485), str('{0}' .format(round(delta*1e+03        , 1))), (0,0,0), f
 axisCut.rotate(90).crop((40, 67, 520, 494)).save('axisCut.png')
 
 # radialCut.png
-radialCut = Image.open('../../programFiles/turbine/axial/radialCut.png')
+radialCut = Image.open('../../etc/turbine/axial/radialCut.png')
 d = ImageDraw.Draw(radialCut)
 d.text((288, 234), str('{0}'     .format(round(b_1*1e+03, 1))), (0,0,0), font=font)
 d.text((534, 720), str('={0}m/s' .format(round(c_1,       2))), (0,0,0), font=font)

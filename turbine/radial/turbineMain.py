@@ -50,7 +50,7 @@ g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
 if issubclass(type(delta), float):    delta = delta*1e-03; # -> m
 
 execfile('include/defaultValuesCoefficients.py') # default values
-execfile('../../programFiles/logo.py') # printing the logo
+execfile('../../etc/logo.py') # printing the logo
 
 # Sets values using balance coefficients from dictionary
 eta_Te = etaPlot(eta_Te, D_2K)

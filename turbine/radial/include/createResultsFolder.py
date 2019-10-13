@@ -26,4 +26,4 @@ shutil.copyfile("solvedParameters.py","../../results/turbine/radial/solvedParame
 shutil.move("axisCut.png",            "../../results/turbine/radial/axisCut.png")
 shutil.move("inTurbineWheel.png",     "../../results/turbine/radial/inTurbineWheel.png")
 shutil.move("outTurbineWheel.png",    "../../results/turbine/radial/outTurbineWheel.png")
-shutil.copyfile("../../programFiles/turbine/radial/i-sPlot.png", "../../results/turbine/radial/i-sPlot.png")
+shutil.copyfile("../../etc/turbine/radial/i-sPlot.png", "../../results/turbine/radial/i-sPlot.png")

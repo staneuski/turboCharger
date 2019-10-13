@@ -15,10 +15,10 @@
 #-----------------------------------------------------------------------
 
 # Loading Fonts
-font = ImageFont.truetype('../../programFiles/fontGOST.ttf', 18)
+font = ImageFont.truetype('../../etc/fontGOST.ttf', 18)
 
 # axisCut.png
-axisCut = Image.open('../../programFiles/turbine/radial/axisCut.png')
+axisCut = Image.open('../../etc/turbine/radial/axisCut.png')
 d = ImageDraw.Draw(axisCut)
 d.text((303, 517), str('={0} RPM' .format(round(n_TCh,   1))), (0,0,0), font=font)
 d.text((591, 360), str('={0}' .format(round(b_1  *1e+03, 1))), (0,0,0), font=font)
@@ -34,7 +34,7 @@ d.text((458, 738), str('={0}' .format(round(delta      , 1))), (0,0,0), font=fon
 axisCut.rotate(90).crop((71, 233, 792, 635)).save('axisCut.png')
 
 # inTurbineWheel.png
-inTurbineWheel = Image.open('../../programFiles/turbine/radial/inTurbineWheel.png')
+inTurbineWheel = Image.open('../../etc/turbine/radial/inTurbineWheel.png')
 d = ImageDraw.Draw(inTurbineWheel)
 d.text((101, 93),  str('={0}deg' .format(round(alpha_1, 1))), (0,0,0), font=font)
 d.text((316, 94),  str('={0}deg' .format(round(beta_1,  1))), (0,0,0), font=font)
@@ -48,7 +48,7 @@ d.text((360, 208), str('={0}m/s' .format(round(w_1u, 2))), (0,0,0), font=font)
 inTurbineWheel.save('inTurbineWheel.png')
 
 # outTurbineWheel.png
-outTurbineWheel = Image.open('../../programFiles/turbine/radial/outTurbineWheel.png')
+outTurbineWheel = Image.open('../../etc/turbine/radial/outTurbineWheel.png')
 d = ImageDraw.Draw(outTurbineWheel)
 d.text((368, 232), str('={0}deg' .format(round(beta_2,  1))), (0,0,0), font=font)
 d.text((208, 278), str('={0}deg' .format(round(alpha_2, 1))), (0,0,0), font=font)
