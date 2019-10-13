@@ -20,7 +20,7 @@
 3. Markdown-редактор ([Typora](https://typora.io), желательно)
 
 # История версий
-
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger) ![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
 ### 📥 [Скачать текущую стабильную версию: _v-4.1_](https://github.com/StasF1/turboCharger/archive/v4.1.zip) 📥
 
 |Версия|Скачать|   |
