@@ -3,7 +3,7 @@
 
 По результатам расчёта генерируются отчёты на языке **Markdown** (примеры отчётов представлены ниже), сохраняются рисунки с уже выставленными _размерами_ на них ([примеры рисунков](https://github.com/StasF1/turboCharger/wiki/Примеры-рисунков)). Всё это располагается в папке _results/_, создаваемой автоматически.
 
-![alt text](https://github.com/StasF1/turboCharger/blob/master/etc/inTurbineWheel.png)
+![inTurbineWheel-dflt](https://github.com/StasF1/turboCharger/wiki/images/inTurbineWheel.png)
 
 Программа писалась для чтения отчётов  Markdown-редакторе [Typora](https://typora.io). Желательно использовать его для правильного отображения Latex-формул в файлах формата _.md_.
 
