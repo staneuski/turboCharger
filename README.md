@@ -10,9 +10,9 @@
 #### Примеры отчётов
 |Вариант расчёта         |Настройки        |Отчёт                   |
 |-----------------------:|----------------:|:-----------------------|
-|     Компрессор         | По умолчанию    |[compressorReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v4.1/compressorReport.pdf)|
-|Радиально-осевая турбина| По умолчанию    |[radialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v4.1/radialTurbineReport.pdf)|
-|Осевая турбина          | Не по умолчанию |[axialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v4.1/axialTurbineReport.pdf)|
+|     Компрессор         | По умолчанию    |[compressorReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/compressorReport.pdf)|
+|Радиально-осевая турбина| По умолчанию    |[radialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/radialTurbineReport.pdf)|
+|Осевая турбина          | Не по умолчанию |[axialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/axialTurbineReport.pdf)|
 
 # Требования
 1. [Python 2](https://www.python.org/downloads/)
@@ -21,23 +21,23 @@
 
 # История версий
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger) ![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
-### 📥 [Скачать текущую стабильную версию: _v-4.1_](https://github.com/StasF1/turboCharger/archive/v4.1.zip) 📥
+### 📥 [Скачать текущую версию: _v1-beta_](https://github.com/StasF1/turboCharger/archive/v1-beta.zip) 📥
 
 |Версия|Скачать|   |
 |-----:|------:|:--|
-|[4.1](https://github.com/StasF1/turboCharger/releases/tag/v4.1)|[v-4.1](https://github.com/StasF1/turboCharger/archive/v4.1.zip)|**текущая _стабильная_ версия** (проверена на WindowsOS, macOS и Linux), добавлена возможность расчёта лопаточного диффузора компрессора|
-|[3](https://github.com/StasF1/turboCharger/tree/2f434710fcaaf7b3490b27ce547eeb675d5640c9)|[v-3.0](https://github.com/StasF1/turboCharger/archive/2f434710fcaaf7b3490b27ce547eeb675d5640c9.zip)|добавлен расчёт осевой турбины|
-|[2](https://github.com/StasF1/turboCharger/tree/b662077078b15b35b4018b8175d48d35511bdbf9)|[v-2.0](https://github.com/StasF1/turboCharger/archive/b662077078b15b35b4018b8175d48d35511bdbf9.zip)|добавлена возможность выставления значений с рисунков 2.2 и 3.7 автоматически с помощью весовых коэффициентов|
-|[1, Beta](https://github.com/StasF1/turboCharger/tree/6426ec34df5ef5c2d30bfc3fbf852d39bd998852)|[v-1-beta](https://github.com/StasF1/turboCharger/archive/6426ec34df5ef5c2d30bfc3fbf852d39bd998852.zip)|все значения коэффициентов задаются вручную|
+|[1-beta](https://github.com/StasF1/turboCharger/releases/tag/v1-beta)|[v1-beta](https://github.com/StasF1/turboCharger/archive/v1-beta.zip)|**текущая _стабильная_ версия** (проверена на WindowsOS, macOS и Linux), добавлена возможность расчёта лопаточного диффузора компрессора|
+|[0.3-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.3-alpha)|[v3.0](https://github.com/StasF1/turboCharger/archive/v0.3-alpha.zip)|добавлен расчёт осевой турбины|
+|[0.2-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.2-alpha)|[v2.0](https://github.com/StasF1/turboCharger/archive/v0.2-alpha.zip)|добавлена возможность выставления значений с рисунков 2.2 и 3.7 автоматически с помощью весовых коэффициентов|
+|[0.1-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.1-alpha)|[v0.1-beta](https://github.com/StasF1/turboCharger/archive/v0.1-alpha.zip)|все значения коэффициентов задаются вручную|
 
 # Порядок работы с программой
-‼ Подробное руководство по работе с программой (текущей версии - v-4.1) выложено в [**Wiki**](https://github.com/StasF1/turboCharger/wiki).
+‼ Подробное руководство по работе с программой (текущей версии - v1-beta) выложено в [**Wiki**](https://github.com/StasF1/turboCharger/wiki).
 
 _⚠ ВНИМАНИЕ:_ По завершении расчёта создаётся папка _results/_ со сгенерироваными в ней отчётами. Также в ней создаётся и аналогичная репозиторию файловая структура, что необходимо для сохранения в качестве бэкапа словарей (файлов с настройками, оканчивающиеся на _Dict.py_). Например, копия словаря _turbineDict.py_ будет располагаться в _results/turbine/radial/_. Таким образом, **папку _results/_ можно переименовать (например в _results001/_), чтоб не потерять словари настроек при проведении нового расчёта**. 
 
 # Структура
 ```gitignore
-turboCharger-4.1
+turboCharger-1-beta
 ├── compressor
 │   └── include         # include-файлы вложенные в compressorMain.py
 ├── etc                 # шрифты, бланки картинок и проч.
