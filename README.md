@@ -26,8 +26,8 @@
 |Версия|Скачать|   |
 |-----:|------:|:--|
 |[1-beta](https://github.com/StasF1/turboCharger/releases/tag/v1-beta)|[v1-beta](https://github.com/StasF1/turboCharger/archive/v1-beta.zip)|**текущая _стабильная_ версия** (проверена на WindowsOS, macOS и Linux), добавлена возможность расчёта лопаточного диффузора компрессора|
-|[0.3-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.3-alpha)|[v3.0](https://github.com/StasF1/turboCharger/archive/v0.3-alpha.zip)|добавлен расчёт осевой турбины|
-|[0.2-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.2-alpha)|[v2.0](https://github.com/StasF1/turboCharger/archive/v0.2-alpha.zip)|добавлена возможность выставления значений с рисунков 2.2 и 3.7 автоматически с помощью весовых коэффициентов|
+|[0.3-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.3-alpha)|[v0.3](https://github.com/StasF1/turboCharger/archive/v0.3-alpha.zip)|добавлен расчёт осевой турбины|
+|[0.2-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.2-alpha)|[v0.2](https://github.com/StasF1/turboCharger/archive/v0.2-alpha.zip)|добавлена возможность выставления значений с рисунков 2.2 и 3.7 автоматически с помощью весовых коэффициентов|
 |[0.1-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.1-alpha)|[v0.1-beta](https://github.com/StasF1/turboCharger/archive/v0.1-alpha.zip)|все значения коэффициентов задаются вручную|
 
 # Порядок работы с программой
