@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 #-----------------------------------------------------------------------
 #	   ___    	 |
-#	 _|˚_ |_ 	 |   Language: Python
-#	/  ___| \	 |   Version:  2.7
+#	 _|o_ |_ 	 |   Language: Python
+#	/  ___| \	 |   Version:  3.x
 #	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
-#	  |__˚|  	 |
+#	  |__o|  	 |
 #-----------------------------------------------------------------------
 # License
 #     This program is free software: you can redistribute it and/or
@@ -29,7 +29,7 @@
 ## Loading data & calling some fuctions
 
 # Funcion for math solvers (pi, sin, cos, etc.) & other
-from __future__         import division
+
 from PIL                import ImageFont, Image, ImageDraw
 import math, os, shutil, sys
 
@@ -49,8 +49,8 @@ N_e = N_e*1e+03; # -> V
 g_e = g_e*1e-03; # -> kg/(V*h) or g/(kV*h)
 if issubclass(type(delta), float):    delta = delta*1e-03; # -> m
 
-execfile('include/defaultValuesCoefficients.py') # default values
-execfile('../../etc/logo.py') # printing the logo
+exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(), 'include/defaultValuesCoefficients.py', 'exec')) # default values
+exec(compile(open('../../etc/logo.py', "rb").read(), '../../etc/logo.py', 'exec')) # printing the logo
 
 # Sets values using balance coefficients from dictionary
 eta_Te = etaPlot(eta_Te, D_2K)
@@ -247,27 +247,27 @@ differenceN = abs(N_K - N_T)/N_K*100; # % | 64. Расхождение с мощ
 ## Displaying the results
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
-print "Energy conversion efficiency coeficients are:\n\
+print("Energy conversion efficiency coeficients are:\n\
     eta_Te  = {0:.4f} - setted\n\
     eta_Te' = {1:.4f} - rated"\
-    .format(eta_Te, eta_TeRated); # (dict) & (60)
-print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta); # (61)
+    .format(eta_Te, eta_TeRated)); # (dict) & (60)
+print('Error of calculation between them is {0:.3f}%\n' .format(differenceEta)); # (61)
 
-print "Power consumption:\n\
+print("Power consumption:\n\
     N_c = {N_K_kW:.3f} kW - of compressor\n\
     N_t = {N_T_kW:.3f} kW - of turbine"\
-    .format(N_K_kW = N_K*1e-03, N_T_kW = N_T*1e-03); # (compressor) & (63)
-print 'Error of calculation between them is {0:.3f}%\n' .format(differenceN); # (62)
+    .format(N_K_kW = N_K*1e-03, N_T_kW = N_T*1e-03)); # (compressor) & (63)
+print('Error of calculation between them is {0:.3f}%\n' .format(differenceN)); # (62)
 
-print "If something doesn't work correctly make the new issue or check the others:\n\
-https://github.com/StasF1/turboCharger/issues"#u'\n\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
+print("If something doesn't work correctly make the new issue or check the others:\n\
+https://github.com/StasF1/turboCharger/issues")#u'\n\N{COPYRIGHT SIGN} 2018 Stanislau Stasheuski'
 
 
 ## Report generation
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-execfile('include/reportGenerator.py') # saving the report
-execfile('include/picturesEditor.py') # editing pictures
-execfile('include/createResultsFolder.py') # saving the results to the resultsFolder
+exec(compile(open('include/reportGenerator.py', "rb").read(), 'include/reportGenerator.py', 'exec')) # saving the report
+exec(compile(open('include/picturesEditor.py', "rb").read(), 'include/picturesEditor.py', 'exec')) # editing pictures
+exec(compile(open('include/createResultsFolder.py', "rb").read(), 'include/createResultsFolder.py', 'exec')) # saving the results to the resultsFolder
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 

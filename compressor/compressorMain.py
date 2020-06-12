@@ -29,7 +29,7 @@
 ## Loading data & calling some fuctions
 
 # Funcion for math solvers (pi, sin, cos, etc.) & other
-from __future__         import division    
+    
 from PIL                import ImageFont, Image, ImageDraw
 import math, os, shutil, sys
 
@@ -54,8 +54,8 @@ g_e = g_e*1e-03 # -> kg/(V*h) or g/(kV*h)
 p_aStagn = p_aStagn*1e06 # -> Pa
 D = D*1e-02;      S = S*1e-02 # -> m
 
-execfile('include/defaultValuesCoefficients.py') # default values
-execfile('../etc/logo.py') # printing the logo
+exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(), 'include/defaultValuesCoefficients.py', 'exec')) # default values
+exec(compile(open('../etc/logo.py', "rb").read(), '../etc/logo.py', 'exec')) # printing the logo
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -164,8 +164,8 @@ u_1 = math.pi*D_1*n_tCh/60 # Окружная скорость на средне
 # Угол входа потока в рабочее колесо на среднем диамметре в относительном движении (19)
 beta_1 = math.degrees(math.atan( c_1/u_1 ))
 if issubclass(type(iDeg), str):    
-    print 'Degree of the wheel inlet flow is {0:.3f}' .format(beta_1)
-    print 'Now you can set "i", using recomendations'
+    print('Degree of the wheel inlet flow is {0:.3f}' .format(beta_1))
+    print('Now you can set "i", using recomendations')
     exit()
 
 beta_1Blade = beta_1 + iDeg # Угол установки лопаток на среднем диаметре (20)
@@ -178,10 +178,10 @@ w_1H = math.sqrt(pow(c_1Tau, 2) + pow(u_1H, 2)) # Относительная с�
 
 # Число маха на наружном диаметре входа в колесо (24)
 M_w1 = w_1H/math.sqrt(k*R*T_1)
-if M_w1 > 0.9:    print 'Warning 24:\
+if M_w1 > 0.9:    print('Warning 24:\
  Mach number is too high!\n\
 It must be less than 0.9 but it equals {0:.3f}\n\
-Try to increase "tau_1", "relD_1H" &/or decrease "phi_flow", "relD_1B".\n' .format(M_w1)
+Try to increase "tau_1", "relD_1H" &/or decrease "phi_flow", "relD_1B".\n' .format(M_w1))
       
 w_1 = math.sqrt(pow(c_1Tau, 2) + pow(u_1, 2)) # Относительная скорость на среднем диаметре входа в колесо (25)
 
@@ -335,51 +335,51 @@ differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K * 100 # Расхождение с п
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
 D_2_mm = D_2*1e+03
-print 'Diameter of the wheel is {0:.0f} mm\n' .format(D_2_mm) # (15)
+print('Diameter of the wheel is {0:.0f} mm\n' .format(D_2_mm)) # (15)
 
-print 'Parameters by cuts:'
-if 'VANELESS' in diffuserType:  print '\
+print('Parameters by cuts:')
+if 'VANELESS' in diffuserType:  print('\
     1-1: T_1 = {0:.0f} K,   p_1 = {1:.4f} MPa\n\
     2-2: T_2 = {2:.0f} K,   p_2 = {3:.4f} MPa\n\
     4-4: T_4 = {4:.0f} K,   p_4 = {5:.4f} MPa\n'\
-    .format(T_1, p_1*1e-06, T_2, p_2, T_4, p_4*1e-06)
-else:   print '\
+    .format(T_1, p_1*1e-06, T_2, p_2, T_4, p_4*1e-06))
+else:   print('\
     1-1: T_1 = {0:.0f} K,   p_1 = {1:.4f} MPa\n\
     2-2: T_2 = {2:.0f} K,   p_2 = {3:.4f} MPa\n\
     3-3: T_3 = {4:.0f} K,   p_3 = {5:.4f} MPa\n\
     4-4: T_4 = {6:.0f} K,   p_4 = {7:.4f} MPa\n'\
-    .format(T_1, p_1*1e-06, T_2, p_2*1e-06, T_3, p_3*1e-06, T_4, p_4*1e-06)
+    .format(T_1, p_1*1e-06, T_2, p_2*1e-06, T_3, p_3*1e-06, T_4, p_4*1e-06))
         
-print 'Actual pressure degree increase is {0:.2f}, when\n\
-precalculated/setted pressure degree increase is {1:.2f}' .format(Pi_KStagn, Pi_K) # (57)
-print 'Error of calculation between them is {0:.3f}%\n' .format(differencePi_K) # (60)
+print('Actual pressure degree increase is {0:.2f}, when\n\
+precalculated/setted pressure degree increase is {1:.2f}' .format(Pi_KStagn, Pi_K)) # (57)
+print('Error of calculation between them is {0:.3f}%\n' .format(differencePi_K)) # (60)
     
-print "Energy conversion efficiency coeficients are:\n\
+print("Energy conversion efficiency coeficients are:\n\
     eta_Ks*  = {0:.4f} - setted\n\
-    eta_Ks*' = {1:.4f} - rated" .format(eta_KsStagn, eta_KsStagnRated) # (dict) & (59)
-print 'Error of calculation between them is {0:.3f}%\n' .format(differenceEta) # (60)
+    eta_Ks*' = {1:.4f} - rated" .format(eta_KsStagn, eta_KsStagnRated)) # (dict) & (59)
+print('Error of calculation between them is {0:.3f}%\n' .format(differenceEta)) # (60)
 
-print "Isentropy head coeficients are:\n\
+print("Isentropy head coeficients are:\n\
     H_Ks*  = {0:.4f} - setted\n\
-    H_Ks*' = {1:.4f} - rated" .format(H_KsStagn, H_KsStagnRated) # (dict) & (61)
-print 'Error of calculation between them is {0:.3f}%\n' .format(differenceH) # (62)
+    H_Ks*' = {1:.4f} - rated" .format(H_KsStagn, H_KsStagnRated)) # (dict) & (61)
+print('Error of calculation between them is {0:.3f}%\n' .format(differenceH)) # (62)
 
-print "If something doesn't work correctly make the new issue or check the others:\n\
-https://github.com/StasF1/turboCharger/issues"
-print '2018-2019 Stanislau Stasheuski'#u' \N{COPYRIGHT SIGN}'
+print("If something doesn't work correctly make the new issue or check the others:\n\
+https://github.com/StasF1/turboCharger/issues")
+print('2018-2019 Stanislau Stasheuski')#u' \N{COPYRIGHT SIGN}'
 
-execfile('include/savingParametersForTurbine.py') # make extra dictionary for turbine calculation
+exec(compile(open('include/savingParametersForTurbine.py', "rb").read(), 'include/savingParametersForTurbine.py', 'exec')) # make extra dictionary for turbine calculation
 
 
 ## Report generation
 # ~~~~~~~~~~~~~~~~~~
 if 'VANELESS' in diffuserType: # ЛД
-    execfile('include/reportGeneratorVANELESS.py') # saving the report for vaneless diffuser
+    exec(compile(open('include/reportGeneratorVANELESS.py', "rb").read(), 'include/reportGeneratorVANELESS.py', 'exec')) # saving the report for vaneless diffuser
 else: # БЛД
-    execfile('include/reportGeneratorVANED.py') # saving the report for vaned diffuser
+    exec(compile(open('include/reportGeneratorVANED.py', "rb").read(), 'include/reportGeneratorVANED.py', 'exec')) # saving the report for vaned diffuser
 
-execfile('include/picturesEditor.py') # editing pictures
-execfile('include/createResultsFolder.py') # saving the results to the resultsFolder
+exec(compile(open('include/picturesEditor.py', "rb").read(), 'include/picturesEditor.py', 'exec')) # editing pictures
+exec(compile(open('include/createResultsFolder.py', "rb").read(), 'include/createResultsFolder.py', 'exec')) # saving the results to the resultsFolder
 
 # *****************************************************************************
 

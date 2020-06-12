@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 #-----------------------------------------------------------------------
 #	   ___    	 |
-#	 _|˚_ |_ 	 |   Language: Python
-#	/  ___| \	 |   Version:  2.7
+#	 _|o_ |_ 	 |   Language: Python
+#	/  ___| \	 |   Version:  3.x
 #	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
-#	  |__˚|  	 |
+#	  |__o|  	 |
 #-----------------------------------------------------------------------
 # Included script
 #     defaultValuesCoefficients
