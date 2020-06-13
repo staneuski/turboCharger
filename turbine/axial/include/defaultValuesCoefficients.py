@@ -1,18 +1,7 @@
 # -*- coding: utf-8 -*-
-#-----------------------------------------------------------------------
-#	   ___    	 |
-#	 _|o_ |_ 	 |   Language: Python
-#	/  ___| \	 |   Version:  3.x
-#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
-#	  |__o|  	 |
-#-----------------------------------------------------------------------
-# Included script
-#     createResultsFolder
-#
-# Description
-#     Default values for coefficients
-# 
-#-----------------------------------------------------------------------
+# '''
+#     Description:    Default values for some coefficients
+# '''
 
 dragInletRatio = defaultValue(dragInletRatio,1.046) # (0)
 sigma_esc      = defaultValue(sigma_esc,      0.99) # (1)

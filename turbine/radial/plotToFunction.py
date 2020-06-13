@@ -2,18 +2,18 @@
 
 # Method to set the value
 def plotValue(balanceCoef, upValue, downValue):
-    """
-    Sets value using two interpolated functions and balance coefficient
-    """
+    '''
+        Set value using two interpolated functions and balance coefficient
+    '''
     if (balanceCoef < 0) | (balanceCoef > 1):
         exit('Error: Balance coefficient setted in the wrong way!')
     return balanceCoef*upValue + (1 - balanceCoef)*downValue
 
 def deltaPlotValue(balanceCoef, delta, downValue):
-    """
-    Sets value using the interpolated function, range 
-    and balance coefficient
-    """
+    '''
+        Set value using the interpolated function, range 
+        and balance coefficient
+    '''
     return downValue + balanceCoef*delta
 
 
@@ -76,12 +76,5 @@ def relD_2B(balanceCoef, D):
  No data for that wheel diameter!\n\
 It equals %0.0f cm but must be from 4 to 24 cm.\n\
 Try to calculate axial turbine!' %(D*1e+02))
-    return deltaPlotValue(balanceCoef, 0.1,\
-    2.61905*pow(D, 2) - 0.533333*D + 0.227143) 
-    
-    
-    
-    
-    
-    
-    
+    return deltaPlotValue(balanceCoef, 0.1,
+    2.61905*pow(D, 2) - 0.533333*D + 0.227143)

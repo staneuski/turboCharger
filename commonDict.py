@@ -1,60 +1,97 @@
 # -*- coding: utf-8 -*-
-#-----------------------------------------------------------------------
-#	   ___    	 |
-#	 _|o_ |_ 	 |   Language: Python
-#	/  ___| \	 |   Version:  3.x
-#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
-#	  |__o|  	 |
-#-----------------------------------------------------------------------
-# Dictionary
-#     commonDict
+# '''
+#     API:            Python 3.x
+#     Project:        https://github.com/StasF1/turboCharger
+#     Version:        2.x
+#     License:        GNU General Public License 3.0 ( see LICENSE )
+#     Author:         Stanislau Stasheuski
 #
-# Description
-#     Common paramaters for all subprojects for 0D calculation
-# 
-#-----------------------------------------------------------------------
+#     File:           commonDict
+#     Description:    Common paramaters for all subprojects for 0D calculation
+#
+# '''
 
-# "TYPE1" - расчёта компрессора по расходу и степени повышения давления (и для Д/З)
-# "TYPE2" - для расчёта по параметрам двигателя и т.д.
-projectType = "TYPE1"
+# Тип расчёта
+projectType = "TYPE1" # "TYPE1" - по параметрам двигателя
+                      # "TYPE2" - по расходу и степени повышения давления
 
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+# -------------------------------- "TYPE2" ------------------------------------
 
-## Standart paramaters
-p_a         = 0.1013 # MPa, atmospheric pressure | атмосферное давление
-T_a         = 293 # К, temperature | температура
-k           = 1.4 # isentropy coefficient | коэффициент изоэнтропы
-R           = 287.2 #  J/(kg*K), gas constant | газовая постоянная
-c_p         = 1005 # J/(kg*K), isobar heat capacity | изобарная теплоёмкость 
+# Расход через компрессор
+G_K  = 3.4837 # [kg/s] (для осевой турбины должен быть задан и при "TYPE2")
 
+# Cтепень повышения давления в компрессоре
+Pi_K = 1.9
 
-## Engine data | Данные ДВС
-engineType  = "DIESEL" # type of the engine: "DIESEL" or "SI" | вид ДВС: для ВоС - "DIESEL", для ВЭИ - "SI"
-strokeNumber= 4 # number of strokes | тактность ДВС
-pistonNumber= 4 # piston number | число цилиндров
-S           = 8.8 # cm, piston stroke | ход поршня
-D           = 8.5 # cm, cylinder bore | диаметр цилиндра
+# -------------------------------- "TYPE1" ------------------------------------
 
-N_e         = 100 # kV, effective power | эффективная мощность
-n           = 4000 # 1/min, rated speed | номинальная частота вращения
-g_e         = 0.24 # kg/(kV*h), brake-specific fuel consumption | удельный эффективный расход топлива
+# Standart (ambient) paramaters
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Atmospheric pressure  | Атмосферное давление
+p_a = 0.1013 # [MPa]
 
-# Combustion parameters | Параметры сгорания
-alpha       = 1.8 # excess of air coefficient | коэффициент избытка воздуха
-eta_v       = 0.963 # admission coefficient | коэффициент наполнения
-phi         = 1.025 # expulsion coefficient | коэффициент продувки
+# Temperature | температура
+T_a = 293 # [К]
 
+# Isentropy coefficient | Коэффициент изоэнтропы
+k   = 1.4
 
-## Other paramaters
-E           = 0.7 # 0.6…0.75 - heat efficiency coefficient | коэффициент тепловой эффективности
-T_ca        = 309 # K, coolant temperature | температура охлаждающего агента (воды)
-T_0Stagn    = 874 # K temperature of inlet turbine gases | температура газов перед турбиной
+# Gas constant | Газовая постоянная
+R   = 287.2 # [J/kg/K]
+
+# Isobar heat capacity | Изобарная теплоёмкость
+c_p = 1005 # [J/kg/K]
 
 
-# --------------------------- "TYPE2" ----------------------------------
+# Engine data | Данные ДВС
+# ~~~~~~~~~~~~~~~~~~~~~~~~
+# Engine type | Тип двигателя
+engineType  = "DIESEL" # "DIESEL" or "SI"
 
-G_K         = 3.4837 # кг/с, расход через компрессор (для расчёта
-                      # осевой турбины должен быть задан!)
-Pi_K        = 1.9 # степень повышения давления в компрессоре
+#- Engine gometric parameters
+# Strokes number | Тактность
+strokeNumber= 4
 
-# *********************************************************************
+# Piston number | Число цилиндров
+pistonNumber= 4
+
+# Piston stroke | Ход поршня
+S           = 8.8 # [cm]
+
+# Сylinder bore | Даметр цилиндра
+D           = 8.5 # [cm]
+
+#- Effective parameters | Эффективные параметры
+# Effective power | Эффективная мощность
+N_e         = 100 # [kW]
+
+# Effective speed | Номинальная частота вращения
+n           = 4000 # [1/min]
+
+# brake-specific fuel consumption | Удельный эффективный расход топлива
+g_e         = 0.24 # [kg/kW/h]
+
+#- Combustion parameters | Параметры сгорания
+# Air excess coefficient | Коэффициент избытка воздуха
+alpha       = 1.8
+
+# Admission coefficient | Коэффициент наполнения
+eta_v       = 0.963
+
+# Expulsion coefficient | Коэффициент продувки
+phi         = 1.025
+
+
+# Other paramaters
+# ~~~~~~~~~~~~~~~~
+# Heat efficiency coefficient | Коэффициент тепловой эффективности
+E        = 0.7 # 0.6…0.75
+
+# Coolant temperature | Температура охлаждающего агента (воды)
+T_ca     = 309 # [K]
+
+# Temperature of inlet turbine gases | Температура газов перед турбиной
+T_0Stagn = 874 # [K]
+
+
+# ''' (C) 2018-2020 Stanislau Stasheuski '''

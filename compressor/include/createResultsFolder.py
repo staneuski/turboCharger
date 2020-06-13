@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-#-----------------------------------------------------------------------
-#	   ___    	 |
-#	 _|o_ |_ 	 |   Language: Python
-#	/  ___| \	 |   Version:  3.x
-#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
-#	  |__o|  	 |
-#-----------------------------------------------------------------------
-# Included script
-#     createResultsFolder
-#
-# Description
-#     Creates folder compressorResults and move results there
-# 
-#-----------------------------------------------------------------------
+# '''
+#     Description:    Create results/compressor/ folder(s) & move results there
+# '''
 
 # Creating directory if needed 
-if not os.path.exists("../results/compressor"):   os.makedirs("../results/compressor")
+if not os.path.exists("../results/compressor"):
+    os.makedirs("../results/compressor")
 
 shutil.copyfile("solvedParameters.py", "../turbine/axial/solvedParameters.py")
 shutil.move("solvedParameters.py",   "../turbine/radial/solvedParameters.py")
@@ -25,5 +15,7 @@ shutil.copyfile("compressorDict.py", "../results/compressor/compressorDict.py")
 shutil.move("axisCut.png",           "../results/compressor/axisCut.png")
 shutil.move("blades.png",            "../results/compressor/blades.png")
 shutil.move("outWheel.png",          "../results/compressor/outWheel.png")
+
 if 'VANED' in diffuserType:
-    shutil.move("perpendicularCut.png", "../results/compressor/perpendicularCut.png")
+    shutil.move("perpendicularCut.png",
+                "../results/compressor/perpendicularCut.png")

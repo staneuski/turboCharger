@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 # Method to set the value
 def plotValue(balanceCoef, upValue, downValue):
-    """
-    Sets value using two interpolated functions and balance coefficient
-    """
+    '''
+        Set value using two interpolated functions and balance coefficient
+    '''
     if (balanceCoef < 0) | (balanceCoef > 1):
         exit('Error: Balance coefficient set in the wrong way!')
     return balanceCoef*upValue + (1 - balanceCoef)*downValue
 
 def deltaPlotValue(balanceCoef, delta, downValue):
-    """
-    Sets value using the interpolated function, range 
-    and balance coefficient
-    """
+    '''
+        Set value using the interpolated function, range 
+        and balance coefficient
+    '''
     return downValue + balanceCoef*delta
 
 
