@@ -20,8 +20,8 @@ from os             import path;\
 from defaultValue   import defaultValue
 
 # Loading input data from project dictionaries
-from commonDict       import *
-from turbineDict      import *
+from commonConfig     import *
+from turbineConfig    import *
 from solvedParameters import *
 
 # Converting data to SI dimensions
@@ -45,7 +45,7 @@ elif 'DIESEL' in engineType:
     l_0 = 14.31; # [kg]
 else:
     exit('Set type of the engine correctly ("DIESEL" or "SI")\
- in commonDict.py file!\n')
+ in commonConfig.py file!\n')
 
 # Outlet turbine pressure | Давление за турбиной
 p_2 = dragInletRatio*p_a*1e+06 # [Pa]
@@ -219,7 +219,7 @@ It equals %0.1f but must be at least more then 0.4" %(M_c1))
 
 #50 Ширина b_2 рабочего колеса по направлению оси вращения
 b_2 = 2*t_2*math.sin(math.radians( beta_2 ))\
-      /c_u2/math.sin(math.radians( beta_1 ))
+      /c_u2/math.sin(math.radians( beta_1 ))\
            *math.sin(math.radians(beta_1 + beta_2))\
 
 #51 Потери в сопловом аппарате турбины

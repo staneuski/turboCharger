@@ -6,7 +6,7 @@
 #     License:        GNU General Public License 3.0 ( see LICENSE )
 #     Author:         Stanislau Stasheuski
 #
-#     File:           commonDict
+#     File:           commonConfig
 #     Description:    Common paramaters for all subprojects for 0D calculation
 #
 # '''

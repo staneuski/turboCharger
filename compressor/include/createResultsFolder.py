@@ -11,7 +11,7 @@ shutil.copyfile("solvedParameters.py", "../turbine/axial/solvedParameters.py")
 shutil.move("solvedParameters.py",   "../turbine/radial/solvedParameters.py")
 
 shutil.move("compressorReport.md",   "../results/compressorReport.md")
-shutil.copyfile("compressorDict.py", "../results/compressor/compressorDict.py")
+shutil.copyfile("compressorConfig.py", "../results/compressor/compressorConfig.py")
 shutil.move("axisCut.png",           "../results/compressor/axisCut.png")
 shutil.move("blades.png",            "../results/compressor/blades.png")
 shutil.move("outWheel.png",          "../results/compressor/outWheel.png")

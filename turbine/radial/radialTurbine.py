@@ -21,8 +21,8 @@ from defaultValue   import defaultValue
 from plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot, relD_1H, relD_2B
 
 # Loading input data from project dictionaries
-from commonDict       import *
-from turbineDict      import *
+from commonConfig     import *
+from turbineConfig    import *
 from solvedParameters import *
 
 # Converting data to SI dimensions
@@ -54,7 +54,7 @@ elif 'DIESEL' in engineType:
     l_0 = 14.31; # [kg]
 else:
     exit('Set type of the engine correctly ("DIESEL" or "SI")\
- in commonDict.py file!\n')
+ in commonConfig.py file!\n')
 
 # Flow volume | Расход
 if 'TYPE1' in projectType:

@@ -25,8 +25,8 @@ from plotToFunction     import zPlot, etaPlot, HPlot, phiPlot,\
                                relSpeedsPlot, relD_1HPlot, relD_1BPlot
 
 # Loading input data from project dictionaries
-from commonDict         import *
-from compressorDict     import *
+from commonConfig       import *
+from compressorConfig   import *
 
 # Converting data to SI dimensions
 N_e = N_e*1e03 # -> [W]
@@ -50,7 +50,7 @@ elif 'DIESEL' in engineType:
     l_0 = 14.31 # [kg]
 else:
     exit('Set type of the engine correctly ("DIESEL" or "SI")\
- in commonDict.py dictionary!\n')
+ in commonConfig.py dictionary!\n')
 
 # Effective pressure | Среднее эффективное давление
 p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber) # [Pa]

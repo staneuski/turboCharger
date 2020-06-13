@@ -6,7 +6,7 @@
     License:        GNU General Public License 3.0 ( see LICENSE )
     Author:         Stanislau Stasheuski
 
-    File:           turbineDict
+    File:           turbineConfig
     Description:    Parameters of the axial turbine
                     РК - рабочее колесо
                     СА - сопловой аппарат

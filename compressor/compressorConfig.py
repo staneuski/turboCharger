@@ -6,7 +6,7 @@
 #     License:        GNU General Public License 3.0 ( see LICENSE )
 #     Author:         Stanislau Stasheuski
 #
-#     File:           compressorDict
+#     File:           compressorConfig
 #
 #     Description:    Parameters of the compressor
 #         РК  - рабочее колесо
@@ -19,7 +19,7 @@
 import sys
 from os import path;\
     sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
-from commonDict import(p_a, T_a)
+from commonConfig import(p_a, T_a)
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 # Настройки расчёта

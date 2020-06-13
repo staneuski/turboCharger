@@ -6,10 +6,10 @@
 # Creating dir if needed
 if not os.path.exists("../../results/turbine/radial/"):   os.makedirs("../../results/turbine/radial/")
 
-shutil.copyfile("../../commonDict.py",  "../../results/commonDict.py")
+shutil.copyfile("../../commonConfig.py",  "../../results/commonConfig.py")
 
 shutil.move("radialTurbineReport.md", "../../results/radialTurbineReport.md")
-shutil.copyfile("turbineDict.py",     "../../results/turbine/radial/turbineDict.py")
+shutil.copyfile("turbineConfig.py",     "../../results/turbine/radial/turbineConfig.py")
 shutil.copyfile("solvedParameters.py","../../results/turbine/radial/solvedParameters.py")
 shutil.move("axisCut.png",            "../../results/turbine/radial/axisCut.png")
 shutil.move("inTurbineWheel.png",     "../../results/turbine/radial/inTurbineWheel.png")
