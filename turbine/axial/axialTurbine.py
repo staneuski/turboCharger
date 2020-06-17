@@ -11,7 +11,7 @@
     Description:    Calculate axial turbine parameters using 0D method
 
 '''
-
+from __future__         import division
 import math, os, shutil, sys
 from PIL                import ImageFont, Image, ImageDraw
 

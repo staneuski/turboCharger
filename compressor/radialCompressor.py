@@ -11,7 +11,7 @@
     Description:    Calculate compressor parameters using 0D method
 
 '''
-
+from __future__         import division
 import math, os, shutil, sys
 from PIL                import ImageFont, Image, ImageDraw
 
@@ -89,6 +89,7 @@ p_0Stagn = sigma_0*p_aStagn
 #  Статические температура и давление на входе в компрессор
 T_0 = T_0Stagn - pow(c_0, 2)/2/c_p
 p_0 = p_0Stagn*pow(T_0/T_0Stagn, k/(k - 1)) #[Pa]
+
 
 #4 Isentropy compression work in compressor
 #  Изоэнтропная работа сжатия в компрессоре
@@ -404,7 +405,7 @@ else:   print('\
     .format(T_1, p_1*1e-06, T_2, p_2*1e-06, T_3, p_3*1e-06, T_4, p_4*1e-06))
         
 print('Actual pressure degree increase is {0:.2f}, when\n\
-precalculated/setted pressure degree increase is {1:.2f}'\
+precalculated/set pressure degree increase is {1:.2f}'\
     .format(Pi_KStagn, Pi_K)) # (57)
 print('Error of calculation between them is {0:.3f}%\n'\
     .format(differencePi_K)) # (60)

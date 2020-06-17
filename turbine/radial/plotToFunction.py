@@ -6,7 +6,7 @@ def plotValue(balanceCoef, upValue, downValue):
         Set value using two interpolated functions and balance coefficient
     '''
     if (balanceCoef < 0) | (balanceCoef > 1):
-        exit('Error: Balance coefficient setted in the wrong way!')
+        exit('Error: Balance coefficient set in the wrong way!')
     return balanceCoef*upValue + (1 - balanceCoef)*downValue
 
 def deltaPlotValue(balanceCoef, delta, downValue):
