@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 def diffOutTemp(b_2, D_2, T_2, c_2, b_4, D_4, guessedT_4, n_4):  
-    "Calculates diffuser output temperature"
+    '''
+        Description:    Calculate diffuser output temperature
+    '''
 
     # Import data from dictionary
     import sys
     from os import path
     sys.path.append( path.dirname( path.abspath(__file__) ) ) 
-    from commonDict import(k, R)
+    from commonConfig import(k, R)
         
     # Precalculations
     q = pow(D_2*b_2/D_4/b_4, 2);

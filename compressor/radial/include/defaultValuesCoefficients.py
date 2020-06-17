@@ -1,18 +1,7 @@
 # -*- coding: utf-8 -*-
-#-----------------------------------------------------------------------
-#	   ___    	 |
-#	 _|˚_ |_ 	 |   Language: Python
-#	/  ___| \	 |   Version:  2.7
-#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
-#	  |__˚|  	 |
-#-----------------------------------------------------------------------
-# Included script
-#     defaultValuesCoefficients
-#
-# Description
-#     Default values for coefficients
-# 
-#-----------------------------------------------------------------------
+# '''
+#     Description:    Default values for coefficients
+# '''
 
 beta_2Blade         = defaultValue(beta_2Blade, 75)
 
@@ -34,8 +23,9 @@ if 'VANELESS' in diffuserType:
 elif 'VANED' in diffuserType:
     vanelessWideCoef    = defaultValue(vanelessWideCoef,    1)
     vanelessDiamCoef    = defaultValue(vanelessDiamCoef,    1.14)    
-else:   exit('Set type of the diffuser correctly ("VANED"\
- or "VANELESS") in commonDict.py dictionary!\n')
+else:
+    exit('\033[91mError: Set type of the diffuser correctly ("VANED"\
+ or "VANELESS") in commonConfig.py dictionary!\n')
 vanedWideCoef       = defaultValue(vanedWideCoef,       1)
 vanedDiamCoef       = defaultValue(vanedDiamCoef,       1.6)
 relDiffOutToCompOut = defaultValue(relDiffOutToCompOut, 1.4)

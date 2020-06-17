@@ -3,4 +3,5 @@
 solvedParameters.py
 
 # Folders
+__pycache__/
 results/

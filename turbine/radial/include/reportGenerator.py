@@ -1,22 +1,11 @@
 # -*- coding: utf-8 -*-
-#-----------------------------------------------------------------------
-#	   ___    	 |
-#	 _|˚_ |_ 	 |   Language: Python
-#	/  ___| \	 |   Version:  2.7
-#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
-#	  |__˚|  	 |
-#-----------------------------------------------------------------------
-# Included script
-#     createResultsFolder
-#
-# Description
-#     Generates the report
-# 
-#-----------------------------------------------------------------------
+# '''
+#     Description:    Generates the report
+# '''
 
 r = open("radialTurbineReport.md", "w")
 r.write("#Данные для расчёта турбины\n")
-if 'termPaper' in projectType:    r.write(
+if 'TYPE1' in projectType:    r.write(
  "- В соответствии с исходными данными для наддува двигателя имеем:\
  \n$$\n G_{K} = %0.4f\quad кг/с;\quad \\alpha = %1.1f;\quad \\varphi\
   = %3.3f,\quad l_{0} = %4.2f\n$$\n\n"
@@ -307,7 +296,7 @@ r.write("61. При сравнении с исходным $$\eta_{Te}$$\
  имеем незначительную погрешность:\
  \n$$\n {\mid {\eta'}_{Тe} - \eta_{Тe}  \mid \over {\eta'}_{Тe}}\
  = %0.3f \%% \n$$\n\n"
- %differenceEta)
+ %errorEta)
 r.write("62. Эффективная работа турбины:\
  \n$$\n L_{Тe} = L_{TS}{\eta'}_{Тe} = %0.1f\quad Дж/кг \n$$\n\n"
  %L_Te)
@@ -317,7 +306,7 @@ r.write("63. Мощность на валу турбины:\
 r.write("64. Расхождение с мощностью,\
  потребляемой компрессором, незначительно:\
  \n$$\n {\mid N_{K} - N_{T} \mid \over N_{K}} = %0.3f \%% \n$$\n\n"
- %differenceN)
+ %errorN)
 r.close()
 
 

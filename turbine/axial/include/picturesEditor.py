@@ -1,18 +1,7 @@
 # -*- coding: utf-8 -*-
-#-----------------------------------------------------------------------
-#	   ___    	 |
-#	 _|˚_ |_ 	 |   Language: Python
-#	/  ___| \	 |   Version:  2.7
-#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
-#	  |__˚|  	 |
-#-----------------------------------------------------------------------
-# Included script
-#     createResultsFolder
-#
-# Description
-#     Edits pictures
-# 
-#-----------------------------------------------------------------------
+# '''
+#     Description:    createResultsFolder
+# '''
 
 # Loading Fonts
 font = ImageFont.truetype('../../etc/fontGOST.ttf', 18)

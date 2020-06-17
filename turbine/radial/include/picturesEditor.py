@@ -1,20 +1,9 @@
 # -*- coding: utf-8 -*-
-#-----------------------------------------------------------------------
-#	   ___    	 |
-#	 _|˚_ |_ 	 |   Language: Python
-#	/  ___| \	 |   Version:  2.7
-#	\_| ____/	 |   Website:  https://github.com/StasF1/turboCharger
-#	  |__˚|  	 |
-#-----------------------------------------------------------------------
-# Included script
-#     createResultsFolder
-#
-# Description
-#     Edits pictures
-# 
-#-----------------------------------------------------------------------
+# '''
+#     Description:    Edit pictures
+# '''
 
-# Loading Fonts
+# Load Fonts
 font = ImageFont.truetype('../../etc/fontGOST.ttf', 18)
 
 # axisCut.png
