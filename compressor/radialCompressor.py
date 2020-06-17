@@ -435,13 +435,8 @@ exec(compile(open('include/savingParametersForTurbine.py', "rb").read(),
 # Generate report
 # ~~~~~~~~~~~~~~~
 # Create a report
-if 'VANELESS' in diffuserType: # Vaneless diffuser | БЛД
-    exec(compile(open('include/reportGeneratorVANELESS.py', "rb").read(),
-                      'include/reportGeneratorVANELESS.py', 'exec'))
-else: # Vaned diffuser | ЛД
-    exec(compile(open('include/reportGeneratorVANED.py', "rb").read(),
-                      'include/reportGeneratorVANED.py', 'exec'))
-
+exec(compile(open('include/reportGenerator.py', "rb").read(),
+                  'include/reportGenerator.py', 'exec'))
 # Edit pictures
 exec(compile(open('include/picturesEditor.py', "rb").read(),
                   'include/picturesEditor.py', 'exec'))
