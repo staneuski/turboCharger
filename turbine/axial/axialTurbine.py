@@ -29,9 +29,10 @@ from solvedParameters import *
 turboChargerLogo()
 
 # Converting data to SI dimensions
-N_e = N_e*1e+03 # -> [W]
-g_e = g_e*1e-03 # -> [kg/W/h] or [g/kW/h]
-if issubclass(type(delta), float):    delta = delta*1e-03 # -> [m]
+N_e *= 1e+03 # -> [W]
+g_e *= 1e-03 # -> [kg/W/h] or [g/kW/h]
+if issubclass(type(delta), float):
+    delta *= 1e-03 # -> [m]
 
 # Set default values
 exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(),
@@ -136,9 +137,9 @@ else:
 It equals %0.1f but must be at least more then 0.4" %(M_c1))
 
 #27 Ширина b_1 соплового аппарата по направлению оси вращения
-b_1 = t_1*2*math.sin(math.radians( alpha_1 ))\
-    *math.sin(math.radians(alpha_0 + alpha_1))\
-    /math.sin(math.radians( alpha_0 ))/c_u1
+b_1 = (math.sin(math.radians( alpha_1 )*t_1*2)
+      *math.sin(math.radians(alpha_0 + alpha_1))
+      /math.sin(math.radians( alpha_0 ))/c_u1))
 
 #28 Относительная скорость w1 на входе в рабочее колесо
 w_1 = math.sqrt(
@@ -217,9 +218,9 @@ else:
 It equals %0.1f but must be at least more then 0.4" %(M_c1))
 
 #50 Ширина b_2 рабочего колеса по направлению оси вращения
-b_2 = 2*t_2*math.sin(math.radians( beta_2 ))\
-      /c_u2/math.sin(math.radians( beta_1 ))\
-           *math.sin(math.radians(beta_1 + beta_2))\
+b_2 = (2*t_2*math.sin(math.radians( beta_2 ))
+       /c_u2/math.sin(math.radians( beta_1 ))
+            *math.sin(math.radians(beta_1 + beta_2)))
 
 #51 Потери в сопловом аппарате турбины
 Z_c = (1/pow(phiLosses, 2) - 1)*pow(c_1, 2)/2

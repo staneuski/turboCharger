@@ -27,13 +27,14 @@ from commonConfig     import *
 from turbineConfig    import *
 from solvedParameters import *
 
-# Converting data to SI dimensions
-N_e = N_e*1e+03 # -> [W]
-g_e = g_e*1e-03 # -> [kg/W/h] or [g/kV/h]
-if issubclass(type(delta), float):    delta = delta*1e-03 # -> [m]
-
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 turboChargerLogo()
+
+# Converting data to SI dimensions
+N_e *= 1e+03 # -> [W]
+g_e *= 1e-03 # -> [kg/W/h] or [g/kV/h]
+if issubclass(type(delta), float):
+    delta *= 1e-03 # -> [m]
 
 # Set default values
 exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(),

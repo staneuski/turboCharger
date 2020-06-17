@@ -22,8 +22,8 @@ from errorVar         import printError
 from piK              import piK
 from diffOutTemp      import diffOutTemp
 from standardisedSize import standardisedSize
-from plotToFunction   import zPlot, etaPlot, HPlot, phiPlot,\
-                             relSpeedsPlot, relD_1HPlot, relD_1BPlot
+from plotToFunction   import zPlot, etaPlot, HPlot, phiPlot, relSpeedsPlot,\
+                             relD_1HPlot, relD_1BPlot
 
 # Loading input data from project dictionaries
 from commonConfig       import *
@@ -33,10 +33,10 @@ from compressorConfig   import *
 turboChargerLogo()
 
 # Converting data to SI dimensions
-N_e = N_e*1e03 # -> [W]
-g_e = g_e*1e-03 # -> [kg/W/h] or [g/kW/h]
-p_aStagn = p_aStagn*1e06 # -> [Pa]
-D = D*1e-02;      S = S*1e-02 # -> [m]
+N_e      *= 1e03 # -> [W]
+g_e      *= 1e-03 # -> [kg/W/h] or [g/kW/h]
+p_aStagn *= 1e06 # -> [Pa]
+D        *= 1e-02;    S *= 1e-02 # -> [m]
 
 # Set default values
 exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(),
@@ -102,19 +102,19 @@ if u_2 >= 550:    exit('\033[91mError 5:\
  Wheel outer diameter circular velocity is too high!\n\
 Try to increase wheel diameter &/or set other ECE parameters')
 
-#6 Абсолютная скорость потока на входе в рабочее колесо 
+#6 Абсолютная скорость потока на входе в рабочее колесо
 phi_flow = phiPlot(phi_flow, D_2)
 c_1 = phi_flow*u_2
 
 #7 Температура воздуха на входе в рабочее колесо
-T_1 = T_0 + (pow(c_0, 2) - pow(c_1, 2))/2/c_p 
+T_1 = T_0 + (pow(c_0, 2) - pow(c_1, 2))/2/c_p
 
 #8 Расчёт потерь энергии во впускном коллекторе
 L_inlet = dzeta_inlet*pow(c_1, 2)/2
 
 #9 Показатель политропы сжатия в компрессоре
-n_1 = ( k/(k - 1) - L_inlet/R/(T_1 - T_0) )/ \
-( k/(k - 1) - L_inlet/R/(T_1 - T_0) - 1)
+n_1 = (( k/(k - 1) - L_inlet/R/(T_1 - T_0) )/
+       ( k/(k - 1) - L_inlet/R/(T_1 - T_0) - 1))
 
 #10 Давление на входе в колесо
 p_1 = p_0*pow(T_1/T_0, n_1/(n_1 - 1))
@@ -210,15 +210,15 @@ For diameter of the wheel %0.0fmm this diapason is from %1.0f to %2.0f.'
 %(D_2*1e+03, round(zLower + 0.5), int(zUpper)) )
 
 #31 Коэффициент мощности учитывабщий число лопаток и проч.
-mu = 1/(1+2/3*math.pi/z_K \
+mu = 1/(1+2/3*math.pi/z_K
     *math.sin(math.radians(beta_2Blade))/(1 - pow(D_1/D_2, 2)) )
 
 #32 Температура воздуха за колесом
 T_2 = T_1 + (mu + alpha_wh - 0.5*pow(mu, 2))*pow(u_2, 2)/c_p
 
 #33 Показатель политропы сжатия в колесе
-n_2 = ( k/(k - 1) - (L_BA + L_TF + L_TB)/R/(T_2 - T_1) )/ \
-( k/(k - 1) - (L_BA + L_TF + L_TB)/R/(T_2 - T_1) - 1)
+n_2 = (( k/(k - 1) - (L_BA + L_TF + L_TB)/R/(T_2 - T_1) )/
+       ( k/(k - 1) - (L_BA + L_TF + L_TB)/R/(T_2 - T_1) - 1))
 
 #34 Давление на выходе из колеса
 p_2 = p_1*pow(T_2/T_1, n_2/(n_2 - 1))
@@ -381,10 +381,11 @@ p_vStagn = p_KStagn*sigma_c*sigma_v
 #   давления компрессора
 errorPi_K = abs(Pi_KStagn - Pi_K)/Pi_K*100 
 
+D_2_mm = D_2*1e+03
+
 # Displaying the results
 # ~~~~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
-D_2_mm = D_2*1e+03
 print('Diameter of the wheel is {0:.0f} mm\n' .format(D_2_mm)) # (15)
 
 print('Parameters by cuts:')
