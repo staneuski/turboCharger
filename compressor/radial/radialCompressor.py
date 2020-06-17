@@ -11,23 +11,26 @@
     Description:    Calculate compressor parameters using 0D method
 
 '''
-from __future__         import division
+from __future__ import division
 import math, os, shutil, sys
-from PIL                import ImageFont, Image, ImageDraw
+from PIL        import ImageFont, Image, ImageDraw
+sys.path.extend(['../../', '../../etc/'])
 
-from piK                import piK
-from diffOutTemp        import diffOutTemp
-from standardisedSize   import standardisedSize
-from os             import path;\
-    sys.path.append( path.dirname( path.dirname( path.dirname( path.abspath(__file__) ) ) ) )
-from defaultValue   import defaultValue
-from defaultValue       import defaultValue
-from plotToFunction     import zPlot, etaPlot, HPlot, phiPlot,\
-                               relSpeedsPlot, relD_1HPlot, relD_1BPlot
+from logo             import turboChargerLogo
+from defaultValue     import defaultValue
+from errorVar         import printError
+from piK              import piK
+from diffOutTemp      import diffOutTemp
+from standardisedSize import standardisedSize
+from plotToFunction   import zPlot, etaPlot, HPlot, phiPlot,\
+                             relSpeedsPlot, relD_1HPlot, relD_1BPlot
 
 # Loading input data from project dictionaries
 from commonConfig       import *
 from compressorConfig   import *
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+turboChargerLogo()
 
 # Converting data to SI dimensions
 N_e = N_e*1e03 # -> [W]
@@ -38,11 +41,6 @@ D = D*1e-02;      S = S*1e-02 # -> [m]
 # Set default values
 exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(),
                   'include/defaultValuesCoefficients.py', 'exec'))
-# Output the logo
-exec(compile(open('../../etc/logo.py', "rb").read(),
-                  '../../etc/logo.py', 'exec'))
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
 if 'SI' in engineType:
@@ -100,7 +98,7 @@ L_KsStagn = c_p*T_0Stagn*(pow(Pi_K, (k - 1)/k) - 1)
 #  Окружная скорость на наружном диаметре колеса
 H_KsStagn = HPlot(H_KsStagn, D_2)
 u_2 = math.sqrt(L_KsStagn / H_KsStagn)
-if u_2 >= 550:    exit('Error 5:\n\
+if u_2 >= 550:    exit('\033[91mError 5:\
  Wheel outer diameter circular velocity is too high!\n\
 Try to increase wheel diameter &/or set other ECE parameters')
 
@@ -124,14 +122,13 @@ p_1 = p_0*pow(T_1/T_0, n_1/(n_1 - 1))
 #11 Плотность на входе в колесо
 rho_1 = p_1/R/T_1
 
-
 #13 Наружный диаметр колеса на входе D_1H
 F_1 = G_K/c_1/rho_1 # площадь поперечного сечения в колесе
 
 relD_1H = relD_1HPlot(relD_1H, D_2)
 relD_1B = relD_1BPlot(relD_1B, D_2)
 if relD_1B/relD_1H >= 1:
-    exit('Error 13: Relation relD_1B/relD_1H = %0.2f > 1.\n\
+    exit('\033[91mError 13: Relation relD_1B/relD_1H = %0.2f > 1.\n\
 Square root argument is less than 0!' %(relD_1B/relD_1H) )
 
 D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1B/relD_1H, 2)) )
@@ -163,10 +160,9 @@ u_1 = math.pi*D_1*n_tCh/60
 #19 Угол входа потока в рабочее колесо на среднем диамметре в
 #   относительном движении
 beta_1 = math.degrees(math.atan( c_1/u_1 ))
-if issubclass(type(iDeg), str):    
-    print('Degree of the wheel inlet flow is {0:.3f}' .format(beta_1))
-    print('Now you can set "i", using recomendations')
-    exit()
+if issubclass(type(iDeg), str):
+    exit('''Degree of the wheel inlet flow is {0:.3f}
+Now you can set "i", using recomendations'''.format(beta_1))
 
 #20 Угол установки лопаток на среднем диаметре
 beta_1Blade = beta_1 + iDeg
@@ -183,9 +179,9 @@ w_1H = math.sqrt(pow(c_1Tau, 2) + pow(u_1H, 2))
 #24 Число маха на наружном диаметре входа в колесо
 M_w1 = w_1H/math.sqrt(k*R*T_1)
 if M_w1 > 0.9:
-    print('Warning 24: Mach number is too high!\n\
+    print('\033[93mWarning 24: Mach number is too high!\n\
 It must be less than 0.9 but it equals {0:.3f}\n\
-Try to increase "tau_1", "relD_1H" &/or decrease "phi_flow", "relD_1B".\n'\
+Try to increase "tau_1", "relD_1H" &/or decrease "phi_flow", "relD_1B".\033[0m\n'\
     .format(M_w1))
 
 #25 Относительная скорость на среднем диаметре входа в колесо
@@ -209,7 +205,7 @@ L_TB = alpha_wh*pow(u_2, 2)
 zLower = zPlot(0, D_2)
 zUpper = zPlot(1, D_2)
 if (z_K < zLower) | (z_K > zUpper):
-    exit('Error 30: Number of blades is not in the allowable diapason!\n\
+    exit('\033[91mError 30: Number of blades is not in the allowable diapason!\n\
 For diameter of the wheel %0.0fmm this diapason is from %1.0f to %2.0f.'
 %(D_2*1e+03, round(zLower + 0.5), int(zUpper)) )
 
@@ -285,7 +281,7 @@ else: # Расчёт параметров лопаточного диффузо�
     n_4 = n_diffuser
 
     #F50 Проверка на число лопаток относительно их количества в РК
-    if (z_diffuser < z_K - 5) | (z_diffuser > z_K + 2):    exit('Error F50:\
+    if (z_diffuser < z_K - 5) | (z_diffuser > z_K + 2):    exit('\033[91mError F50:\
  Number of diffuser vanes is not in the allowable diapason!\n\
 It must be less than number of %0.0f blades the wheel.' %z_K)
 
@@ -367,13 +363,13 @@ L_KsStagnRated = c_p*T_0Stagn*(pow(Pi_KStagn, (k - 1)/k) - 1)
 eta_KsStagnRated = (pow(Pi_KStagn, (k - 1)/k) - 1) / (T_KStagn/T_0Stagn - 1)
 
 #60 Расхождение с заданным КПД компрессора
-differenceEta = abs(eta_KsStagnRated - eta_KsStagn)/eta_KsStagn*100
+errorEta = abs(eta_KsStagnRated - eta_KsStagn)/eta_KsStagn*100
 
 #61 Расчётный коэффициент напора по заторможенным параметрам
 H_KsStagnRated = L_KsStagnRated/pow(u_2, 2)
 
 #62 Расхождение с заданным КПД компрессора
-differenceH = abs(H_KsStagnRated - H_KsStagn)/H_KsStagn*100
+errorH = abs(H_KsStagnRated - H_KsStagn)/H_KsStagn*100
 
 #63 Мощность затрачиваемая на привод компрессора
 N_K = G_K*L_KsStagn/eta_KsStagnRated
@@ -383,8 +379,7 @@ p_vStagn = p_KStagn*sigma_c*sigma_v
 
 #65 Расхождение с предварительно оценнёной/заданной степенью повышения
 #   давления компрессора
-differencePi_K = abs(Pi_KStagn - Pi_K)/Pi_K*100 
-
+errorPi_K = abs(Pi_KStagn - Pi_K)/Pi_K*100 
 
 # Displaying the results
 # ~~~~~~~~~~~~~~~~~~~~~~
@@ -404,26 +399,23 @@ else:   print('\
     3-3: T_3 = {4:.0f} K,   p_3 = {5:.4f} MPa\n\
     4-4: T_4 = {6:.0f} K,   p_4 = {7:.4f} MPa\n'\
     .format(T_1, p_1*1e-06, T_2, p_2*1e-06, T_3, p_3*1e-06, T_4, p_4*1e-06))
-        
+
 print('Actual pressure degree increase is {0:.2f}, when\n\
 precalculated/set pressure degree increase is {1:.2f}'\
     .format(Pi_KStagn, Pi_K)) # (57)
-print('Error of calculation between them is {0:.3f}%\n'\
-    .format(differencePi_K)) # (60)
-    
+printError(errorPi_K) # (60)
+
 print("Energy conversion efficiency coeficients are:\n\
     eta_Ks*  = {0:.4f} - set\n\
     eta_Ks*' = {1:.4f} - rated"\
     .format(eta_KsStagn, eta_KsStagnRated)) # (dict) & (59)
-print('Error of calculation between them is {0:.3f}%\n'\
-    .format(differenceEta)) # (60)
+printError(errorEta) # (60)
 
 print("Isentropy head coeficients are:\n\
     H_Ks*  = {0:.4f} - set\n\
     H_Ks*' = {1:.4f} - rated"\
     .format(H_KsStagn, H_KsStagnRated)) # (dict) & (61)
-print('Error of calculation between them is {0:.3f}%\n'\
-    .format(differenceH)) # (62)
+printError(errorH) # (62)
 
 print("If something doesn't work correctly make a new issue or check the others:\n\
 https://github.com/StasF1/turboCharger/issues")

@@ -11,14 +11,16 @@
     Description:    Calculate radial turbine parameters using 0D method
 
 '''
-from __future__         import division
+from __future__ import division
 import math, os, shutil, sys
-from PIL                import ImageFont, Image, ImageDraw
+from PIL        import ImageFont, Image, ImageDraw
+sys.path.extend(['../../', '../../etc/'])
 
-from os             import path;\
-    sys.path.append( path.dirname( path.dirname( path.dirname( path.abspath(__file__) ) ) ) )
-from defaultValue   import defaultValue
-from plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot, relD_1H, relD_2B
+from logo             import turboChargerLogo
+from errorVar         import printError
+from defaultValue     import defaultValue
+from plotToFunction   import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot,\
+                             relD_1H, relD_2B
 
 # Loading input data from project dictionaries
 from commonConfig     import *
@@ -26,16 +28,16 @@ from turbineConfig    import *
 from solvedParameters import *
 
 # Converting data to SI dimensions
-N_e = N_e*1e+03; # -> [W]
-g_e = g_e*1e-03; # -> [kg/W/h] or [g/kV/h]
-if issubclass(type(delta), float):    delta = delta*1e-03; # -> [m]
+N_e = N_e*1e+03 # -> [W]
+g_e = g_e*1e-03 # -> [kg/W/h] or [g/kV/h]
+if issubclass(type(delta), float):    delta = delta*1e-03 # -> [m]
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+turboChargerLogo()
 
 # Set default values
 exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(),
                   'include/defaultValuesCoefficients.py', 'exec'))
-# Output the logo
-exec(compile(open('../../etc/logo.py', "rb").read(),
-                  '../../etc/logo.py', 'exec'))
 
 # Set values using balance coefficients from dictionary
 eta_Te         = etaPlot(eta_Te,         D_2K)
@@ -45,32 +47,30 @@ psiLosses      = psiPlot(psiLosses,      D_2K)
 outerDiamRatio = relD_1H(outerDiamRatio, D_2K)
 innerDiamRatio = relD_2B(innerDiamRatio, D_2K)
 
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
 if 'SI' in engineType:
-    l_0 = 14.28; # [kg] \\\\\\ проверить!
+    l_0 = 14.28 # [kg]
 elif 'DIESEL' in engineType:
-    l_0 = 14.31; # [kg]
+    l_0 = 14.31 # [kg]
 else:
     exit('Set type of the engine correctly ("DIESEL" or "SI")\
  in commonConfig.py file!\n')
 
 # Flow volume | Расход
 if 'TYPE1' in projectType:
-    G_K = N_e*g_e*l_0*alpha*phi/3600; # [kg/s]
+    G_K = N_e*g_e*l_0*alpha*phi/3600 # [kg/s]
 
 # Inlet turbine temperature (for HW) | Температура перед турбиной
 if 'HW' in projectType:
     if D_2K < 0.3:
-        T_0Stagn = 923;
+        T_0Stagn = 923
     elif (D_2K > 0.3) & (D_2K < 0.64):
-        T_0Stagn = 823;
+        T_0Stagn = 823
     else:
-        exit("Error 0: The diameter of the wheel is too big!")
+        exit("\033[91mError 0: The diameter of the wheel is too big!")
 
 # Outlet turbine pressure | Давление за турбиной
-p_2 = dragInletRatio*p_a*1e+06; # [Pa]
+p_2 = dragInletRatio*p_a*1e+06 # [Pa]
 
 
 # Radial turbine parameters
@@ -91,7 +91,7 @@ c_2s = math.sqrt( 2*L_TsStagn )
 #6 Расчёт параметра ksi
 ksi = u_1/c_2s
 ksiLower = ksiPlot(0, D_2K);    ksiUpper= ksiPlot(1, D_2K)
-if (ksi < ksiLower) | (ksi > ksiUpper): exit("Error 6:\
+if (ksi < ksiLower) | (ksi > ksiUpper): exit("\033[91mError 6:\
  Parameter 'ksi' is not in the allowable diapason!\
  It equals %2.3f but must be from %0.2f to %1.3f."
  %(ksiLower, ksiUpper, ksi))
@@ -103,7 +103,7 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) )
 #  части и давлением газа на входе в турбину
 pressureRelation = p_vStagn/p_0Stagn
 if (pressureRelation < 1.1) | (pressureRelation > 1.3):
-    exit("Error 8: Pressure ratio is not in the allowable diapason!\n\
+    exit("\033[91mError 8: Pressure ratio is not in the allowable diapason!\n\
 It equals %0.2f but must be from 1.1 to 1.3.\n\
 Scavenging cannot be happen." %pressureRelation)
 
@@ -118,7 +118,7 @@ D_2 = math.sqrt(( pow(D_2B, 2) + pow(D_2H, 2) )/2)
 
 #12 Вычисление параметра µ
 mu = D_2/D_1
-if (mu < 0.5) | (mu > 0.8): exit("Error 12:\
+if (mu < 0.5) | (mu > 0.8): exit("\033[91mError 12:\
  Geometeric parameter 'mu' is not in the allowable diapason! (It equals %0.2f)" %mu)
 
 #15 Изоэнтропная работа расширения (располагаемый теплоперепад)
@@ -145,7 +145,7 @@ w_1 = math.sqrt(pow(c_1r, 2) - pow(w_1u, 2))
 #23 Значение угла β_1 наклона вектора относительной скорости w_1
 beta_1 = beta_1Blade - math.degrees(math.atan( w_1u/c_1r ))
 if (beta_1 < 80) | (beta_1 > 100):
-    exit("Error 23: Angle 'beta_1' is not in the allowable diapason!\n\
+    exit("\033[91mError 23: Angle 'beta_1' is not in the allowable diapason!\n\
 It equals %0.1f but must be from 80 to 100 degrees." %beta_1)
 
 #24 Температура газа на входе в колесо
@@ -192,7 +192,7 @@ w_2a = G_F2/F_2/ro_2
 #38 Окружная составляющая относительной скорости на выходе из колеса
 if (pow(w_2, 2) - pow(w_2a, 2)) > 0:
     w_2u = math.sqrt(pow(w_2, 2) - pow(w_2a, 2))
-else:   exit("Error 38: Radicand is less then 0!\n\
+else:   exit("\033[91mError 38: Radicand is less then 0!\n\
 Difference between speeds is %0.3f m/s." %(w_2a - w_2) )
 
 #39 Угол β_2 наклона вектора относительной скорости w2
@@ -208,7 +208,7 @@ c_2 = math.sqrt(pow(w_2a, 2) + pow(c_2u, 2))
 #42 Угол α_2 выхода потока из колеса в абсолютном движении
 alpha_2 = 90 - math.degrees(math.atan( c_2u/w_2a ))
 if (alpha_2 < 75) | (alpha_2 > 105):
-    exit("Error 42: Angle 'alpha_2' is not in the allowable diapason!\n\
+    exit("\033[91mError 42: Angle 'alpha_2' is not in the allowable diapason!\n\
 It equals %0.1f but must be from 75 to 105 degrees." %alpha_2)
 
 #43 Потери в сопловом аппарате турбины
@@ -248,7 +248,7 @@ L_Tu = L_TBlades - Z_UnsteadyOutlet
 #53 Окружной КПД η_тu турбины
 eta_Tu = L_Tu/L_TsStagn
 if (eta_Tu < 0.75) | (eta_Tu > 0.9):
-    exit("Error 53: Angle 'eta_Tu' is not in the allowable diapason!\n\
+    exit("\033[91mError 53: Angle 'eta_Tu' is not in the allowable diapason!\n\
 It equals %0.3f but must be from 0.75 to 0.9." %eta_Tu)
 
 #54 Потери Zу, обусловленные утечкой газа через радиальные зазоры
@@ -275,7 +275,7 @@ eta_Ti = L_Ti/L_TsStagn
 eta_TeRated = eta_m*eta_Ti
 
 #61 Расхождение с заданным КПД турбины
-differenceEta = abs(eta_TeRated - eta_Te)/eta_Te*100 # [%]
+errorEta = abs(eta_TeRated - eta_Te)/eta_Te*100 # [%]
 
 #62 Эффективная работа L_т е турбины
 L_Te = eta_TeRated*L_TsStagn
@@ -284,7 +284,7 @@ L_Te = eta_TeRated*L_TsStagn
 N_T = L_Te*G_T
 
 #64 Расхождение с мощностью N_к, потребляемой компрессором
-differenceN = abs(N_K - N_T)/N_K*100 # [%]
+errorN = abs(N_K - N_T)/N_K*100 # [%]
 
 
 # Display the results
@@ -294,13 +294,13 @@ print("Energy conversion efficiency coeficients are:\n\
     eta_Te  = {0:.4f} - set\n\
     eta_Te' = {1:.4f} - rated"\
     .format(eta_Te, eta_TeRated)) # (dict) & (60)
-print('Error of calculation between them is {0:.3f}%\n' .format(differenceEta)) # (61)
+printError(errorEta) # (61)
 
 print("Power consumption:\n\
     N_c = {N_K_kW:.3f} kW - of compressor\n\
     N_t = {N_T_kW:.3f} kW - of turbine"\
-    .format(N_K_kW = N_K*1e-03, N_T_kW = N_T*1e-03)); # (compressor) & (63)
-print('Error of calculation between them is {0:.3f}%\n' .format(differenceN)) # (62)
+    .format(N_K_kW = N_K*1e-03, N_T_kW = N_T*1e-03)) # (compressor) & (63)
+printError(errorN) # (62)
 
 print("If something doesn't work correctly make a new issue or check the others:\n\
 https://github.com/StasF1/turboCharger/issues")

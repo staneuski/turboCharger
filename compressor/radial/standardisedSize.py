@@ -11,7 +11,7 @@ def standardisedSize(size):
     '''
 
     if size < 1:
-        print("Warning!\nSize is small to be standartized!\nIt was set like 1 mm.")
+        print("\033[93mWarning!\nSize is small to be standartized!\nIt was set like 1 mm.\033[0m")
         size = 1
 
     elif (size >= 1) & (size < 16):

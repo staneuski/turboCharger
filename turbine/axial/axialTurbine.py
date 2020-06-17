@@ -11,38 +11,37 @@
     Description:    Calculate axial turbine parameters using 0D method
 
 '''
-from __future__         import division
+from __future__ import division
 import math, os, shutil, sys
-from PIL                import ImageFont, Image, ImageDraw
+from PIL        import ImageFont, Image, ImageDraw
+sys.path.extend(['../../', '../../etc/'])
 
-from os             import path;\
-    sys.path.append( path.dirname( path.dirname( path.dirname( path.abspath(__file__) ) ) ) )
-from defaultValue   import defaultValue
+from logo             import turboChargerLogo
+from errorVar         import printError
+from defaultValue     import defaultValue
 
 # Loading input data from project dictionaries
 from commonConfig     import *
 from turbineConfig    import *
 from solvedParameters import *
 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+turboChargerLogo()
+
 # Converting data to SI dimensions
 N_e = N_e*1e+03 # -> [W]
 g_e = g_e*1e-03 # -> [kg/W/h] or [g/kW/h]
-if issubclass(type(delta), float):    delta = delta*1e-03; # -> [m]
+if issubclass(type(delta), float):    delta = delta*1e-03 # -> [m]
 
 # Set default values
 exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(),
                   'include/defaultValuesCoefficients.py', 'exec'))
-# Output the logo
-exec(compile(open('../../etc/logo.py', "rb").read(),
-                  '../../etc/logo.py', 'exec'))
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
 if 'SI' in engineType:
-    l_0 = 14.25; # [kg]
+    l_0 = 14.25 # [kg]
 elif 'DIESEL' in engineType:
-    l_0 = 14.31; # [kg]
+    l_0 = 14.31 # [kg]
 else:
     exit('Set type of the engine correctly ("DIESEL" or "SI")\
  in commonConfig.py file!\n')
@@ -72,7 +71,7 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) )
 #  поршневой части и давлением газа на входе в турбину
 pressureRelation = p_vStagn/p_0Stagn
 if (pressureRelation <= 1.1):
-    exit("\nError 8: Scavenging cannot happen because the pressure ratio is too small!\n\
+    exit("\n\033[91mError 8: Scavenging cannot happen because the pressure ratio is too small!\n\
 It equals %0.2f, but must be more than 1.1\n" %pressureRelation)
 
 #9 Изоэнтропная работа расширения
@@ -112,7 +111,7 @@ D_1 = 60*u_1/math.pi/n_TCh
 #21 Высота лопаток соплового аппарата
 l_1 = G_T/math.pi/D_1/ro_1/c_1/math.sin(math.radians( alpha_1 ))
 if (l_1/D_1 < 0.16) | (l_1/D_1 > 0.25):
-    exit("\nError 21: Blade height 'l_1' is not in the allowable diapason!\n\
+    exit("\n\033[91mError 21: Blade height 'l_1' is not in the allowable diapason!\n\
 It equals %0.2f but must be from 0.16 to 0.25" %(l_1/D_1))
 
 #22 Шаг решётки соплового аппарата
@@ -133,7 +132,7 @@ if (M_c1 > 0.4) & (M_c1 < 0.6):
 elif M_c1 >= 0.6:
     a_1 = t_1*math.sin(math.radians( alpha_1 ))
 else:
-    exit("\nError 26: Mach number is not in the allowable diapason!\n\
+    exit("\n\033[91mError 26: Mach number is not in the allowable diapason!\n\
 It equals %0.1f but must be at least more then 0.4" %(M_c1))
 
 #27 Ширина b_1 соплового аппарата по направлению оси вращения
@@ -193,7 +192,7 @@ c_2 = math.sqrt(pow(c_2a, 2) + pow(c_2u, 2))
 #44 Угол α_2 выхода потока из колеса в абсолютном движении
 alpha_2 = math.degrees(math.asin( c_2a/c_2 ))
 if (alpha_2 < 80) | (alpha_2 > 100):
-    exit("\nError 44: Angle 'alpha_2' is not in the allowable diapason!\n\
+    exit("\n\033[91mError 44: Angle 'alpha_2' is not in the allowable diapason!\n\
 It equals %0.1f but must be from 80 to 100 degrees." %alpha_2)
 
 #45 Шаг решётки рабочего колеса
@@ -214,7 +213,7 @@ if (M_c1 > 0.4) & (M_c1 < 0.6):
 elif M_c1 >= 0.6:
     a_2 = t_2*math.sin(math.radians( beta_2 ))
 else:
-    exit("\nError 49: Mach number is not in the allowable diapason!\n\
+    exit("\n\033[91mError 49: Mach number is not in the allowable diapason!\n\
 It equals %0.1f but must be at least more then 0.4" %(M_c1))
 
 #50 Ширина b_2 рабочего колеса по направлению оси вращения
@@ -252,7 +251,7 @@ L_Tu = u_1*(c_1u + c_2u)
 #59 Окружной КПД η_тu турбины
 eta_Tu = L_Tu/L_TsStagn
 if (eta_Tu < 0.8) | (eta_Tu > 0.9):
-    print("\nError 59: ECE 'eta_Tu' is not in the allowable diapason!\n\
+    print("\n\033[91mError 59: ECE 'eta_Tu' is not in the allowable diapason!\n\
 It equals {0:.3f} but must be from 0.8 to 0.9\n" .format(eta_Tu))
 
 #60 Потери Z_у, обусловленные утечкой газа через радиальные зазоры
@@ -279,7 +278,7 @@ eta_Ti = L_Ti/L_TsStagn
 eta_TeRated = eta_m*eta_Ti
 
 #67 Расхождение с заданным КПД турбины
-differenceEta = abs(eta_TeRated - eta_Te)/eta_Te*100
+errorEta = abs(eta_TeRated - eta_Te)/eta_Te*100
 
 #68 Эффективная работа L_т е турбины
 L_Te = eta_TeRated*L_TsStagn
@@ -288,7 +287,7 @@ L_Te = eta_TeRated*L_TsStagn
 N_T = L_Te*G_T
 
 #70 Расхождение с мощностью N_к, потребляемой компрессором
-differenceN = abs(N_K - N_T)/N_K*100
+errorN = abs(N_K - N_T)/N_K*100
 
 
 # Display the results
@@ -298,15 +297,13 @@ print("Energy conversion efficiency coeficients are:\n\
     eta_Te  = {0:.4f} - set\n\
     eta_Te' = {1:.4f} - rated"\
     .format(eta_Te, eta_TeRated)) # (dict) & (60)
-print('\nError of calculation between them is {0:.3f}%\n'\
-    .format(differenceEta)) # (61)
+printError(errorEta) # (61)
 
 print("Power consumption:\n\
     N_c = {N_K_kW:.3f} kW - of compressor\n\
     N_t = {N_T_kW:.3f} kW - of turbine"\
     .format(N_K_kW = N_K*1e-03, N_T_kW = N_T*1e-03)) # (compressor) & (63)
-print('\nError of calculation between them is {0:.3f}%\n'\
-    .format(differenceN)) # (62)
+printError(errorN) # (62)
 
 print("If something doesn't work correctly make a new issue or check the others:\n\
 https://github.com/StasF1/turboCharger/issues")
