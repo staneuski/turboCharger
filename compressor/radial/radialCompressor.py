@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
     API:            Python 3.x
@@ -18,8 +18,9 @@ from PIL                import ImageFont, Image, ImageDraw
 from piK                import piK
 from diffOutTemp        import diffOutTemp
 from standardisedSize   import standardisedSize
-from os                 import path;\
-    sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
+from os             import path;\
+    sys.path.append( path.dirname( path.dirname( path.dirname( path.abspath(__file__) ) ) ) )
+from defaultValue   import defaultValue
 from defaultValue       import defaultValue
 from plotToFunction     import zPlot, etaPlot, HPlot, phiPlot,\
                                relSpeedsPlot, relD_1HPlot, relD_1BPlot
@@ -38,8 +39,8 @@ D = D*1e-02;      S = S*1e-02 # -> [m]
 exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(),
                   'include/defaultValuesCoefficients.py', 'exec'))
 # Output the logo
-exec(compile(open('../etc/logo.py', "rb").read(),
-                  '../etc/logo.py', 'exec'))
+exec(compile(open('../../etc/logo.py', "rb").read(),
+                  '../../etc/logo.py', 'exec'))
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 

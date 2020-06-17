@@ -15,21 +15,13 @@
 |Осевая турбина          | Не по умолчанию |[axialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/axialTurbineReport.pdf)|
 
 # Требования
-1. [Python 2](https://www.python.org/downloads/)
+1. [Python 3](https://www.python.org/downloads/)
 2. Pillow - Python-модуль для редактирования изображений ([как его скачать](https://github.com/StasF1/turboCharger/issues/2))
 3. Markdown-редактор ([Typora](https://typora.io), желательно)
 
 # История версий
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger) ![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
 ### 📥 [Скачать текущую версию: _v1-beta_](https://github.com/StasF1/turboCharger/archive/v1-beta.zip) 📥
-[![Github All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total?style=plastic)]()
-
-|Версия|Скачать|   |
-|-----:|------:|:--|
-|[1-beta](https://github.com/StasF1/turboCharger/releases/tag/v1-beta)|[v1-beta](https://github.com/StasF1/turboCharger/archive/v1-beta.zip)|**текущая _стабильная_ версия** (проверена на WindowsOS, macOS и Linux), добавлена возможность расчёта лопаточного диффузора компрессора|
-|[0.3-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.3-alpha)|[v0.3](https://github.com/StasF1/turboCharger/archive/v0.3-alpha.zip)|добавлен расчёт осевой турбины|
-|[0.2-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.2-alpha)|[v0.2](https://github.com/StasF1/turboCharger/archive/v0.2-alpha.zip)|добавлена возможность выставления значений с рисунков 2.2 и 3.7 автоматически с помощью весовых коэффициентов|
-|[0.1-alpha](https://github.com/StasF1/turboCharger/releases/tag/v0.1-alpha)|[v0.1-beta](https://github.com/StasF1/turboCharger/archive/v0.1-alpha.zip)|все значения коэффициентов задаются вручную|
 
 # Порядок работы с программой
 ‼ Подробное руководство по работе с программой (текущей версии - v1-beta) выложено в [**Wiki**](https://github.com/StasF1/turboCharger/wiki).
@@ -38,24 +30,22 @@ _⚠ ВНИМАНИЕ:_ По завершении расчёта создаёт�
 
 # Структура
 ```gitignore
-turboCharger-1-beta
+turboCharger-2-beta
 ├── compressor
-│   └── include         # include-файлы вложенные в compressorMain.py
+│   └── radial
 ├── etc                 # шрифты, бланки картинок и проч.
 │   ├── compressor
 │   └── turbine
 │       ├── axial
 │       └── radial
-├── results*            # результаты расчётов и копии словарей (Config.py-файлов)
+├── results*            # результаты расчётов и копии словарей (*Config.py-файлов)
 │   ├── compressor
 │   └── turbine
 │       ├── axial
-│       └── radial 
+│       └── radial
 └── turbine
     ├── axial
-    │   └── include     # include-файлы вложенные в turbineMain.py
     └── radial
-        └── include     # include-файлы вложенные в turbineMain.py
 
 # *создаётся при проведённом расчёте
 ```
