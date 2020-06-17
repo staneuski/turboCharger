@@ -14,7 +14,7 @@
 from __future__ import division
 import math, os, shutil, sys
 from PIL        import ImageFont, Image, ImageDraw
-sys.path.extend(['../../', '../../etc/'])
+sys.path.extend(['../../', '../../etc/', 'include/'])
 
 from logo             import turboChargerLogo
 from defaultValue     import defaultValue
@@ -52,7 +52,7 @@ else:
  in commonConfig.py dictionary!\n')
 
 # Effective pressure | Среднее эффективное давление
-p_e = 0.12*1e03*N_e*strokeNumber/(math.pi*pow(D, 2)*S*n*pistonNumber) # [Pa]
+p_e = 0.12*1e03*N_e*strokeNo/(math.pi*pow(D, 2)*S*n*pistonNo) # [Pa]
 
 # Flow volume | Расход
 if 'TYPE1' in projectType:

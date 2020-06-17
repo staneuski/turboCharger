@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
-# '''
-#     API:            Python 3.x
-#     Project:        https://github.com/StasF1/turboCharger
-#     Version:        2.x
-#     License:        GNU General Public License 3.0 ( see LICENSE )
-#     Author:         Stanislau Stasheuski
-#
-#     File:           commonConfig
-#     Description:    Common paramaters for all subprojects for 0D calculation
-#
-# '''
+'''
+    API:            Python 3.x
+    Project:        https://github.com/StasF1/turboCharger
+    Version:        2.x
+    License:        GNU General Public License 3.0 ( see LICENSE )
+    Author:         Stanislau Stasheuski
 
-# Тип расчёта
+    File:           commonConfig
+    Description:    Common paramaters for all subprojects for 0D calculation
+
+'''
+
+# Project type | Тип расчёта
 projectType = "TYPE1" # "TYPE1" - по параметрам двигателя
                       # "TYPE2" - по расходу и степени повышения давления
 
-
-# Standart (ambient) paramaters
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Atmospheric pressure  | Атмосферное давление
 p_a = 0.1013 # [MPa]
 
@@ -42,10 +39,10 @@ engineType  = "DIESEL" # "DIESEL" or "SI"
 
 #- Engine gometric parameters
 # Strokes number | Тактность
-strokeNumber= 4
+strokeNo    = 4
 
 # Piston number | Число цилиндров
-pistonNumber= 4
+pistonNo    = 4
 
 # Piston stroke | Ход поршня
 S           = 8.8 # [cm]
@@ -92,5 +89,6 @@ G_K  = 3.4837 # [kg/s] (для осевой турбины должен быть
 
 # Cтепень повышения давления в компрессоре
 Pi_K = 1.9
+
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

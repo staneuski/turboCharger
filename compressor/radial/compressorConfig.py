@@ -1,25 +1,23 @@
 # -*- coding: utf-8 -*-
-# '''
-#     API:            Python 3.x
-#     Project:        https://github.com/StasF1/turboCharger
-#     Version:        2.x
-#     License:        GNU General Public License 3.0 ( see LICENSE )
-#     Author:         Stanislau Stasheuski
-#
-#     File:           compressorConfig
-#
-#     Description:    Parameters of the compressor
-#         РК  - рабочее колесо
-#         ЛД  - лопаточный диффузор
-#         БЛД - безлопаточный диффузор
-#         НА  - направляющий аппарат
-#
-# '''
-# Stagnation (*) parameters for inlet & loading input data from project dictionary 
-import sys
-from os import path;\
-    sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
+'''
+    API:            Python 3.x
+    Project:        https://github.com/StasF1/turboCharger
+    Version:        2.x
+    License:        GNU General Public License 3.0 ( see LICENSE )
+    Author:         Stanislau Stasheuski
+
+    File:           compressorConfig
+
+    Description:    Parameters of the compressor
+        РК  - рабочее колесо
+        ЛД  - лопаточный диффузор
+        БЛД - безлопаточный диффузор
+        НА  - направляющий аппарат
+'''
+
+import sys;    sys.path.append('../../')
 from commonConfig import(p_a, T_a)
+
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 # Настройки расчёта
@@ -103,10 +101,10 @@ relD_1B             = 'DEFAULT' #wght {0.55}
 relW_2rToC_1a       = 'DEFAULT' #wght {0.6}
 
 #44 Отношение ширины (безлопаточной части) диффузора на входе и выходе
-vanelessWideCoef    = 'DEFAULT' #0.7…1.0 {0.9} 'VANED'/0.95…1 {1} 'VANELESS'
+vanelessWideCoef    = 'DEFAULT' #0.7…1.0 {0.9} 'VANED' / 0.95…1 {1} 'VANELESS'
 
 #45 Отношение диаметра (безлопаточной части) диффузора на входе и выходе
-vanelessDiamCoef    = 'DEFAULT' #1.6…1.9 {1.8}'VANED'/ 1.05…1.2 {1.14}'VANELESS'
+vanelessDiamCoef    = 'DEFAULT' #1.6…1.9 {1.8}'VANED' / 1.05…1.2 {1.14}'VANELESS'
 
 #51 Отношение скорости на выходе из компрессора
 #   к скорости на выходе из диффузора

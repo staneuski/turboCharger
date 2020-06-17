@@ -23,7 +23,8 @@ if 'VANELESS' in diffuserType:
 elif 'VANED' in diffuserType:
     vanelessWideCoef    = defaultValue(vanelessWideCoef,    1)
     vanelessDiamCoef    = defaultValue(vanelessDiamCoef,    1.14)    
-else:   exit('Set type of the diffuser correctly ("VANED"\
+else:
+    exit('\033[91mError: Set type of the diffuser correctly ("VANED"\
  or "VANELESS") in commonConfig.py dictionary!\n')
 vanedWideCoef       = defaultValue(vanedWideCoef,       1)
 vanedDiamCoef       = defaultValue(vanedDiamCoef,       1.6)
