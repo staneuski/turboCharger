@@ -1,5 +1,5 @@
 # Files
-*.pyc
+*.py_
 compressorToTurbineConfig.py
 
 # Folders

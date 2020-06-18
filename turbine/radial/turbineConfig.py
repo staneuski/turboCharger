@@ -13,71 +13,80 @@
 '''
 
 # Exhaust gas parameters
-# ~~~~~~~~~~~~~~~~~~~~~~
-# Isobar heat capacity | Изобарная теплоёмкость
-c_pExh         = 1128.7 # [J/kg/K]
+exhaust = dict(
+    # Isobar heat capacity | Изобарная теплоёмкость
+    c_pExh         = 1128.7, # [J/kg/K]
 
-#c39 Gas constant | Газовая постоянная
-R_Exh          = 286.4 # [J/kg/K]
+    #p39 Gas constant | Газовая постоянная
+    R_Exh          = 286.4, # [J/kg/K]
 
-#c39 Isentropy coefficient | Коэффициент изоэнтропы
-k_Exh          = 1.34
+    #p39 Isentropy coefficient | Коэффициент изоэнтропы
+    k_Exh          = 1.34,
 
-#c40 Коэффициент отношения давления на выходе из турбины к атмосферному
-dragInletRatio = 'DEFAULT' #1.01…1.1 {1.017}
+    #p40 Коэффициент отношения давления на выходе из турбины к атмосферному
+    dragInletRatio = 'DEFAULT', #1.01…1.1 {1.017}
+)
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-# Energy conversion efficiency (ECE) & other coefficints
-# КПД и другие коэффициенты
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#1 Коэффициент утечки
-sigma_esc = 'DEFAULT' #0.9…0.99 {0.99}
+turbine = dict(
 
-#3 Turbine energy conversion efficiency | КПД турбины
-eta_Te    = 'DEFAULT' #wght {0.73}
+    # Energy conversion efficiency (ECE) & other coefficints
+    # КПД и другие коэффициенты
+    efficiency  = dict(
+        #1 Коэффициент утечки
+        sigma_esc = 'DEFAULT', #0.9…0.99 {0.99}
 
-#13 Cтепень реактивности
-ro        = 'DEFAULT' #0.45…0.55 {0.52}
+        #3 Turbine energy conversion efficiency | КПД турбины
+        eta_Te    = 'DEFAULT', #wght {0.73}
 
-#16 Скоростной Коэффициент ϕ учитывающий потери скорости в СА
-phiLosses = 'DEFAULT' #wght {1}
+        #13 Cтепень реактивности
+        rho        = 'DEFAULT', #0.45…0.55 {0.52}
 
-#29 Cкоростной Коэффициент ψ учитывающий потери скорости в РК
-psiLosses = 'DEFAULT' #wght {0.96}
+        #51 Коэффициент учитывающий неравномерность потока на выходе из РК
+        dzeta     = 'DEFAULT', #1.1…1.5 {1.3}
 
-#51 Коэффициент учитывающий неравномерность потока на выходе из РК
-dzeta     = 'DEFAULT' #1.1…1.5 {1.3}
+        #61 Механический КПД (60)
+        eta_m     = 'DEFAULT', #0.92…0.96 {0.94}
+    ),
 
-#61 Механический КПД (60)
-eta_m     = 'DEFAULT' #0.92…0.96 {0.94}
+    # Geometric parameters | Параметры геометрии
+    geometry = dict(
+        #18 Угол α_1 наклона вектора абсолютной скорости с_1
+        alpha_1     = 'DEFAULT', #0…1 {0} [deg]
 
+        #23 угол установки лопаток
+        beta_1Blade = 'DEFAULT', # {90} [deg]
 
-# Geometric parameters | Параметры геометрии
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#18 Угол α_1 наклона вектора абсолютной скорости с_1
-alpha_1     = 'DEFAULT' #0…1 {0} [deg]
+        #35 Радиальный зазор Δ между корпусом и РК
+        delta       = 'DEFAULT', #0.3…1.5 {0.3} [mm]
 
-#23 угол установки лопаток
-beta_1Blade = 'DEFAULT' # {90} [deg]
+        # Geometric сoefficients | Коэффициенты геометрии
+        coefficients = dict(
+            #2 Отношение диаметров колеса турбины и компрессора
+            diameterRatio  = 'DEFAULT', #1.0…1.1 {1.0}
 
-#35 Радиальный зазор Δ между корпусом и РК
-delta       = 'DEFAULT' #0.3…1.5 {0.3} [mm]
+            #9 Отношение диаметров РК турбины к её наружному диаметру
+            outerDiamRatio = 'DEFAULT', #wght {0.8}
 
+            #10 Отношение диаметров РК турбины к её внутреннему диаметру
+            innerDiamRatio = 'DEFAULT', #wght {0.95}
 
-# Geometric сoefficients | Коэффициенты геометрии
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#2 Отношение диаметров колеса турбины и компрессора
-diameterRatio  = 'DEFAULT' #1.0…1.1 {1.0}
+            #55 Опытный коэффициент, зависящий от типа РК
+            beta           = 'DEFAULT', #3.5…5.0 {4.6}
+        )
+    ),
 
-#9 Отношение диаметров РК турбины к её наружному диаметру
-outerDiamRatio = 'DEFAULT' #wght {0.8}
+    # Losses coeficients | Коэффициенты потерь
+    losses = dict(
+        #16 Скоростной Коэффициент ϕ учитывающий потери скорости в СА
+        phi = 'DEFAULT', #wght {1}
 
-#10 Отношение диаметров РК турбины к её внутреннему диаметру
-innerDiamRatio = 'DEFAULT' #wght {0.95}
+        #29 Cкоростной Коэффициент ψ учитывающий потери скорости в РК
+        psi = 'DEFAULT', #wght {0.96}
+    )
 
-#55 Опытный коэффициент, зависящий от типа РК
-beta           = 'DEFAULT' #3.5…5.0 {4.6}
+)
 
 
 # ''' (C) 2018-2019 Stanislau Stasheuski '''
