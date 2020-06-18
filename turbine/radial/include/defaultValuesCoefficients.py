@@ -3,7 +3,7 @@
 #     Description:    Default coefficients values
 # '''
 
-eta_Te          = defaultValue(eta_Te,         0.8)
+eta_Te          = defaultValue(eta_Te,         0.73)
 dragInletRatio  = defaultValue(dragInletRatio, 1.017)
 sigma_esc       = defaultValue(sigma_esc,      0.99)
 diameterRatio   = defaultValue(diameterRatio,  1)

@@ -14,7 +14,8 @@
 from __future__ import division
 import math, os, shutil, sys
 from PIL        import ImageFont, Image, ImageDraw
-sys.path.extend(['../../', '../../etc/', 'include/'])
+sys.path.extend(['../../', '../../etc/', '../'])
+sys.path.extend(['include/'])
 
 from logo             import turboChargerLogo
 from errorVar         import printError
@@ -23,7 +24,7 @@ from defaultValue     import defaultValue
 # Loading input data from project dictionaries
 from commonConfig     import *
 from turbineConfig    import *
-from solvedParameters import *
+from compressorToTurbineConfig import *
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 turboChargerLogo()
@@ -72,7 +73,7 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) )
 #  поршневой части и давлением газа на входе в турбину
 pressureRelation = p_vStagn/p_0Stagn
 if (pressureRelation <= 1.1):
-    exit("\n\033[91mError 8: Scavenging cannot happen because the pressure ratio is too small!\n\
+    exit("\033[91mError 8: Scavenging cannot happen because the pressure ratio is too small!\n\
 It equals %0.2f, but must be more than 1.1\n" %pressureRelation)
 
 #9 Изоэнтропная работа расширения
@@ -112,9 +113,10 @@ D_1 = 60*u_1/math.pi/n_TCh
 #21 Высота лопаток соплового аппарата
 l_1 = G_T/math.pi/D_1/ro_1/c_1/math.sin(math.radians( alpha_1 ))
 if (l_1/D_1 < 0.16) | (l_1/D_1 > 0.25):
-    exit("\n\033[91mError 21: Blade height 'l_1' is not in the allowable diapason!\n\
+    exit("\033[91mError 21: Blade height 'l_1' is not in the allowable diapason!\n\
 It equals %0.2f but must be from 0.16 to 0.25" %(l_1/D_1))
-
+sys.path.extend(['../../', '../../etc/', '../'])
+sys.path.extend(['include/'])
 #22 Шаг решётки соплового аппарата
 t_1_0 = RELt1_l1*l_1
 
@@ -133,13 +135,13 @@ if (M_c1 > 0.4) & (M_c1 < 0.6):
 elif M_c1 >= 0.6:
     a_1 = t_1*math.sin(math.radians( alpha_1 ))
 else:
-    exit("\n\033[91mError 26: Mach number is not in the allowable diapason!\n\
+    exit("\033[91mError 26: Mach number is not in the allowable diapason!\n\
 It equals %0.1f but must be at least more then 0.4" %(M_c1))
 
 #27 Ширина b_1 соплового аппарата по направлению оси вращения
-b_1 = (math.sin(math.radians( alpha_1 )*t_1*2)
-      *math.sin(math.radians(alpha_0 + alpha_1))
-      /math.sin(math.radians( alpha_0 ))/c_u1))
+b_1 = math.sin(math.radians( alpha_1 )*t_1*2)\
+     *math.sin(math.radians(alpha_0 + alpha_1))\
+     /math.sin(math.radians( alpha_0 ))/c_u1
 
 #28 Относительная скорость w1 на входе в рабочее колесо
 w_1 = math.sqrt(
@@ -193,7 +195,7 @@ c_2 = math.sqrt(pow(c_2a, 2) + pow(c_2u, 2))
 #44 Угол α_2 выхода потока из колеса в абсолютном движении
 alpha_2 = math.degrees(math.asin( c_2a/c_2 ))
 if (alpha_2 < 80) | (alpha_2 > 100):
-    exit("\n\033[91mError 44: Angle 'alpha_2' is not in the allowable diapason!\n\
+    exit("\033[91mError 44: Angle 'alpha_2' is not in the allowable diapason!\n\
 It equals %0.1f but must be from 80 to 100 degrees." %alpha_2)
 
 #45 Шаг решётки рабочего колеса
@@ -214,7 +216,7 @@ if (M_c1 > 0.4) & (M_c1 < 0.6):
 elif M_c1 >= 0.6:
     a_2 = t_2*math.sin(math.radians( beta_2 ))
 else:
-    exit("\n\033[91mError 49: Mach number is not in the allowable diapason!\n\
+    exit("\033[91mError 49: Mach number is not in the allowable diapason!\n\
 It equals %0.1f but must be at least more then 0.4" %(M_c1))
 
 #50 Ширина b_2 рабочего колеса по направлению оси вращения

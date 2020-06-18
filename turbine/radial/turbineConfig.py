@@ -35,7 +35,7 @@ dragInletRatio = 'DEFAULT' #1.01…1.1 {1.017}
 sigma_esc = 'DEFAULT' #0.9…0.99 {0.99}
 
 #3 Turbine energy conversion efficiency | КПД турбины
-eta_Te    = 'DEFAULT' #wght {0.8}
+eta_Te    = 'DEFAULT' #wght {0.73}
 
 #13 Cтепень реактивности
 ro        = 'DEFAULT' #0.45…0.55 {0.52}

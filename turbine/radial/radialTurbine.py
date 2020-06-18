@@ -14,7 +14,8 @@
 from __future__ import division
 import math, os, shutil, sys
 from PIL        import ImageFont, Image, ImageDraw
-sys.path.extend(['../../', '../../etc/', 'include/'])
+sys.path.extend(['../../', '../../etc/', '../'])
+sys.path.extend(['include/'])
 
 from logo             import turboChargerLogo
 from errorVar         import printError
@@ -25,7 +26,7 @@ from plotToFunction   import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot,\
 # Loading input data from project dictionaries
 from commonConfig     import *
 from turbineConfig    import *
-from solvedParameters import *
+from compressorToTurbineConfig  import *
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 turboChargerLogo()
