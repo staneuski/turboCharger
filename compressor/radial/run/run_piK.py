@@ -15,7 +15,7 @@ def pressureIncreaseRatio(comressor, l_0, p_e, pi_K):
     efficiency = comressor['efficiency']
 
     # Calculation pressure degree increase
-    return (
+    pi_K = (
         R*initial['T_aStagn']*g_e*l_0*alpha*p_e
         *(
             ( (pow(pi_K,(k - 1)/k) - 1)/efficiency['eta_KsStagn'] + 1 )
@@ -24,3 +24,5 @@ def pressureIncreaseRatio(comressor, l_0, p_e, pi_K):
         /
         initial['p_aStagn']/3600/initial['sigma_0']/initial['sigma_c']/initial['sigma_v']
     )
+
+    return pi_K

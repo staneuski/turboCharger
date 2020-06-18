@@ -11,21 +11,24 @@
     Description:    Calculate compressor parameters using 0D method
 
 '''
+
 from __future__ import division
 import math, os, shutil, sys
 from PIL        import ImageFont, Image, ImageDraw
-sys.path.extend(
-    ['../../', '../../etc/', '../', 'include/'])
+sys.path.extend(['../../', '../../etc/', '../'])
+sys.path.extend(['pre', 'run', 'post'])
 
-from logo             import turboChargerLogo
-from defaultValue     import defaultValue
-from errorVar         import printError
-from piK              import pressureIncreaseRatio
-from setDefaultValues import setDefaultValues
-from diffuserOutletT  import diffuserOutletT
-from standardisedSize import standardisedSize
-from plotToFunction   import zPlot, etaPlot, HPlot, phiPlot, relSpeedsPlot,\
-                             relD_1HPlot, relD_1BPlot
+from logo                 import turboChargerLogo
+from defaultValue         import defaultValue
+from errorVar             import printError
+
+from pre_setDefaultValues import setDefaultValues
+from pre_standardisedSize import standardisedSize
+from pre_plotToFunction   import zPlot, etaPlot, HPlot, phiPlot,\
+                                 relSpeedsPlot, relD_1HPlot, relD_1BPlot
+
+from run_piK              import pressureIncreaseRatio
+from run_diffuserOutletT  import diffuserOutletT
 
 # Loading input data from project dictionaries
 from commonConfig       import *
@@ -74,10 +77,9 @@ if 'TYPE1' in projectType:
     while (abs(pressureIncreaseRatio(compressor, l_0, p_e, pi_K) - pi_K)
         > validity
     ):
-        pi_K = pi_K + validity
-
+        pi_K += validity
     else:
-        pi_K = pressureIncreaseRatio(compressor, l_0, p_e, pi_K)
+        pressureIncreaseRatio(compressor, l_0, p_e, pi_K)
 
 
 # Compressor parameters
@@ -98,7 +100,8 @@ L_KsStagn = c_p*T_0Stagn*(pow(pi_K, (k - 1)/k) - 1)
 #5 Wheel outer diameter circular velocity
 #  Окружная скорость на наружном диаметре колеса
 compressor['efficiency']['H_KsStagn'] = HPlot(
-    compressor['efficiency']['H_KsStagn'], D_2)
+    compressor['efficiency']['H_KsStagn'], D_2
+)
 u_2 = math.sqrt(L_KsStagn / compressor['efficiency']['H_KsStagn'])
 
 if u_2 >= 550:
@@ -130,16 +133,20 @@ rho_1 = p_1/R/T_1
 F_1 = G_K/c_1/rho_1 # площадь поперечного сечения в колесе
 
 compressor['geometry']['coefficients']['relD_1H'] = relD_1HPlot(
-    compressor['geometry']['coefficients']['relD_1H'], D_2)
+    compressor['geometry']['coefficients']['relD_1H'], D_2
+)
 compressor['geometry']['coefficients']['relD_1B'] = relD_1BPlot(
-    compressor['geometry']['coefficients']['relD_1B'], D_2)
+    compressor['geometry']['coefficients']['relD_1B'], D_2
+)
 relD_1BToH = (
     compressor['geometry']['coefficients']['relD_1B']
-   /compressor['geometry']['coefficients']['relD_1H'])
+   /compressor['geometry']['coefficients']['relD_1H']
+)
 
 if relD_1BToH >= 1:
     exit('\033[91mError 13: Relation relD_1B/relD_1H = %0.2f > 1.\
-        \nSquare root argument is less than 0!' %(relD_1BToH) )
+        \nSquare root argument is less than 0!' %(relD_1BToH)
+    )
 
 D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1BToH, 2)) )
 
@@ -147,10 +154,11 @@ D_1H = math.sqrt( 4*F_1/math.pi/(1 - pow(relD_1BToH, 2)) )
 D_1B = relD_1BToH*D_1H
 
 #15 Наружный диаметр колеса на комперссора на выходе
-D_2estimated = D_1H/compressor['geometry']['coefficients']['relD_1H']*1e+03 # [mm]
+D_2estimated = D_1H\
+    /compressor['geometry']['coefficients']['relD_1H']*1e+03 # [mm]
+
 if 'ON' in compressor['run']['roundDiamToSTD']:
     D_2 = standardisedSize( D_2estimated )*1e-03 # [m]
-
 else:
     if D_2estimated <= 85:
         D_2 = round( D_2estimated*2, -1 )/2*1e-03 # [m]
@@ -159,7 +167,8 @@ else:
 
 if 'TYPE2' in projectType:
     compressor['efficiency']['eta_KsStagn'] = etaPlot(
-        compressor['efficiency']['eta_KsStagn'], D_2)
+        compressor['efficiency']['eta_KsStagn'], D_2
+    )
 
 #16 Частота вращения турбокомпрессора
 n_tCh = 60*u_2/math.pi/D_2 # [1/min]
@@ -175,7 +184,8 @@ u_1 = math.pi*D_1*n_tCh/60
 beta_1 = math.degrees(math.atan( c_1/u_1 ))
 if issubclass(type(compressor['geometry']['iDeg']), str):
     exit('Degree of the wheel inlet flow is {0:.3f}\
-        \nNow you can set "i", using recomendations' .format(beta_1))
+        \nNow you can set "i", using recomendations' .format(beta_1)
+    )
 
 #20 Угол установки лопаток на среднем диаметре
 beta_1Blade = beta_1 + compressor['geometry']['iDeg']
@@ -207,7 +217,8 @@ L_BA = compressor['losses']['dzeta_BA']*pow(w_1, 2)/2
 #27 Радиальная составляющая абсолютной/относительной скорости
 #   на выходе из колеса
 compressor['geometry']['coefficients']['relW_2rToC_1a'] = relSpeedsPlot(
-    compressor['geometry']['coefficients']['relW_2rToC_1a'], D_2)
+    compressor['geometry']['coefficients']['relW_2rToC_1a'], D_2
+)
 c_2r = compressor['geometry']['coefficients']['relW_2rToC_1a']*c_1
 
 #28 Потери на поворот и трение в межлопаточных каналах рабочего колеса
@@ -298,7 +309,7 @@ if 'VANELESS' in compressor['run']['diffuserType']:
         T_4 += validity
 
     else:
-        T_4 = diffuserOutletT(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4)
+        diffuserOutletT(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4)
 
     #48 Давление на выходе из диффузора
     p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1))
@@ -366,7 +377,7 @@ else: # Расчёт параметров лопаточного диффузо�
            > validity):
         T_4 += validity
     else:
-        T_4 = diffuserOutletT(b_3COEF,D_3,T_3,c_3,b_4COEF,D_4,T_4,n_4)
+        diffuserOutletT(b_3COEF,D_3,T_3,c_3,b_4COEF,D_4,T_4,n_4)
 
     #F54 Давление и плотность на выходе из лопаточной части диффузора
     p_4 = p_2*pow(T_4/T_3, compressor['losses']['n_diffuser']/(n_4 - 1))
@@ -464,21 +475,21 @@ print("If something doesn't work correctly make a new issue or check the others:
 https://github.com/StasF1/turboCharger/issues")
 
 # Make extra dictionary for turbine calculation
-exec(compile(open('include/savingParametersForTurbine.py', "rb").read(),
-                  'include/savingParametersForTurbine.py', 'exec'))
+exec(compile(open('post/post_toTurbine.py', "rb").read(),
+                  'post/post_toTurbine.py', 'exec'))
 
 
 # Generate report
 # ~~~~~~~~~~~~~~~
 # Create a report
-exec(compile(open('include/reportGenerator.py', "rb").read(),
-                  'include/reportGenerator.py', 'exec'))
+exec(compile(open('post/post_report.py', "rb").read(),
+                  'post/post_report.py', 'exec'))
 # Edit pictures
-exec(compile(open('include/picturesEditor.py', "rb").read(),
-                  'include/picturesEditor.py', 'exec'))
+exec(compile(open('post/post_pictures.py', "rb").read(),
+                  'post/post_pictures.py', 'exec'))
 # Save the results to the results/ folder
-exec(compile(open('include/createResultsFolder.py', "rb").read(),
-                  'include/createResultsFolder.py', 'exec'))
+exec(compile(open('post/post_results.py', "rb").read(),
+                  'post/post_results.py', 'exec'))
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''
