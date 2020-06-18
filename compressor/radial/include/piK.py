@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-def piK(l_0, p_e, eta_KsStagn, guessedPiK):
+def pressureIncreaseRatio(comressor, l_0, p_e, pi_K):
     '''
     Description:    Calculate pressure increase ratio
     '''
@@ -7,22 +7,20 @@ def piK(l_0, p_e, eta_KsStagn, guessedPiK):
     from commonConfig import(
         R, g_e, alpha, k, E, T_ca, eta_v
     )
-    from compressorConfig import(
-        T_aStagn, T_aStagn, p_aStagn, sigma_0, sigma_c, sigma_v
-    )
 
     # Converting data to SI dimensions
-    g_e      *= 1e-03 # -> [kg/W/h] or [g/kW/h]
-    p_aStagn *= 1e06 # -> [Pa]
+    g_e *= 1e-03 # -> [kg/W/h] or [g/kW/h]
+
+    initial    = comressor['initial']
+    efficiency = comressor['efficiency']
 
     # Calculation pressure degree increase
-    pressureIncreaseRatio = (
-        R*T_aStagn*g_e*l_0*alpha
+    return (
+        R*initial['T_aStagn']*g_e*l_0*alpha*p_e
         *(
-            ( (pow(guessedPiK,(k - 1)/k) - 1)/eta_KsStagn + 1 )
-            *(1 - E)+E*T_ca/T_aStagn
+            ( (pow(pi_K,(k - 1)/k) - 1)/efficiency['eta_KsStagn'] + 1 )
+            *(1 - E)+E*T_ca/initial['T_aStagn']
         )
-        *p_e/p_aStagn/3600/eta_v/sigma_0/sigma_c/sigma_v
+        /
+        initial['p_aStagn']/3600/initial['sigma_0']/initial['sigma_c']/initial['sigma_v']
     )
-
-    return pressureIncreaseRatio

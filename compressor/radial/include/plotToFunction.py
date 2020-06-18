@@ -41,7 +41,7 @@ It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return plotValue(balanceCoef,\
     -1.41956*pow(D, 4) + 3.59445*pow(D, 3) - 3.19974*pow(D, 2) + 1.20019*D + 0.70186,\
     -2.54297*pow(D, 4) + 5.79527*pow(D, 3) - 4.69133*pow(D, 2) + 1.64249*D + 0.603052)
-    
+
 def relD_1HPlot(balanceCoef, D):
     if (D < 0.04) | (D > 0.8):
         exit('\033[91mError 13: No data for that wheel diameter!\n\
@@ -56,7 +56,7 @@ def relD_1BPlot(balanceCoef, D):
 It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return deltaPlotValue(balanceCoef, 0.06,\
     0.260417*pow(D, 2) + 0.0280449*D + 0.198365)
-    
+
 def relSpeedsPlot(balanceCoef, D):
     if (D < 0.04) | (D > 0.8):
         exit('\033[91mError 27: No data for that wheel diameter!\n\
@@ -64,24 +64,10 @@ It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return plotValue(balanceCoef,\
     1.71023 *pow(D, 4) - 3.78212*pow(D, 3) + 2.99991*pow(D, 2) - 1.05122*D + 1.23182,\
     -6.37691*pow(D, 4) + 12.3393*pow(D, 3) - 8.57209*pow(D, 2) + 2.54654*D + 0.734892)
-    
+
 def zPlot(balanceCoef, D):
     if (D < 0.04) | (D > 0.8):
         exit('\033[91mError 30: No data for that wheel diameter!\n\
 It equals %0.0f cm but must be from 4 to 80 cm.' %(D*1e+02))
     return deltaPlotValue(balanceCoef, 9,\
     141.063*pow(D, 3) - 228.472*pow(D, 2) + 134.588*D + 2.44075)
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-    
