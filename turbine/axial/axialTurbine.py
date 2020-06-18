@@ -15,7 +15,7 @@ from __future__ import division
 import math, os, shutil, sys
 from PIL        import ImageFont, Image, ImageDraw
 sys.path.extend(['../../', '../../etc/', '../'])
-sys.path.extend(['include/'])
+sys.path.extend(['pre/', 'post/'])
 
 from logo             import turboChargerLogo
 from errorVar         import printError
@@ -36,8 +36,8 @@ if issubclass(type(delta), float):
     delta *= 1e-03 # -> [m]
 
 # Set default values
-exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(),
-                  'include/defaultValuesCoefficients.py', 'exec'))
+exec(compile(open('pre/pre_setDefaultValues.py', "rb").read(),
+                  'pre/pre_setDefaultValues.py', 'exec'))
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
 if 'SI' in engineType:
@@ -73,8 +73,11 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) )
 #  поршневой части и давлением газа на входе в турбину
 pressureRelation = p_vStagn/p_0Stagn
 if (pressureRelation <= 1.1):
-    exit("\033[91mError 8: Scavenging cannot happen because the pressure ratio is too small!\n\
-It equals %0.2f, but must be more than 1.1\n" %pressureRelation)
+    exit("\033[91mError 8: Scavenging cannot happen because the pressure ratio\
+        is too small!\
+        \nIt equals %0.2f, but must be more than 1.1\n"
+        %pressureRelation
+    )
 
 #9 Изоэнтропная работа расширения
 #  (располагаемый теплоперепад) в сопловом аппарате
@@ -113,10 +116,11 @@ D_1 = 60*u_1/math.pi/n_TCh
 #21 Высота лопаток соплового аппарата
 l_1 = G_T/math.pi/D_1/ro_1/c_1/math.sin(math.radians( alpha_1 ))
 if (l_1/D_1 < 0.16) | (l_1/D_1 > 0.25):
-    exit("\033[91mError 21: Blade height 'l_1' is not in the allowable diapason!\n\
-It equals %0.2f but must be from 0.16 to 0.25" %(l_1/D_1))
-sys.path.extend(['../../', '../../etc/', '../'])
-sys.path.extend(['include/'])
+    exit("\033[91mError 21: Blade height 'l_1' is not in the allowable diapason!\
+        \nIt equals %0.2f but must be from 0.16 to 0.25"
+        %(l_1/D_1)
+    )
+
 #22 Шаг решётки соплового аппарата
 t_1_0 = RELt1_l1*l_1
 
@@ -135,8 +139,10 @@ if (M_c1 > 0.4) & (M_c1 < 0.6):
 elif M_c1 >= 0.6:
     a_1 = t_1*math.sin(math.radians( alpha_1 ))
 else:
-    exit("\033[91mError 26: Mach number is not in the allowable diapason!\n\
-It equals %0.1f but must be at least more then 0.4" %(M_c1))
+    exit("\033[91mError 26: Mach number is not in the allowable diapason!\
+        \nIt equals %0.1f but must be at least more then 0.4"
+        %(M_c1)
+    )
 
 #27 Ширина b_1 соплового аппарата по направлению оси вращения
 b_1 = math.sin(math.radians( alpha_1 )*t_1*2)\
@@ -195,8 +201,10 @@ c_2 = math.sqrt(pow(c_2a, 2) + pow(c_2u, 2))
 #44 Угол α_2 выхода потока из колеса в абсолютном движении
 alpha_2 = math.degrees(math.asin( c_2a/c_2 ))
 if (alpha_2 < 80) | (alpha_2 > 100):
-    exit("\033[91mError 44: Angle 'alpha_2' is not in the allowable diapason!\n\
-It equals %0.1f but must be from 80 to 100 degrees." %alpha_2)
+    exit("\033[91mError 44: Angle 'alpha_2' is not in the allowable diapason!\
+        \nIt equals %0.1f but must be from 80 to 100 degrees."
+        %alpha_2
+    )
 
 #45 Шаг решётки рабочего колеса
 t_2_0 = RELt2_l2*l_1
@@ -216,8 +224,10 @@ if (M_c1 > 0.4) & (M_c1 < 0.6):
 elif M_c1 >= 0.6:
     a_2 = t_2*math.sin(math.radians( beta_2 ))
 else:
-    exit("\033[91mError 49: Mach number is not in the allowable diapason!\n\
-It equals %0.1f but must be at least more then 0.4" %(M_c1))
+    exit("\033[91mError 49: Mach number is not in the allowable diapason!\
+        \nIt equals %0.1f but must be at least more then 0.4"
+        %(M_c1)
+    )
 
 #50 Ширина b_2 рабочего колеса по направлению оси вращения
 b_2 = (2*t_2*math.sin(math.radians( beta_2 ))
@@ -254,8 +264,10 @@ L_Tu = u_1*(c_1u + c_2u)
 #59 Окружной КПД η_тu турбины
 eta_Tu = L_Tu/L_TsStagn
 if (eta_Tu < 0.8) | (eta_Tu > 0.9):
-    print("\n\033[91mError 59: ECE 'eta_Tu' is not in the allowable diapason!\n\
-It equals {0:.3f} but must be from 0.8 to 0.9\n" .format(eta_Tu))
+    exit("\n\033[91mError 59: ECE 'eta_Tu' is not in the allowable diapason!\
+        \nIt equals {0:.3f} but must be from 0.8 to 0.9\n"
+        .format(eta_Tu)
+    )
 
 #60 Потери Z_у, обусловленные утечкой газа через радиальные зазоры
 #   между колесом и корпусом
@@ -315,14 +327,14 @@ https://github.com/StasF1/turboCharger/issues")
 # Generate report
 # ~~~~~~~~~~~~~~~
 # Create a report
-exec(compile(open('include/reportGenerator.py', "rb").read(),
-                 'include/reportGenerator.py', 'exec'))
+exec(compile(open('post/post_report.py', "rb").read(),
+                  'post/post_report.py', 'exec'))
 # Edit pictures
-exec(compile(open('include/picturesEditor.py', "rb").read(),
-                  'include/picturesEditor.py', 'exec'))
+exec(compile(open('post/post_pictures.py', "rb").read(),
+                  'post/post_pictures.py', 'exec'))
 # Save the results to the results/ folder
-exec(compile(open('include/createResultsFolder.py', "rb").read(),
-                  'include/createResultsFolder.py', 'exec'))
+exec(compile(open('post/post_results.py', "rb").read(),
+                  'post/post_results.py', 'exec'))
 
 
 # ''' (C) 2019-2020 Stanislau Stasheuski '''

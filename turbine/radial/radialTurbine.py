@@ -15,18 +15,18 @@ from __future__ import division
 import math, os, shutil, sys
 from PIL        import ImageFont, Image, ImageDraw
 sys.path.extend(['../../', '../../etc/', '../'])
-sys.path.extend(['include/'])
+sys.path.extend(['pre/', 'post/'])
 
 from logo             import turboChargerLogo
 from errorVar         import printError
 from defaultValue     import defaultValue
-from plotToFunction   import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot,\
+from pre_plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot,\
                              relD_1H, relD_2B
 
 # Loading input data from project dictionaries
 from commonConfig     import *
 from turbineConfig    import *
-from compressorToTurbineConfig  import *
+from compressorToTurbineConfig import *
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 turboChargerLogo()
@@ -38,8 +38,8 @@ if issubclass(type(delta), float):
     delta *= 1e-03 # -> [m]
 
 # Set default values
-exec(compile(open('include/defaultValuesCoefficients.py', "rb").read(),
-                  'include/defaultValuesCoefficients.py', 'exec'))
+exec(compile(open('pre/pre_setDefaultValues.py', "rb").read(),
+                  'pre/pre_setDefaultValues.py', 'exec'))
 
 # Set values using balance coefficients from dictionary
 eta_Te         = etaPlot(eta_Te,         D_2K)
@@ -92,7 +92,8 @@ c_2s = math.sqrt( 2*L_TsStagn )
 
 #6 Расчёт параметра ksi
 ksi = u_1/c_2s
-ksiLower = ksiPlot(0, D_2K);    ksiUpper= ksiPlot(1, D_2K)
+ksiLower = ksiPlot(0, D_2K)
+ksiUpper = ksiPlot(1, D_2K)
 if (ksi < ksiLower) | (ksi > ksiUpper): exit("\033[91mError 6:\
  Parameter 'ksi' is not in the allowable diapason!\
  It equals %2.3f but must be from %0.2f to %1.3f."
@@ -105,9 +106,11 @@ p_0Stagn = p_2/pow(1 - L_TsStagn/c_pExh/T_0Stagn, k_Exh/(k_Exh - 1) )
 #  части и давлением газа на входе в турбину
 pressureRelation = p_vStagn/p_0Stagn
 if (pressureRelation < 1.1) | (pressureRelation > 1.3):
-    exit("\033[91mError 8: Pressure ratio is not in the allowable diapason!\n\
-It equals %0.2f but must be from 1.1 to 1.3.\n\
-Scavenging cannot be happen." %pressureRelation)
+    exit("\033[91mError 8: Pressure ratio is not in the allowable diapason!\
+        \nIt equals %0.2f but must be from 1.1 to 1.3.\
+        \nScavenging cannot be happen."
+        %pressureRelation
+    )
 
 #9 Наружный диаметр рабочего колеса турбины на выходе
 D_2H = outerDiamRatio*D_1
@@ -120,8 +123,11 @@ D_2 = math.sqrt(( pow(D_2B, 2) + pow(D_2H, 2) )/2)
 
 #12 Вычисление параметра µ
 mu = D_2/D_1
-if (mu < 0.5) | (mu > 0.8): exit("\033[91mError 12:\
- Geometeric parameter 'mu' is not in the allowable diapason! (It equals %0.2f)" %mu)
+if (mu < 0.5) | (mu > 0.8): 
+    exit("\033[91mError 12:\
+ Geometeric parameter 'mu' is not in the allowable diapason! (It equals %0.2f)" 
+        %mu
+    )
 
 #15 Изоэнтропная работа расширения (располагаемый теплоперепад)
 #   в сопловом аппарате
@@ -148,7 +154,9 @@ w_1 = math.sqrt(pow(c_1r, 2) - pow(w_1u, 2))
 beta_1 = beta_1Blade - math.degrees(math.atan( w_1u/c_1r ))
 if (beta_1 < 80) | (beta_1 > 100):
     exit("\033[91mError 23: Angle 'beta_1' is not in the allowable diapason!\n\
-It equals %0.1f but must be from 80 to 100 degrees." %beta_1)
+        \nIt equals %0.1f but must be from 80 to 100 degrees."
+        %beta_1
+    )
 
 #24 Температура газа на входе в колесо
 T_1 = T_0Stagn - pow(c_1, 2)/2/c_pExh
@@ -194,8 +202,11 @@ w_2a = G_F2/F_2/ro_2
 #38 Окружная составляющая относительной скорости на выходе из колеса
 if (pow(w_2, 2) - pow(w_2a, 2)) > 0:
     w_2u = math.sqrt(pow(w_2, 2) - pow(w_2a, 2))
-else:   exit("\033[91mError 38: Radicand is less then 0!\n\
-Difference between speeds is %0.3f m/s." %(w_2a - w_2) )
+else:
+    exit("\033[91mError 38: Radicand is less then 0!\
+        \nDifference between speeds is %0.3f m/s."
+        %(w_2a - w_2)
+    )
 
 #39 Угол β_2 наклона вектора относительной скорости w2
 #   на выходе из рабочего колеса
@@ -210,8 +221,10 @@ c_2 = math.sqrt(pow(w_2a, 2) + pow(c_2u, 2))
 #42 Угол α_2 выхода потока из колеса в абсолютном движении
 alpha_2 = 90 - math.degrees(math.atan( c_2u/w_2a ))
 if (alpha_2 < 75) | (alpha_2 > 105):
-    exit("\033[91mError 42: Angle 'alpha_2' is not in the allowable diapason!\n\
-It equals %0.1f but must be from 75 to 105 degrees." %alpha_2)
+    exit("\033[91mError 42: Angle 'alpha_2' is not in the allowable diapason!\
+        \nIt equals %0.1f but must be from 75 to 105 degrees."
+        %alpha_2
+    )
 
 #43 Потери в сопловом аппарате турбины
 Z_c = (1/pow(phiLosses, 2) - 1)*pow(c_1, 2)/2
@@ -250,8 +263,10 @@ L_Tu = L_TBlades - Z_UnsteadyOutlet
 #53 Окружной КПД η_тu турбины
 eta_Tu = L_Tu/L_TsStagn
 if (eta_Tu < 0.75) | (eta_Tu > 0.9):
-    exit("\033[91mError 53: Angle 'eta_Tu' is not in the allowable diapason!\n\
-It equals %0.3f but must be from 0.75 to 0.9." %eta_Tu)
+    exit("\033[91mError 53: Angle 'eta_Tu' is not in the allowable diapason!\
+        \nIt equals %0.3f but must be from 0.75 to 0.9."
+        %eta_Tu
+    )
 
 #54 Потери Zу, обусловленные утечкой газа через радиальные зазоры
 #   между колесом и корпусом
@@ -311,14 +326,14 @@ https://github.com/StasF1/turboCharger/issues")
 # Generate report
 # ~~~~~~~~~~~~~~~
 # Create a report
-exec(compile(open('include/reportGenerator.py', "rb").read(),
-                  'include/reportGenerator.py', 'exec'))
+exec(compile(open('post/post_report.py', "rb").read(),
+                  'post/post_report.py', 'exec'))
 # Edit pictures
-exec(compile(open('include/picturesEditor.py', "rb").read(),
-                  'include/picturesEditor.py', 'exec'))
+exec(compile(open('post/post_pictures.py', "rb").read(),
+                  'post/post_pictures.py', 'exec'))
 # Save the results to the results/ folder
-exec(compile(open('include/createResultsFolder.py', "rb").read(),
-                  'include/createResultsFolder.py', 'exec'))
+exec(compile(open('post/post_results.py', "rb").read(),
+                  'post/post_results.py', 'exec'))
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''
