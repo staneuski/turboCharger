@@ -247,7 +247,7 @@ Z_Blades = Z_c + Z_p
 L_TBlades = L_TsStagn - Z_Blades
 
 #55 Лопаточный КПД η_(т.л) турбины
-eta_TBlades = L_TBlades/L_TsStag
+eta_TBlades = L_TBlades/L_TsStagn
 
 #56 Потери в Z′_в с выходной скоростью при условии
 #   равномерного потока на выходе из рабочего колеса
@@ -293,7 +293,7 @@ eta_Ti = L_Ti/L_TsStagn
 eta_TeRated = eta_m*eta_Ti
 
 #67 Расхождение с заданным КПД турбины
-errorEta = abs(eta_TeRated - eta_Te)/eta_Te*100
+errorEta = (eta_TeRated - eta_Te)/eta_Te*100
 
 #68 Эффективная работа L_т е турбины
 L_Te = eta_TeRated*L_TsStagn
@@ -302,7 +302,7 @@ L_Te = eta_TeRated*L_TsStagn
 N_T = L_Te*G_T
 
 #70 Расхождение с мощностью N_к, потребляемой компрессором
-errorN = abs(N_K - N_T)/N_K*100
+errorN = (N_K - N_T)/N_K*100
 
 
 # Display the results

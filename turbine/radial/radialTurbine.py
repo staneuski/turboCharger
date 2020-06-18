@@ -318,7 +318,7 @@ eta_Ti = L_Ti/L_TsStagn
 eta_TeRated = turbine['efficiency']['eta_m']*eta_Ti
 
 #61 Расхождение с заданным КПД турбины
-errorEta = abs(eta_TeRated - turbine['efficiency']['eta_Te'])\
+errorEta = (eta_TeRated - turbine['efficiency']['eta_Te'])\
     /turbine['efficiency']['eta_Te']*100 # [%]
 
 #62 Эффективная работа L_т е турбины
@@ -328,7 +328,7 @@ L_Te = eta_TeRated*L_TsStagn
 N_T = L_Te*G_T
 
 #64 Расхождение с мощностью N_к, потребляемой компрессором
-errorN = abs(N_K - N_T)/N_K*100 # [%]
+errorN = (N_K - N_T)/N_K*100 # [%]
 
 
 # Display the results

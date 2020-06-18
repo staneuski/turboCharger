@@ -326,10 +326,13 @@ else: # Расчёт параметров лопаточного диффузо�
     #F50 Проверка на число лопаток относительно их количества в РК
     if ((compressor['geometry']['z_diffuser'] < compressor['geometry']['z_K'] - 5)
       | (compressor['geometry']['z_diffuser'] > compressor['geometry']['z_K'] + 2)):
-        exit('\033[91mError F50:\
- Number of diffuser vanes is not in the allowable diapason!\
-            \nIt must be less than number of %0.0f blades the wheel.'
-            %compressor['geometry']['z_K'])
+        exit('\033[91mError F50: Number of diffuser blades is not in the allowable diapason!\
+            \nFor %0.0f compressor blades this diapason is from %1.0f to %2.0f.'
+            %(compressor['geometry']['z_K'],
+                compressor['geometry']['z_K'] - 5,
+                compressor['geometry']['z_K'] + 2
+            )
+        )
 
     #44 Ширина безлопаточной части диффузора на выходе
     b_3 = compressor['geometry']['coefficients']['vanelessWideCoef']*b_2
@@ -413,14 +416,14 @@ eta_KsStagnRated = (pow(pi_KStagn, (k - 1)/k) - 1)\
     /(T_KStagn/T_0Stagn - 1)
 
 #60 Расхождение с заданным КПД компрессора
-errorEta = abs(eta_KsStagnRated - compressor['efficiency']['eta_KsStagn'])\
+errorEta = (eta_KsStagnRated - compressor['efficiency']['eta_KsStagn'])\
     /compressor['efficiency']['eta_KsStagn']*100
 
 #61 Расчётный коэффициент напора по заторможенным параметрам
 H_KsStagnRated = L_KsStagnRated/pow(u_2, 2)
 
 #62 Расхождение с заданным КПД компрессора
-errorH = abs(H_KsStagnRated - compressor['efficiency']['H_KsStagn'])\
+errorH = (H_KsStagnRated - compressor['efficiency']['H_KsStagn'])\
     /compressor['efficiency']['H_KsStagn']*100
 
 #63 Мощность затрачиваемая на привод компрессора
@@ -432,7 +435,7 @@ p_vStagn = p_KStagn*compressor['initial']['sigma_c']\
 
 #65 Расхождение с предварительно оценнёной/заданной степенью повышения
 #   давления компрессора
-errorpi_K = abs(pi_KStagn - pi_K)/pi_K*100
+errorpi_K = (pi_KStagn - pi_K)/pi_K*100
 
 D_2_mm = D_2*1e+03
 
