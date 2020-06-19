@@ -14,11 +14,13 @@
 projectType = "TYPE1" # "TYPE1" - по параметрам двигателя
                       # "TYPE2" - по расходу и степени повышения давления
 
-# Atmospheric pressure  | Атмосферное давление
-p_a = 0.1013 # [MPa]
+ambient = dict(
+    # Atmospheric pressure  | Атмосферное давление
+    p = 0.1013, # [MPa]
 
-# Temperature | температура
-T_a = 293 # [К]
+    # Temperature | температура
+    T = 293.0, # [К]
+)
 
 # Isentropy coefficient | Коэффициент изоэнтропы
 k   = 1.4

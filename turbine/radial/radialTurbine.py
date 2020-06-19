@@ -88,7 +88,7 @@ if 'HW' in projectType:
         exit("\033[91mError 0: The diameter of the wheel is too big!")
 
 # Outlet turbine pressure | Давление за турбиной
-p_2 = turbine['losses']['dragInletRatio']*p_a*1e+06 # [Pa]
+p_2 = turbine['losses']['dragInletRatio']*ambient['p']*1e+06 # [Pa]
 
 
 # Radial turbine parameters

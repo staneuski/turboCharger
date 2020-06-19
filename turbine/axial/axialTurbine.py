@@ -55,7 +55,7 @@ else:
  in commonConfig.py file!\n')
 
 # Outlet turbine pressure | Давление за турбиной
-p_2 = turbine['losses']['dragInletRatio']*p_a*1e+06 # [Pa]
+p_2 = turbine['losses']['dragInletRatio']*ambient['p']*1e+06 # [Pa]
 
 
 # Axial turbine parameters

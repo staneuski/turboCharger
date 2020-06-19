@@ -14,7 +14,7 @@
         БЛД - безлопаточный диффузор
         НА  - направляющий аппарат
 '''
-from commonConfig import(p_a, T_a)
+from commonConfig import ambient
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 compressor = dict(
@@ -34,10 +34,10 @@ compressor = dict(
     initial = dict(
         #- Inlet gas parameters | Параматры газа на входе
         #0 Stagnation pressure | давление торможения
-        p_aStagn    = p_a, # [MPa]
+        p_aStagn    = ambient['p'], # [MPa]
 
         #0 Stagnation pressure | температура торможения
-        T_aStagn    = T_a, # [К]
+        T_aStagn    = ambient['T'], # [К]
 
         #0 Intake speed | скорость на входе
         c_0         = 'DEFAULT', # [m/s] {40}
