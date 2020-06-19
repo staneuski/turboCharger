@@ -6,7 +6,7 @@
 report = open("compressorReport.md", "w")
 
 # Предварительные расчёты
-if 'TYPE1' in projectType:
+if 'TYPE1' in run['type']:
     p_e_MPa = engine['efficiency']['p_e']*1e-06
     report.write(
  "# Предварительные расчёты\n\

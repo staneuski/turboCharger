@@ -5,7 +5,7 @@
 
 r = open("radialTurbineReport.md", "w")
 r.write("#Данные для расчёта турбины\n")
-if 'TYPE1' in projectType:    r.write(
+if 'TYPE1' in run['type']:    r.write(
  "- В соответствии с исходными данными для наддува двигателя имеем:\
  \n$$\n G_{K} = %0.4f\quad кг/с;\quad \\engine['combustion']['alpha'] = %1.1f;\quad \\varengine['combustion']['phi']\
   = %3.3f,\quad l_{0} = %4.2f\n$$\n\n"

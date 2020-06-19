@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-def pressureIncreaseRatio(engine, compressor, R, k, pi_K):
+def pressureIncreaseRatio(engine, compressor):
     '''
     Description:    Calculate pressure increase ratio
     '''
 
     # Calculation pressure degree increase
-    pi_K = (
-        R
+    compressor['pi_K'] = (
+        engine['inlet']['R']
         *compressor['initial']['T_aStagn']
         *engine['efficiency']['b_e']
         *engine['combustion']['l_0']
@@ -14,8 +14,12 @@ def pressureIncreaseRatio(engine, compressor, R, k, pi_K):
         *engine['efficiency']['p_e']
         *(
             (
-                (pow(pi_K,(k - 1)/k) - 1)
-                /compressor['efficiency']['eta_KsStagn'] + 1
+                (
+                    pow(
+                        compressor['pi_K'],
+                        (engine['inlet']['k'] - 1)/engine['inlet']['k']
+                    ) - 1
+                )/compressor['efficiency']['eta_KsStagn'] + 1
             )
             *(1 - engine['heat']['E'])
             + engine['heat']['E']*engine['heat']['T_ca']/compressor['initial']['T_aStagn']
@@ -26,4 +30,4 @@ def pressureIncreaseRatio(engine, compressor, R, k, pi_K):
         /compressor['losses']['sigma_v']
     )
 
-    return pi_K
+    return compressor['pi_K']

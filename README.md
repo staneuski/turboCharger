@@ -21,7 +21,7 @@
 
 # История версий
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger) ![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
-### 📥 [Скачать текущую версию: _v1-beta_](https://github.com/StasF1/turboCharger/archive/v1-beta.zip) 📥
+### 📥 [Скачать текущую версию: _v2.0_](https://github.com/StasF1/turboCharger/archive/v2.0.zip) 📥
 
 # Порядок работы с программой
 ‼ Подробное руководство по работе с программой (текущей версии - v1-beta) выложено в [**Wiki**](https://github.com/StasF1/turboCharger/wiki).

@@ -22,7 +22,7 @@ def setDefaultValues(exhaust, turbine):
     )
     turbine['efficiency']['dzeta'] = defaultValue(
         turbine['efficiency']['dzeta'],
-        1.3
+        1.25
     )
     turbine['efficiency']['eta_m'] = defaultValue(
         turbine['efficiency']['eta_m'],

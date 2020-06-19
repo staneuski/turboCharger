@@ -7,12 +7,14 @@
     Author:         Stanislau Stasheuski
 
     File:           commonConfig
-    Description:    Common paramaters for all subprojects for 0D calculation
+    Description:    Run and ambient paramaters
 
 '''
-# Project type | Тип расчёта
-projectType = "TYPE1" # "TYPE1" - по параметрам двигателя
-                      # "TYPE2" - по расходу и степени повышения давления
+run = dict(
+    # Project type | Тип расчёта
+    type = "TYPE1" # "TYPE1" - по параметрам двигателя
+                   # "TYPE2" - по расходу и степени повышения давления
+)
 
 ambient = dict(
     # Atmospheric pressure  | Атмосферное давление
@@ -21,15 +23,6 @@ ambient = dict(
     # Temperature | температура
     T = 293.0, # [К]
 )
-
-# Isentropy coefficient | Коэффициент изоэнтропы
-k   = 1.4
-
-# Gas constant | Газовая постоянная
-R   = 287.2 # [J/kg/K]
-
-# Isobar heat capacity | Изобарная теплоёмкость
-c_p = 1005.0 # [J/kg/K]
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

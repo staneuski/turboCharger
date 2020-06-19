@@ -10,7 +10,6 @@
     Description:    Turbocharger's engine paramaters
 
 '''
-
 engine = dict(
 
     geometry = dict(
@@ -64,6 +63,17 @@ engine = dict(
 
         # Temperature of inlet turbine gases | Температура газов перед турбиной
         T_0Stagn = 874.0, # [K]
+    ),
+
+    inlet = dict(
+        # Isentropy coefficient | Коэффициент изоэнтропы
+        k   = 1.4,
+
+        # Gas constant | Газовая постоянная
+        R   = 287.2, # [J/kg/K]
+
+        # Isobar heat capacity | Изобарная теплоёмкость
+        c_p = 1005.0, # [J/kg/K]
     ),
 
     # Exhaust gas parameters | Параметры выпускных газов

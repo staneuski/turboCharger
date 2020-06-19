@@ -37,7 +37,7 @@ turboChargerLogo()
 
 # Converting data to SI dimensions
 engine['efficiency']['N_e'] *= 1e+03 # -> [W]
-engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/kW/h]
+engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/engine['inlet']['k']W/h]
 
 if issubclass(type(turbine['geometry']['delta']), float):
     turbine['geometry']['delta'] *= 1e-03 # -> [m]

@@ -39,7 +39,7 @@ turboChargerLogo()
 
 # Converting data to SI dimensions
 engine['efficiency']['N_e'] *= 1e+03 # -> [W]
-engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/kW/h]
+engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/engine['inlet']['k']W/h]
 if issubclass(type(turbine['geometry']['delta']), float):
     turbine['geometry']['delta'] *= 1e-03 # -> [m]
 
@@ -75,11 +75,11 @@ else:
  in commonConfig.py file!\n')
 
 # Flow volume | Расход
-if 'TYPE1' in projectType:
+if 'TYPE1' in run['type']:
     compressor['G_K'] = engine['efficiency']['N_e']*engine['efficiency']['b_e']*engine['combustion']['l_0']*engine['combustion']['alpha']*engine['combustion']['phi']/3600 # [kg/s]
 
 # Inlet turbine temperature (for HW) | Температура перед турбиной
-if 'HW' in projectType:
+if 'HW' in run['type']:
     if D_2K < 0.3:
         T_0Stagn = 923
     elif (D_2K > 0.3) & (D_2K < 0.64):

@@ -44,7 +44,7 @@ setDefaultValues(compressor)
 engine['geometry']['bore']   *= 1e-02 # -> [m]
 engine['geometry']['stroke'] *= 1e-02 # -> [m]
 engine['efficiency']['N_e'] *= 1e+03 # -> [W]
-engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/kW/h]
+engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/engine['inlet']['k']W/h]
 
 compressor['initial']['p_aStagn'] *= 1e+06 # -> [Pa]
 
@@ -66,7 +66,7 @@ engine['efficiency']['p_e'] = ( # [Pa]
 )
 
 # Flow volume | Расход
-if 'TYPE1' in projectType:
+if 'TYPE1' in run['type']:
     compressor['G_K'] = ( # [kg/s]
         engine['efficiency']['N_e']
         *engine['efficiency']['b_e']\
@@ -85,17 +85,17 @@ D_2Init = D_2 # [m]
 
 # Calculation pressure degree increase with successive approximation method
 # Определение степени повышения давления методом последовательных приближений
-if 'TYPE1' in projectType:
+if 'TYPE1' in run['type']:
     compressor['efficiency']['eta_KsStagn'] = etaPlot(
         compressor['efficiency']['eta_KsStagn'], D_2)
 
     compressor['pi_K'] = 1;    validity = 1e-04
     while (abs(
-        pressureIncreaseRatio(engine, compressor, R, k, compressor['pi_K']) - compressor['pi_K']) > validity
+        pressureIncreaseRatio(engine, compressor) - compressor['pi_K']) > validity
     ):
         compressor['pi_K'] += validity
     else:
-        pressureIncreaseRatio(engine, compressor, R, k, compressor['pi_K'])
+        pressureIncreaseRatio(engine, compressor)
 
 
 # Compressor parameters
@@ -106,12 +106,12 @@ p_0Stagn = compressor['losses']['sigma_0']*compressor['initial']['p_aStagn']
 
 #3 Static pressure & temperature of intake in compressor
 #  Статические температура и давление на входе в компрессор
-T_0 = T_0Stagn - pow(compressor['initial']['c_0'], 2)/2/c_p
-p_0 = p_0Stagn*pow(T_0/T_0Stagn, k/(k - 1)) #[Pa]
+T_0 = T_0Stagn - pow(compressor['initial']['c_0'], 2)/2/engine['inlet']['c_p']
+p_0 = p_0Stagn*pow(T_0/T_0Stagn, engine['inlet']['k']/(engine['inlet']['k'] - 1)) #[Pa]
 
 #4 Isentropy compression work in compressor
 #  Изоэнтропная работа сжатия в компрессоре
-L_KsStagn = c_p*T_0Stagn*(pow(compressor['pi_K'], (k - 1)/k) - 1)
+L_KsStagn = engine['inlet']['c_p']*T_0Stagn*(pow(compressor['pi_K'], (engine['inlet']['k'] - 1)/engine['inlet']['k']) - 1)
 
 #5 Wheel outer diameter circular velocity
 #  Окружная скорость на наружном диаметре колеса
@@ -130,20 +130,20 @@ compressor['efficiency']['phi_flow'] = phiPlot(
 c_1 = compressor['efficiency']['phi_flow']*u_2
 
 #7 Температура воздуха на входе в рабочее колесо
-T_1 = T_0 + (pow(compressor['initial']['c_0'], 2) - pow(c_1, 2))/2/c_p
+T_1 = T_0 + (pow(compressor['initial']['c_0'], 2) - pow(c_1, 2))/2/engine['inlet']['c_p']
 
 #8 Расчёт потерь энергии во впускном коллекторе
 L_inlet = compressor['losses']['dzeta_inlet']*pow(c_1, 2)/2
 
 #9 Показатель политропы сжатия в компрессоре
-n_1 = (( k/(k - 1) - L_inlet/R/(T_1 - T_0) )/
-       ( k/(k - 1) - L_inlet/R/(T_1 - T_0) - 1))
+n_1 = (( engine['inlet']['k']/(engine['inlet']['k'] - 1) - L_inlet/engine['inlet']['R']/(T_1 - T_0) )/
+       ( engine['inlet']['k']/(engine['inlet']['k'] - 1) - L_inlet/engine['inlet']['R']/(T_1 - T_0) - 1))
 
 #10 Давление на входе в колесо
 p_1 = p_0*pow(T_1/T_0, n_1/(n_1 - 1))
 
 #11 Плотность на входе в колесо
-rho_1 = p_1/R/T_1
+rho_1 = p_1/engine['inlet']['R']/T_1
 
 #13 Наружный диаметр колеса на входе D_1H
 F_1 = compressor['G_K']/c_1/rho_1 # площадь поперечного сечения в колесе
@@ -181,7 +181,7 @@ else:
     else:
         D_2 = round( D_2estimated, -1 )*1e-03 # [m]
 
-if 'TYPE2' in projectType:
+if 'TYPE2' in run['type']:
     compressor['efficiency']['eta_KsStagn'] = etaPlot(
         compressor['efficiency']['eta_KsStagn'], D_2
     )
@@ -216,7 +216,7 @@ u_1H = math.pi*D_1H*n_tCh/60
 w_1H = math.sqrt(pow(c_1Tau, 2) + pow(u_1H, 2)) 
 
 #24 Число маха на наружном диаметре входа в колесо
-M_w1 = w_1H/math.sqrt(k*R*T_1)
+M_w1 = w_1H/math.sqrt(engine['inlet']['k']*engine['inlet']['R']*T_1)
 if M_w1 > 0.9:
     print('\033[93mWarning 24: Mach number is too high!\
         \nIt must be less than 0.9 but it equals {0:.3f}\
@@ -266,18 +266,18 @@ T_2 = T_1 + (
     (
         mu + compressor['losses']['alpha_wh'] - 0.5*pow(mu, 2)
     )
-    *pow(u_2, 2)/c_p
+    *pow(u_2, 2)/engine['inlet']['c_p']
 )
 
 #33 Показатель политропы сжатия в колесе
-n_2 = (( k/(k - 1) - (L_BA + L_TF + L_TB)/R/(T_2 - T_1) )/
-       ( k/(k - 1) - (L_BA + L_TF + L_TB)/R/(T_2 - T_1) - 1))
+n_2 = (( engine['inlet']['k']/(engine['inlet']['k'] - 1) - (L_BA + L_TF + L_TB)/engine['inlet']['R']/(T_2 - T_1) )/
+       ( engine['inlet']['k']/(engine['inlet']['k'] - 1) - (L_BA + L_TF + L_TB)/engine['inlet']['R']/(T_2 - T_1) - 1))
 
 #34 Давление на выходе из колеса
 p_2 = p_1*pow(T_2/T_1, n_2/(n_2 - 1))
 
 #35 Плотность на выходе из колеса
-rho_2 = p_2/R/T_2
+rho_2 = p_2/engine['inlet']['R']/T_2
 
 #36 Окружная составляющая абсолютной скорости на выходе
 c_2u = mu*(
@@ -302,7 +302,7 @@ beta_2  = math.degrees(math.acos( w_2u/w_2 ))
 b_2 = compressor['G_K']/math.pi/D_2/c_2r/rho_2/compressor['load']['tau_2']
 
 #43 Температура заторможенного потока на выходе из колеса
-T_2Stagn = T_2 + pow(c_2, 2)/2/c_p
+T_2Stagn = T_2 + pow(c_2, 2)/2/engine['inlet']['c_p']
 
 # Расчёт параметров безлопаточного диффузора
 if 'VANELESS' in compressor['diffuser']:
@@ -313,25 +313,25 @@ if 'VANELESS' in compressor['diffuser']:
     D_4 = compressor['geometry']['coefficients']['vanelessDiamCoef']*D_2
 
     #46 Показатель политропы сжатия в диффузоре
-    n_4 = (compressor['efficiency']['eta_diff']*k/(k - 1))\
-         /(compressor['efficiency']['eta_diff']*k/(k - 1) - 1)
+    n_4 = (compressor['efficiency']['eta_diff']*engine['inlet']['k']/(engine['inlet']['k'] - 1))\
+         /(compressor['efficiency']['eta_diff']*engine['inlet']['k']/(engine['inlet']['k'] - 1) - 1)
 
     #47 Температура на выходе из диффузора
     # (методом последовательных приближений)
     T_4 = T_2
     validity = 1e-02
-    while (abs(diffuserOutletT(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4) - T_4)
+    while (abs(diffuserOutletT(engine['inlet'], b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4) - T_4)
            > validity):
         T_4 += validity
 
     else:
-        diffuserOutletT(b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4)
+        diffuserOutletT(engine['inlet'], b_2, D_2, T_2, c_2, b_4, D_4, T_4, n_4)
 
     #48 Давление на выходе из диффузора
     p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1))
 
     #49 Плотность на выходе из колеса
-    rho_4 = p_4/R/T_4
+    rho_4 = p_4/engine['inlet']['R']/T_4
 
     #50 Скорость на выходе из диффузора
     c_4 = c_2*D_2*b_2*rho_2/D_4/b_4/rho_4
@@ -357,23 +357,23 @@ else: # Расчёт параметров лопаточного диффузо�
     D_3 = compressor['geometry']['coefficients']['vanelessDiamCoef']*D_2
 
     #46 Показатель политропы сжатия безлопаточной части диффузора
-    n_3 = (compressor['efficiency']['eta_diff']*k/(k - 1))\
-         /(compressor['efficiency']['eta_diff']*k/(k - 1) - 1)
+    n_3 = (compressor['efficiency']['eta_diff']*engine['inlet']['k']/(engine['inlet']['k'] - 1))\
+         /(compressor['efficiency']['eta_diff']*engine['inlet']['k']/(engine['inlet']['k'] - 1) - 1)
 
     #47 Температура на выходе из диффузора (методом
     #   последовательных приближений)
     T_3 = T_2 - 40;    validity = 1e-02
-    while (abs(diffuserOutletT(b_2, D_2, T_2, c_2, b_3, D_3, T_3, n_3) - T_3)
+    while (abs(diffuserOutletT(engine['inlet'], b_2, D_2, T_2, c_2, b_3, D_3, T_3, n_3) - T_3)
            > validity):
         T_3 += validity
     else:
-        T_3 = diffuserOutletT(b_2, D_2, T_2, c_2, b_3, D_3, T_3, n_3)
+        T_3 = diffuserOutletT(engine['inlet'], b_2, D_2, T_2, c_2, b_3, D_3, T_3, n_3)
 
     #48 Давление на выходе из колеса
     p_3 = p_2*pow(T_3/T_2, n_3/(n_3 - 1))
 
     #49 Плотность на выходе из безлопаточной части диффузора
-    rho_3 = p_3/R/T_3
+    rho_3 = p_3/engine['inlet']['R']/T_3
 
     #F46 Скорость на выходе из безлопаточной части диффузора
     c_3 = c_2*D_2*b_2*rho_2/D_3/b_3/rho_3 
@@ -392,15 +392,15 @@ else: # Расчёт параметров лопаточного диффузо�
     b_4COEF = b_4*compressor['load']['tau_4']*math.sin(math.radians(alpha_4))
 
     T_4 = T_3;    validity = 1e-02
-    while (abs(diffuserOutletT(b_3COEF,D_3,T_3,c_3,b_4COEF,D_4,T_4,n_4) - T_4)
+    while (abs(diffuserOutletT(engine['inlet'], b_3COEF,D_3,T_3,c_3,b_4COEF,D_4,T_4,n_4) - T_4)
            > validity):
         T_4 += validity
     else:
-        diffuserOutletT(b_3COEF,D_3,T_3,c_3,b_4COEF,D_4,T_4,n_4)
+        diffuserOutletT(engine['inlet'], b_3COEF,D_3,T_3,c_3,b_4COEF,D_4,T_4,n_4)
 
     #F54 Давление и плотность на выходе из лопаточной части диффузора
     p_4 = p_2*pow(T_4/T_3, compressor['losses']['n_diffuser']/(n_4 - 1))
-    rho_4 = p_4/R/T_4
+    rho_4 = p_4/engine['inlet']['R']/T_4
 
     #50 Скорость на выходе из диффузора
     c_4 = c_3*D_3*b_3COEF/D_4/b_4COEF/rho_4
@@ -409,26 +409,26 @@ else: # Расчёт параметров лопаточного диффузо�
 c_K = c_4/compressor['geometry']['coefficients']['relDiffOutToCompOut']
 
 #52 Температура на выходе из компрессора
-T_K = T_4 + (pow(c_4, 2) - pow(c_K, 2))/2/c_p
+T_K = T_4 + (pow(c_4, 2) - pow(c_K, 2))/2/engine['inlet']['c_p']
 
 #54 Давление на выходе из компрессора
 p_K = p_4*pow(T_K/T_4, compressor['losses']['n_housing']
     /(compressor['losses']['n_housing'] - 1))
 
 #55 Температура заторможенного потока на выходе
-T_KStagn = T_K + pow(c_K, 2)/2/c_p
+T_KStagn = T_K + pow(c_K, 2)/2/engine['inlet']['c_p']
 
 #56 давление заторможенного потока на выходе
-p_KStagn = p_K*pow(T_KStagn/T_K, k/(k - 1))
+p_KStagn = p_K*pow(T_KStagn/T_K, engine['inlet']['k']/(engine['inlet']['k'] - 1))
 
 #57 Действительная степень повышения давления в компрессоре
 pi_KStagn = p_KStagn/p_0Stagn
 
 #58 Изоэнтропная работа по расчётной степени повышения давления
-L_KsStagnRated = c_p*T_0Stagn*(pow(pi_KStagn, (k - 1)/k) - 1)
+L_KsStagnRated = engine['inlet']['c_p']*T_0Stagn*(pow(pi_KStagn, (engine['inlet']['k'] - 1)/engine['inlet']['k']) - 1)
 
 #59 Расчётный изоэнтропный КПД по заторможенным параметрам
-eta_KsStagnRated = (pow(pi_KStagn, (k - 1)/k) - 1)\
+eta_KsStagnRated = (pow(pi_KStagn, (engine['inlet']['k'] - 1)/engine['inlet']['k']) - 1)\
     /(T_KStagn/T_0Stagn - 1)
 
 #60 Расхождение с заданным КПД компрессора
