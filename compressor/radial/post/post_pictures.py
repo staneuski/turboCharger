@@ -53,7 +53,7 @@ font = ImageFont.truetype("../../etc/fontGOST.ttf", 12)
 # outWheel.png
 outWheel = Image.open("../../etc/compressor/outWheel.png")
 d = ImageDraw.Draw(outWheel)
-d.text((250, 393), str(" = {0} RPM" .format(round(n_tCh))), (0,0,0), font=font)
+d.text((250, 393), str(" = {0} engine['RPM']" .format(round(n_tCh))), (0,0,0), font=font)
 d.text((10, 80),   str("{0} deg" .format(round(compressor['initial']['beta_2Blade'], 2))), (0,0,0), font=font)
 d.text((40, 120),  str("{0} deg" .format(round(beta_2, 1))), (0,0,0), font=font)
 d.text((238, 160), str("{0} deg" .format(round(alpha_2, 2))), (0,0,0), font=font)

@@ -1,28 +1,29 @@
 # -*- coding: utf-8 -*-
-def pressureIncreaseRatio(comressor, l_0, p_e, pi_K):
+def pressureIncreaseRatio(engine, compressor, R, k, pi_K):
     '''
     Description:    Calculate pressure increase ratio
     '''
 
-    from commonConfig import(
-        R, g_e, alpha, k, E, T_ca, eta_v
-    )
-
-    # Converting data to SI dimensions
-    g_e *= 1e-03 # -> [kg/W/h] or [g/kW/h]
-
-    initial    = comressor['initial']
-    efficiency = comressor['efficiency']
-
     # Calculation pressure degree increase
     pi_K = (
-        R*initial['T_aStagn']*g_e*l_0*alpha*p_e
+        R
+        *compressor['initial']['T_aStagn']
+        *engine['efficiency']['b_e']
+        *engine['combustion']['l_0']
+        *engine['combustion']['alpha']
+        *engine['efficiency']['p_e']
         *(
-            ( (pow(pi_K,(k - 1)/k) - 1)/efficiency['eta_KsStagn'] + 1 )
-            *(1 - E)+E*T_ca/initial['T_aStagn']
+            (
+                (pow(pi_K,(k - 1)/k) - 1)
+                /compressor['efficiency']['eta_KsStagn'] + 1
+            )
+            *(1 - engine['heat']['E'])
+            + engine['heat']['E']*engine['heat']['T_ca']/compressor['initial']['T_aStagn']
         )
-        /
-        initial['p_aStagn']/3600/initial['sigma_0']/initial['sigma_c']/initial['sigma_v']
+        /compressor['initial']['p_aStagn']/3600
+        /compressor['initial']['sigma_0']
+        /compressor['initial']['sigma_c']
+        /compressor['initial']['sigma_v']
     )
 
     return pi_K

@@ -39,25 +39,39 @@ turboChargerLogo()
 setDefaultValues(compressor)
 
 # Converting data to SI dimensions
-N_e *= 1e03 # -> [W]
-g_e *= 1e-03 # -> [kg/W/h] or [g/kW/h]
-D   *= 1e-02;    S *= 1e-02 # -> [m]
-compressor['initial']['p_aStagn'] *= 1e06 # -> [Pa]
+engine['bore']   *= 1e-02 # -> [m]
+engine['stroke'] *= 1e-02 # -> [m]
+engine['efficiency']['N_e'] *= 1e+03 # -> [W]
+engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/kW/h]
+
+compressor['initial']['p_aStagn'] *= 1e+06 # -> [Pa]
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
-if 'SI' in engineType:
-    l_0 = 14.84 # [kg]
-elif 'DIESEL' in engineType:
-    l_0 = 14.31 # [kg]
+if 'SI' in engine['type']:
+    engine['combustion']['l_0'] = 14.84 # [kg]
+elif 'DIESEL' in engine['type']:
+    engine['combustion']['l_0'] = 14.31 # [kg]
 else:
-    exit(f'\033[91mError: engineType variable is incorrect!')
+    exit(f"\033[91mError: engine['type'] variable is incorrect!")
 
 # Effective pressure | Среднее эффективное давление
-p_e = 0.12*1e03*N_e*strokeNo/(math.pi*pow(D, 2)*S*n*pistonNo) # [Pa]
+engine['efficiency']['p_e'] = ( # [Pa]
+    0.12*1e03*engine['efficiency']['N_e']*engine['strokeNo']
+    /(math.pi*pow(engine['bore'], 2)
+    *engine['stroke']
+    *engine['RPM']
+    *engine['pistonNo'])
+)
 
 # Flow volume | Расход
 if 'TYPE1' in projectType:
-    G_K = N_e*g_e*l_0*alpha*phi/3600 # [kg/s]
+    G_K = ( # [kg/s]
+        engine['efficiency']['N_e']
+        *engine['efficiency']['b_e']\
+        *engine['combustion']['l_0']
+        *engine['combustion']['alpha']
+        *engine['combustion']['phi']/3600
+    )
 
 # Wheel diameter
 # Оценка диаметра рабочего колеса и установка параметров зависящих от него
@@ -74,12 +88,12 @@ if 'TYPE1' in projectType:
         compressor['efficiency']['eta_KsStagn'], D_2)
 
     pi_K = 1;    validity = 1e-04
-    while (abs(pressureIncreaseRatio(compressor, l_0, p_e, pi_K) - pi_K)
-        > validity
+    while (abs(
+        pressureIncreaseRatio(engine, compressor, R, k, pi_K) - pi_K) > validity
     ):
         pi_K += validity
     else:
-        pressureIncreaseRatio(compressor, l_0, p_e, pi_K)
+        pressureIncreaseRatio(engine, compressor, R, k, pi_K)
 
 
 # Compressor parameters
@@ -494,5 +508,5 @@ exec(compile(open('post/post_pictures.py', "rb").read(),
 exec(compile(open('post/post_results.py', "rb").read(),
                   'post/post_results.py', 'exec'))
 
-
+print(engine)
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

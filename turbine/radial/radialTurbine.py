@@ -33,8 +33,8 @@ from compressorToTurbineConfig import *
 turboChargerLogo()
 
 # Converting data to SI dimensions
-N_e *= 1e+03 # -> [W]
-g_e *= 1e-03 # -> [kg/W/h] or [g/kV/h]
+engine['efficiency']['N_e'] *= 1e+03 # -> [W]
+engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/kV/h]
 if issubclass(type(turbine['geometry']['delta']), float):
     turbine['geometry']['delta'] *= 1e-03 # -> [m]
 
@@ -61,17 +61,17 @@ turbine['geometry']['coefficients']['innerDiamRatio'] = relD_2B(
 )
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
-if 'SI' in engineType:
-    l_0 = 14.28 # [kg]
-elif 'DIESEL' in engineType:
-    l_0 = 14.31 # [kg]
+if 'SI' in engine['type']:
+    engine['combustion']['l_0'] = 14.28 # [kg]
+elif 'DIESEL' in engine['type']:
+    engine['combustion']['l_0'] = 14.31 # [kg]
 else:
     exit('Set type of the engine correctly ("DIESEL" or "SI")\
  in commonConfig.py file!\n')
 
 # Flow volume | Расход
 if 'TYPE1' in projectType:
-    G_K = N_e*g_e*l_0*alpha*phi/3600 # [kg/s]
+    G_K = engine['efficiency']['N_e']*engine['efficiency']['b_e']*engine['combustion']['l_0']*engine['combustion']['alpha']*engine['combustion']['phi']/3600 # [kg/s]
 
 # Inlet turbine temperature (for HW) | Температура перед турбиной
 if 'HW' in projectType:
@@ -89,7 +89,11 @@ p_2 = exhaust['dragInletRatio']*p_a*1e+06 # [Pa]
 # Radial turbine parameters
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
 #1 Расход газа через турбину с учетом утечки
-G_T = G_K*turbine['efficiency']['sigma_esc']*(1 + 1/alpha/phi/l_0)
+G_T = G_K*turbine['efficiency']['sigma_esc']*(
+    1 + 1/engine['combustion']['alpha']
+         /engine['combustion']['phi']
+         /engine['combustion']['l_0']
+)
 
 #2 Диаметр колеса турбины и окружная скорость на входе в колесо турбины
 D_1 = turbine['geometry']['coefficients']['diameterRatio']*D_2K
@@ -114,7 +118,7 @@ if (ksi < ksiLower) | (ksi > ksiUpper):
 #7 Давление газа на входе в турбину
 p_0Stagn = p_2\
     /pow(
-        1 - L_TsStagn/exhaust['c_pExh']/T_0Stagn,
+        1 - L_TsStagn/exhaust['c_pExh']/engine['heat']['T_0Stagn'],
         exhaust['k_Exh']/(exhaust['k_Exh'] - 1)
     )
 
@@ -141,7 +145,7 @@ D_2 = math.sqrt(( pow(D_2B, 2) + pow(D_2H, 2) )/2)
 mu = D_2/D_1
 if (mu < 0.5) | (mu > 0.8): 
     exit("\033[91mError 12:\
- Geometeric parameter 'mu' is not in the allowable diapason! (It equals %0.2f)" 
+ Geometeric parameter 'mu' is not in the allowable diapason! (It equals %0.2f)"
         %mu
     )
 
@@ -175,12 +179,12 @@ if (beta_1 < 80) | (beta_1 > 100):
     )
 
 #24 Температура газа на входе в колесо
-T_1 = T_0Stagn - pow(c_1, 2)/2/exhaust['c_pExh']
+T_1 = engine['heat']['T_0Stagn'] - pow(c_1, 2)/2/exhaust['c_pExh']
 
 #25 Давление на входе в колесо
 p_1 = p_0Stagn\
     *pow(
-        1 - L_cS/exhaust['c_pExh']/T_0Stagn,
+        1 - L_cS/exhaust['c_pExh']/engine['heat']['T_0Stagn'],
         exhaust['k_Exh']/(exhaust['k_Exh'] - 1)
     )
 

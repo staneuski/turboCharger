@@ -31,8 +31,9 @@ from compressorToTurbineConfig import *
 turboChargerLogo()
 
 # Converting data to SI dimensions
-N_e *= 1e+03 # -> [W]
-g_e *= 1e-03 # -> [kg/W/h] or [g/kW/h]
+engine['efficiency']['N_e'] *= 1e+03 # -> [W]
+engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/kW/h]
+
 if issubclass(type(turbine['geometry']['delta']), float):
     turbine['geometry']['delta'] *= 1e-03 # -> [m]
 
@@ -40,10 +41,10 @@ if issubclass(type(turbine['geometry']['delta']), float):
 setDefaultValues(exhaust, turbine)
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
-if 'SI' in engineType:
-    l_0 = 14.25 # [kg]
-elif 'DIESEL' in engineType:
-    l_0 = 14.31 # [kg]
+if 'SI' in engine['type']:
+    engine['combustion']['l_0'] = 14.25 # [kg]
+elif 'DIESEL' in engine['type']:
+    engine['combustion']['l_0'] = 14.31 # [kg]
 else:
     exit('Set type of the engine correctly ("DIESEL" or "SI")\
  in commonConfig.py file!\n')
@@ -55,7 +56,10 @@ p_2 = exhaust['dragInletRatio']*p_a*1e+06 # [Pa]
 # Axial turbine parameters
 # ~~~~~~~~~~~~~~~~~~~~~~~~
 #1 Расход газа через турбину с учетом утечки
-G_T = G_K*turbine['efficiency']['sigma_esc']*(1 + 1/alpha/phi/l_0)
+G_T = G_K*turbine['efficiency']['sigma_esc']*(
+    1 + 1/engine['combustion']['alpha']
+        /engine['combustion']['phi']/engine['combustion']['l_0']
+)
 
 #3 Изоэнтропная работа турбины
 L_TsStagn = L_KsStagn*G_K/eta_KsStagnRated/turbine['efficiency']['eta_Te']/G_T
@@ -69,7 +73,7 @@ u_1 = turbine['efficiency']['ksi']*c_2s
 #7 Давление газа на входе в турбину
 p_0Stagn = p_2\
     /pow(
-        1 - L_TsStagn/exhaust['c_pExh']/T_0Stagn,
+        1 - L_TsStagn/exhaust['c_pExh']/engine['heat']['T_0Stagn'],
         exhaust['k_Exh']/(exhaust['k_Exh'] - 1)
     ) 
 
@@ -105,26 +109,26 @@ beta_1 = turbine['geometry']['beta_1Blade']\
     - math.degrees(math.atan( w_1u/c_1a ))
 
 #17 Температура газа на входе в колесо
-T_1 = T_0Stagn - pow(c_1, 2)/2/exhaust['c_pExh'] 
+T_1 = engine['heat']['T_0Stagn'] - pow(c_1, 2)/2/exhaust['c_pExh'] 
 
 #18 Давление на входе в колесо
 p_1 = p_0Stagn\
     *pow(
-        1 - L_cS/exhaust['c_pExh']/T_0Stagn,
+        1 - L_cS/exhaust['c_pExh']/engine['heat']['T_0Stagn'],
         exhaust['k_Exh']/(exhaust['k_Exh'] - 1)
     )
 
 pressureRelationSetOfNozzles = p_1/p_0Stagn
 
 #19 Плотность ρ_1 на входе в колесо
-ro_1 = p_1/exhaust['R_Exh']/T_1
+rho_1 = p_1/exhaust['R_Exh']/T_1
 
 #20 Средний диаметр решеток соплового аппарата на выходе
 #   и рабочего колеса на входе
 D_1 = 60*u_1/math.pi/n_TCh
 
 #21 Высота лопаток соплового аппарата
-l_1 = G_T/math.pi/D_1/ro_1/c_1/\
+l_1 = G_T/math.pi/D_1/rho_1/c_1/\
     math.sin(math.radians(turbine['geometry']['alpha_1']))
 
 if (l_1/D_1 < 0.16) | (l_1/D_1 > 0.25):
@@ -188,13 +192,13 @@ w_2 = turbine['losses']['psi']*math.sqrt( 2*L_pS + pow(w_1, 2) )
 T_2 = T_1 - (pow(w_2, 2) - pow(w_1, 2))/2/exhaust['c_pExh']
 
 #33 Плотность на выходе из колеса
-ro_2 = p_2/exhaust['R_Exh']/T_2
+rho_2 = p_2/exhaust['R_Exh']/T_2
 
 #35 Площадь проходного сечения F_2 на выходе из колеса
 F_2 = math.pi*D_1*l_1
 
 #36 Осевая составляющая относительной скорости на выходе в первом приближении
-w_2a = G_T/F_2/ro_2
+w_2a = G_T/F_2/rho_2
 
 #37 Угол β_2 наклона вектора относительной скорости w2
 #   на выходе из рабочего колеса
@@ -210,7 +214,7 @@ G_F2 = G_T - G_losses
 
 #40 Осевые составляющие относительной w_2a и абсолютной с_2а скоростей
 #   на выходе из колеса (w_2a == с_2а)
-c_2a = G_F2/F_2/ro_2
+c_2a = G_F2/F_2/rho_2
 
 #41 Уточнённый угол β_2 наклона вектора относительной скорости w2
 #   на выходе из рабочего колеса
@@ -299,7 +303,7 @@ Z_y = L_Tu*G_losses/G_T
 
 #61 Мощность N_тв, затрачиваемая на трение колеса в корпусе и вентиляцию
 N_TB = 735.5*turbine['geometry']['coefficients']['beta']\
-    *(ro_1 + ro_2)/2*pow(D_1, 2)*pow(u_1/100, 3)
+    *(rho_1 + rho_2)/2*pow(D_1, 2)*pow(u_1/100, 3)
 
 #62 Потери Z_тв на трение и вентиляцию
 Z_TB = N_TB/G_T
@@ -335,8 +339,8 @@ errorN = (N_K - N_T)/N_K*100
 # ~~~~~~~~~~~~~~~~~~~
 # Display some results right in the Terminal window
 print("Energy conversion efficiency coeficients are:\n\
-    turbine['efficiency']['eta_Te']  = {0:.4f} - set\n\
-    turbine['efficiency']['eta_Te']' = {1:.4f} - rated"\
+    eta_Te  = {0:.4f} - set\n\
+    eta_Te' = {1:.4f} - rated"\
     .format(turbine['efficiency']['eta_Te'], eta_TeRated)) # (dict) & (60)
 printError(errorEta) # (61)
 

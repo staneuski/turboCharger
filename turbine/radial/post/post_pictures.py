@@ -9,16 +9,16 @@ font = ImageFont.truetype('../../etc/fontGOST.ttf', 18)
 # axisCut.png
 axisCut = Image.open('../../etc/turbine/radial/axisCut.png')
 d = ImageDraw.Draw(axisCut)
-d.text((303, 517), str('={0} RPM' .format(round(n_TCh,   1))), (0,0,0), font=font)
+d.text((303, 517), str('={0} engine["RPM"]' .format(round(n_TCh,   1))), (0,0,0), font=font)
 d.text((591, 360), str('={0}' .format(round(b_1  *1e+03, 1))), (0,0,0), font=font)
 
-axisCut = axisCut.rotate(-90);
+axisCut = axisCut.rotate(-90)
 d = ImageDraw.Draw(axisCut)
 d.text((254, 490), str('={0}' .format(round(D_1  *1e+03, 1))), (0,0,0), font=font)
 d.text((258, 668), str('={0}' .format(round(D_2B *1e+03, 1))), (0,0,0), font=font)
 d.text((258, 703), str('={0}' .format(round(D_2  *1e+03, 1))), (0,0,0), font=font)
 d.text((258, 733), str('={0}' .format(round(D_2H *1e+03, 1))), (0,0,0), font=font)
-d.text((458, 738), str('={0}' .format(round(turbine['geometry']['delta']      , 1))), (0,0,0), font=font)
+d.text((458, 738), str('={0}' .format(round(turbine['geometry']['delta'], 1))), (0,0,0), font=font)
 
 axisCut.rotate(90).crop((71, 233, 792, 635)).save('axisCut.png')
 

@@ -22,7 +22,7 @@ u_2K = {u_2} # [m/s]
 
 D_2K = {D_2} # [m]
 
-n_TCh = {n_tCh} # [RPM]
+n_TCh = {n_tCh} # [engine['RPM']]
 
 eta_KsStagnRated = {eta_KsStagnRated} # [-]
 
