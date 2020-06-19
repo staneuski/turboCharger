@@ -17,7 +17,7 @@
 # Требования
 1. [Python 3](https://www.python.org/downloads/)
 2. Pillow - Python-модуль для редактирования изображений ([как его скачать](https://github.com/StasF1/turboCharger/issues/2))
-3. Markdown-редактор ([Typora](https://typora.io), желательно)
+3. Markdown-редактор ([Typora](https://typora.io/#download), желательно)
 
 # История версий
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger) ![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
@@ -61,4 +61,3 @@ turboCharger-2-beta
 
 ---
 Отдельная благодарность **Алексею Быкову** за проведённое тестирование кода и поиск ошибок.
-
