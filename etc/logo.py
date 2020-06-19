@@ -6,4 +6,5 @@ def turboChargerLogo():
     Version:        2.x
 
     Author:         (C) 2018-2020 Stanislau Stasheuski
-'''\033[0m""")
+'''
+\033[0m""")

@@ -1,6 +1,7 @@
 # Files
-*.pyc
-solvedParameters.py
+*.py_
+*_py
+compressorToTurbineConfig.py
 
 # Folders
 __pycache__/

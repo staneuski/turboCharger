@@ -1,5 +1,5 @@
 def printError(errorVariable):
-    if errorVariable < 1:
+    if abs(errorVariable) < 1:
         color = '\033[92m' # green
     else:
         color = '\033[1m\033[91m' # bold red
