@@ -14,12 +14,13 @@
 from __future__ import division
 import math, os, shutil, sys
 from PIL        import ImageFont, Image, ImageDraw
-sys.path.extend(['../../', '../../etc/', '../'])
+sys.path.extend(['../../', '../../etc/', '../../etc/turbine/', '../'])
 sys.path.extend(['pre/', 'post/'])
 
 from logo             import turboChargerLogo
-from errorVar         import printError
 from defaultValue     import defaultValue
+from output           import output
+
 from pre_setDefaultValues import setDefaultValues
 
 # Loading input data from project dictionaries
@@ -335,23 +336,8 @@ N_T = L_Te*G_T
 errorN = (N_K - N_T)/N_K*100
 
 
-# Display the results
-# ~~~~~~~~~~~~~~~~~~~
-# Display some results right in the Terminal window
-print("Energy conversion efficiency coeficients are:\n\
-    eta_Te  = {0:.4f} - set\n\
-    eta_Te' = {1:.4f} - rated"\
-    .format(turbine['efficiency']['eta_Te'], eta_TeRated)) # (dict) & (60)
-printError(errorEta) # (61)
-
-print("Power consumption:\n\
-    N_c = {N_K_kW:.3f} kW - of compressor\n\
-    N_t = {N_T_kW:.3f} kW - of turbine"\
-    .format(N_K_kW = N_K*1e-03, N_T_kW = N_T*1e-03)) # (compressor) & (63)
-printError(errorN) # (62)
-
-print("If something doesn't work correctly make a new issue or check the others:\n\
-https://github.com/StasF1/turboCharger/issues")
+# Display results
+output(turbine, eta_TeRated, errorEta, N_K, N_T, errorN)
 
 
 # Generate report

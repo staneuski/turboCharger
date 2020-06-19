@@ -20,7 +20,6 @@ sys.path.extend(['pre', 'run', 'post'])
 
 from logo                 import turboChargerLogo
 from defaultValue         import defaultValue
-from errorVar             import printError
 
 from pre_setDefaultValues import setDefaultValues
 from pre_standardisedSize import standardisedSize
@@ -29,6 +28,8 @@ from pre_plotToFunction   import zPlot, etaPlot, HPlot, phiPlot,\
 
 from run_piK              import pressureIncreaseRatio
 from run_diffuserOutletT  import diffuserOutletT
+
+from post_output          import output
 
 # Loading input data from project dictionaries
 from commonConfig       import *
@@ -79,7 +80,7 @@ if issubclass(type(compressor['run']['estimD_2']), str):
     D_2 = (160*G_K + 40)*1e-03 # [m]
 else:
     D_2 = compressor['run']['estimD_2']*1e-02 # [m]
-D_2_mm0 = D_2*1e+03 # [mm]
+D_2Init = D_2 # [m]
 
 # Calculation pressure degree increase with successive approximation method
 # Определение степени повышения давления методом последовательных приближений
@@ -451,50 +452,29 @@ p_vStagn = p_KStagn*compressor['initial']['sigma_c']\
 #   давления компрессора
 errorpi_K = (pi_KStagn - pi_K)/pi_K*100
 
-D_2_mm = D_2*1e+03
 
-# Displaying the results
-# ~~~~~~~~~~~~~~~~~~~~~~
-# Display some results right in the Terminal window
-print('Diameter of the wheel is {0:.0f} mm\n' .format(D_2_mm)) # (15)
+# Display the results
+if 'VANELESS' in compressor['run']['diffuserType']:
+    output(
+        compressor, D_2,
+        T_1, p_1, T_2, p_2, T_2, p_2, T_4, p_4,
+        pi_KStagn, pi_K, errorpi_K,
+        eta_KsStagnRated, errorEta,
+        H_KsStagnRated, errorH
+    )
+else:
+    output(
+        compressor, D_2,
+        T_1, p_1, T_2, p_2, T_3, p_3, T_4, p_4,
+        pi_KStagn, pi_K, errorpi_K,
+        eta_KsStagnRated, errorEta,
+        H_KsStagnRated, errorH
+    )
 
-print('Parameters by cuts:')
-if 'VANELESS' in compressor['run']['diffuserType']:  print('\
-    1-1: T_1 = {0:.0f} K,   p_1 = {1:.4f} MPa\n\
-    2-2: T_2 = {2:.0f} K,   p_2 = {3:.4f} MPa\n\
-    4-4: T_4 = {4:.0f} K,   p_4 = {5:.4f} MPa\n'
-    .format(T_1, p_1*1e-06, T_2, p_2*1e-06, T_4, p_4*1e-06))
-else:   print('\
-    1-1: T_1 = {0:.0f} K,   p_1 = {1:.4f} MPa\n\
-    2-2: T_2 = {2:.0f} K,   p_2 = {3:.4f} MPa\n\
-    3-3: T_3 = {4:.0f} K,   p_3 = {5:.4f} MPa\n\
-    4-4: T_4 = {6:.0f} K,   p_4 = {7:.4f} MPa\n'
-    .format(T_1, p_1*1e-06, T_2, p_2*1e-06, T_3, p_3*1e-06, T_4, p_4*1e-06))
-
-print('Actual pressure degree increase is {0:.2f}, when\n\
-precalculated/set pressure degree increase is {1:.2f}'\
-    .format(pi_KStagn, pi_K)) # (57)
-printError(errorpi_K) # (60)
-
-print("Energy conversion efficiency coeficients are:\n\
-    eta_Ks*  = {0:.4f} - set\n\
-    eta_Ks*' = {1:.4f} - rated"
-    .format(compressor['efficiency']['eta_KsStagn'], eta_KsStagnRated)) # (dict) & (59)
-printError(errorEta) # (60)
-
-print("Isentropy head coeficients are:\n\
-    H_Ks*  = {0:.4f} - set\n\
-    H_Ks*' = {1:.4f} - rated"
-    .format(compressor['efficiency']['H_KsStagn'], H_KsStagnRated)) # (dict) & (61)
-printError(errorH) # (62)
-
-print("If something doesn't work correctly make a new issue or check the others:\n\
-https://github.com/StasF1/turboCharger/issues")
 
 # Make extra dictionary for turbine calculation
 exec(compile(open('post/post_toTurbine.py', "rb").read(),
                   'post/post_toTurbine.py', 'exec'))
-
 
 # Generate report
 # ~~~~~~~~~~~~~~~
