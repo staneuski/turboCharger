@@ -21,9 +21,9 @@ def pressureIncreaseRatio(engine, compressor, R, k, pi_K):
             + engine['heat']['E']*engine['heat']['T_ca']/compressor['initial']['T_aStagn']
         )
         /compressor['initial']['p_aStagn']/3600
-        /compressor['initial']['sigma_0']
-        /compressor['initial']['sigma_c']
-        /compressor['initial']['sigma_v']
+        /compressor['losses']['sigma_0']
+        /compressor['losses']['sigma_c']
+        /compressor['losses']['sigma_v']
     )
 
     return pi_K

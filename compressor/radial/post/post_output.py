@@ -8,7 +8,7 @@ def output(compressor, D_2, T_1, p_1, T_2, p_2, T_3, p_3, T_4, p_4, pi_KStagn, p
     print('Diameter of the wheel is {0:.0f} mm\n' .format(D_2*1e+03)) # (15)
 
     print('Parameters by cuts:')
-    if 'VANELESS' in compressor['run']['diffuserType']:  print('\
+    if 'VANELESS' in compressor['diffuser']:  print('\
         1-1: T_1 = {0:.0f} K,   p_1 = {1:.4f} MPa\n\
         2-2: T_2 = {2:.0f} K,   p_2 = {3:.4f} MPa\n\
         4-4: T_4 = {4:.0f} K,   p_4 = {5:.4f} MPa\n'

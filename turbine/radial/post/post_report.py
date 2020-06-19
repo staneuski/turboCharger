@@ -19,7 +19,7 @@ r.write(
  "- Для выпускных газов принимаем:\
  \n$$\n R' = %0.1f\quad Дж/кг;\quad {c'}_{p} = %1.1f\quad\
  {Дж \over кг\cdot К};\quad k' = %2.1f\quad \n$$\n\n"
- %(exhaust['R_Exh'], exhaust['c_pExh'], exhaust['k_Exh']) )
+ %(engine['exhaust']['R'], engine['exhaust']['c_p'], engine['exhaust']['k']) )
 r.write(
  "- Из расчета компрессора имеем:\
  \n$$\n u_{2}(u_{2}) = %0.1f\quad м/с;\quad D_{2K} = %1.3f\quad м;\quad\n$$\
@@ -31,7 +31,7 @@ r.write(
  превышает атмосферное и составляет\
  $$p_{2} = (1.01…1.10)p_{а}$$. Принимаем:\
  \n$$\n p_{2} = %0.2fp_{а} = %1.f\quad Па\n$$\n\n"
- %(exhaust['dragInletRatio'], p_2) )
+ %(turbine['losses']['dragInletRatio'], p_2) )
 r.write(
  "- Температура газов перед турбиной:\
  $$T_{0}^{*} = %0.1f\quad K$$\n\n"

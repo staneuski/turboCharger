@@ -12,24 +12,9 @@
                     СА - сопловой аппарат
 '''
 
-# Exhaust gas parameters
-exhaust = dict(
-    # Isobar heat capacity | Изобарная теплоёмкость
-    c_pExh         = 1128.7, # [J/kg/K]
-
-    #p39 Gas constant | Газовая постоянная
-    R_Exh          = 286.4, # [J/kg/K]
-
-    #p39 Isentropy coefficient | Коэффициент изоэнтропы
-    k_Exh          = 1.34,
-
-    #p40 Коэффициент отношения давления на выходе из турбины к атмосферному
-    dragInletRatio = 'DEFAULT', #1.01…1.1 {1.017}
-)
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
 turbine = dict(
+
+    type = "axial",
 
     # Energy conversion efficiency (ECE) & other coefficints
     # КПД и другие коэффициенты
@@ -55,7 +40,6 @@ turbine = dict(
         #66 Механический КПД
         eta_m     = 'DEFAULT', #0.92…0.96 {0.94}
     ),
-
 
     # Geometric parameters | Параметры геометрии
     geometry = dict(
@@ -89,6 +73,9 @@ turbine = dict(
 
     # Losses coeficients | Коэффициенты потерь
     losses = dict(
+        #p40 Коэффициент отношения давления на выходе из турбины к атмосферному
+        dragInletRatio = 'DEFAULT', #1.01…1.1 {1.017}
+
         #10 Скоростной Коэффициент ϕ, учитывающий потери скорости в СА
         phi = 'DEFAULT', #0.96…0.98 {0.97}
 

@@ -32,36 +32,37 @@ from run_diffuserOutletT  import diffuserOutletT
 from post_output          import output
 
 # Loading input data from project dictionaries
-from commonConfig       import *
-from compressorConfig   import *
+from commonConfig     import *
+from engineConfig     import *
+from compressorConfig import *
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 turboChargerLogo()
 setDefaultValues(compressor)
 
 # Converting data to SI dimensions
-engine['bore']   *= 1e-02 # -> [m]
-engine['stroke'] *= 1e-02 # -> [m]
+engine['geometry']['bore']   *= 1e-02 # -> [m]
+engine['geometry']['stroke'] *= 1e-02 # -> [m]
 engine['efficiency']['N_e'] *= 1e+03 # -> [W]
 engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/kW/h]
 
 compressor['initial']['p_aStagn'] *= 1e+06 # -> [Pa]
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
-if 'SI' in engine['type']:
+if 'SI' in engine['combustion']['ignition']:
     engine['combustion']['l_0'] = 14.84 # [kg]
-elif 'DIESEL' in engine['type']:
+elif 'CI' in engine['combustion']['ignition']:
     engine['combustion']['l_0'] = 14.31 # [kg]
 else:
-    exit(f"\033[91mError: engine['type'] variable is incorrect!")
+    exit(f"\033[91mError: engine['combustion']['ignition'] variable is incorrect!")
 
 # Effective pressure | Среднее эффективное давление
 engine['efficiency']['p_e'] = ( # [Pa]
-    0.12*1e03*engine['efficiency']['N_e']*engine['strokeNo']
-    /(math.pi*pow(engine['bore'], 2)
-    *engine['stroke']
-    *engine['RPM']
-    *engine['pistonNo'])
+    0.12*1e03*engine['efficiency']['N_e']*engine['combustion']['strokeNo']
+    /(math.pi*pow(engine['geometry']['bore'], 2)
+    *engine['geometry']['stroke']
+    *engine['efficiency']['RPM']
+    *engine['geometry']['pistonNo'])
 )
 
 # Flow volume | Расход
@@ -76,10 +77,10 @@ if 'TYPE1' in projectType:
 
 # Wheel diameter
 # Оценка диаметра рабочего колеса и установка параметров зависящих от него
-if issubclass(type(compressor['run']['estimD_2']), str):
+if issubclass(type(compressor['geometry']['estimD_2']), str):
     D_2 = (160*G_K + 40)*1e-03 # [m]
 else:
-    D_2 = compressor['run']['estimD_2']*1e-02 # [m]
+    D_2 = compressor['geometry']['estimD_2']*1e-02 # [m]
 D_2Init = D_2 # [m]
 
 # Calculation pressure degree increase with successive approximation method
@@ -101,7 +102,7 @@ if 'TYPE1' in projectType:
 # ~~~~~~~~~~~~~~~~~~~~~
 #1 Stagnation parameters of inlet | Параметры торможения на входе
 T_0Stagn = compressor['initial']['T_aStagn']
-p_0Stagn = compressor['initial']['sigma_0']*compressor['initial']['p_aStagn']
+p_0Stagn = compressor['losses']['sigma_0']*compressor['initial']['p_aStagn']
 
 #3 Static pressure & temperature of intake in compressor
 #  Статические температура и давление на входе в компрессор
@@ -172,7 +173,7 @@ D_1B = relD_1BToH*D_1H
 D_2estimated = D_1H\
     /compressor['geometry']['coefficients']['relD_1H']*1e+03 # [mm]
 
-if 'ON' in compressor['run']['roundDiamToSTD']:
+if 'ON' in compressor['geometry']['coefficients']['DToSTD']:
     D_2 = standardisedSize( D_2estimated )*1e-03 # [m]
 else:
     if D_2estimated <= 85:
@@ -255,7 +256,7 @@ if ((compressor['geometry']['z_K'] < zLower)
 mu = 1/(
         1 + 2/3*math.pi/compressor['geometry']['z_K']
         *math.sin(
-            math.radians(compressor['initial']['beta_2Blade']))
+            math.radians(compressor['geometry']['beta_2Blade']))
             /(1 - pow(D_1/D_2, 2)
         )
     )
@@ -280,7 +281,7 @@ rho_2 = p_2/R/T_2
 
 #36 Окружная составляющая абсолютной скорости на выходе
 c_2u = mu*(
-    u_2 - c_2r/math.tan(math.radians(compressor['initial']['beta_2Blade']))
+    u_2 - c_2r/math.tan(math.radians(compressor['geometry']['beta_2Blade']))
 )
 
 #37 Абсолютная скорость на выходе из колеса
@@ -304,7 +305,7 @@ b_2 = G_K/math.pi/D_2/c_2r/rho_2/compressor['load']['tau_2']
 T_2Stagn = T_2 + pow(c_2, 2)/2/c_p
 
 # Расчёт параметров безлопаточного диффузора
-if 'VANELESS' in compressor['run']['diffuserType']:
+if 'VANELESS' in compressor['diffuser']:
     #44 Ширина безлопаточного диффузора на выходе
     b_4 = compressor['geometry']['coefficients']['vanelessWideCoef']*b_2
 
@@ -445,8 +446,8 @@ errorH = (H_KsStagnRated - compressor['efficiency']['H_KsStagn'])\
 N_K = G_K*L_KsStagn/eta_KsStagnRated
 
 #64 Полное давление перед впускными клапанами поршневой части
-p_vStagn = p_KStagn*compressor['initial']['sigma_c']\
-    *compressor['initial']['sigma_v']
+p_vStagn = p_KStagn*compressor['losses']['sigma_c']\
+    *compressor['losses']['sigma_v']
 
 #65 Расхождение с предварительно оценнёной/заданной степенью повышения
 #   давления компрессора
@@ -454,7 +455,7 @@ errorpi_K = (pi_KStagn - pi_K)/pi_K*100
 
 
 # Display the results
-if 'VANELESS' in compressor['run']['diffuserType']:
+if 'VANELESS' in compressor['diffuser']:
     output(
         compressor, D_2,
         T_1, p_1, T_2, p_2, T_2, p_2, T_4, p_4,
@@ -488,5 +489,5 @@ exec(compile(open('post/post_pictures.py', "rb").read(),
 exec(compile(open('post/post_results.py', "rb").read(),
                   'post/post_results.py', 'exec'))
 
-print(engine)
+
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

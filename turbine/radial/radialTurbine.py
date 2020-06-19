@@ -26,8 +26,9 @@ from pre_plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot,\
                              relD_1H, relD_2B
 
 # Loading input data from project dictionaries
-from commonConfig     import *
-from turbineConfig    import *
+from commonConfig  import *
+from engineConfig  import *
+from turbineConfig import *
 from compressorToTurbineConfig import *
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -35,11 +36,11 @@ turboChargerLogo()
 
 # Converting data to SI dimensions
 engine['efficiency']['N_e'] *= 1e+03 # -> [W]
-engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/kV/h]
+engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/kW/h]
 if issubclass(type(turbine['geometry']['delta']), float):
     turbine['geometry']['delta'] *= 1e-03 # -> [m]
 
-setDefaultValues(exhaust, turbine)
+setDefaultValues(engine['exhaust'], turbine)
 
 # Set values using balance coefficients from dictionary
 turbine['efficiency']['eta_Te'] = etaPlot(
@@ -62,9 +63,9 @@ turbine['geometry']['coefficients']['innerDiamRatio'] = relD_2B(
 )
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
-if 'SI' in engine['type']:
+if 'SI' in engine['combustion']['ignition']:
     engine['combustion']['l_0'] = 14.28 # [kg]
-elif 'DIESEL' in engine['type']:
+elif 'CI' in engine['combustion']['ignition']:
     engine['combustion']['l_0'] = 14.31 # [kg]
 else:
     exit('Set type of the engine correctly ("DIESEL" or "SI")\
@@ -84,7 +85,7 @@ if 'HW' in projectType:
         exit("\033[91mError 0: The diameter of the wheel is too big!")
 
 # Outlet turbine pressure | Давление за турбиной
-p_2 = exhaust['dragInletRatio']*p_a*1e+06 # [Pa]
+p_2 = turbine['losses']['dragInletRatio']*p_a*1e+06 # [Pa]
 
 
 # Radial turbine parameters
@@ -119,8 +120,8 @@ if (ksi < ksiLower) | (ksi > ksiUpper):
 #7 Давление газа на входе в турбину
 p_0Stagn = p_2\
     /pow(
-        1 - L_TsStagn/exhaust['c_pExh']/engine['heat']['T_0Stagn'],
-        exhaust['k_Exh']/(exhaust['k_Exh'] - 1)
+        1 - L_TsStagn/engine['exhaust']['c_p']/engine['heat']['T_0Stagn'],
+        engine['exhaust']['k']/(engine['exhaust']['k'] - 1)
     )
 
 #8 Проверка соотношения полного давления перед впускными клапанами поршневой
@@ -180,17 +181,17 @@ if (beta_1 < 80) | (beta_1 > 100):
     )
 
 #24 Температура газа на входе в колесо
-T_1 = engine['heat']['T_0Stagn'] - pow(c_1, 2)/2/exhaust['c_pExh']
+T_1 = engine['heat']['T_0Stagn'] - pow(c_1, 2)/2/engine['exhaust']['c_p']
 
 #25 Давление на входе в колесо
 p_1 = p_0Stagn\
     *pow(
-        1 - L_cS/exhaust['c_pExh']/engine['heat']['T_0Stagn'],
-        exhaust['k_Exh']/(exhaust['k_Exh'] - 1)
+        1 - L_cS/engine['exhaust']['c_p']/engine['heat']['T_0Stagn'],
+        engine['exhaust']['k']/(engine['exhaust']['k'] - 1)
     )
 
 #26 Плотность ρ_1 на входе в колесо
-rho_1 = p_1/exhaust['R_Exh']/T_1
+rho_1 = p_1/engine['exhaust']['R']/T_1
 
 #27 Ширина лопаток b1 на входе в колесо
 b_1 = G_T/math.pi/D_1/rho_1/c_1r
@@ -209,11 +210,11 @@ w_2 = turbine['losses']['psi']\
 #32 Температура Т_2 на выходе из колеса
 T_2 = T_1 - (
         (pow(w_2, 2) - pow(u_2, 2) - pow(w_1, 2) + pow(u_1, 2))\
-        /2/exhaust['c_pExh']
+        /2/engine['exhaust']['c_p']
     )
 
 #33 Плотность на выходе из колеса
-rho_2 = p_2/exhaust['R_Exh']/T_2
+rho_2 = p_2/engine['exhaust']['R']/T_2
 
 #34 Площадь сечения на выходе из колеса
 F_2 = math.pi/4*(pow(D_2H, 2) - pow(D_2B, 2))

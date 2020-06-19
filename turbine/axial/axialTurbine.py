@@ -24,8 +24,9 @@ from output           import output
 from pre_setDefaultValues import setDefaultValues
 
 # Loading input data from project dictionaries
-from commonConfig     import *
-from turbineConfig    import *
+from commonConfig  import *
+from engineConfig  import *
+from turbineConfig import *
 from compressorToTurbineConfig import *
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -39,19 +40,19 @@ if issubclass(type(turbine['geometry']['delta']), float):
     turbine['geometry']['delta'] *= 1e-03 # -> [m]
 
 # Set default values
-setDefaultValues(exhaust, turbine)
+setDefaultValues(engine['exhaust'], turbine)
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
-if 'SI' in engine['type']:
+if 'SI' in engine['combustion']['ignition']:
     engine['combustion']['l_0'] = 14.25 # [kg]
-elif 'DIESEL' in engine['type']:
+elif 'CI' in engine['combustion']['ignition']:
     engine['combustion']['l_0'] = 14.31 # [kg]
 else:
     exit('Set type of the engine correctly ("DIESEL" or "SI")\
  in commonConfig.py file!\n')
 
 # Outlet turbine pressure | Давление за турбиной
-p_2 = exhaust['dragInletRatio']*p_a*1e+06 # [Pa]
+p_2 = turbine['losses']['dragInletRatio']*p_a*1e+06 # [Pa]
 
 
 # Axial turbine parameters
@@ -74,8 +75,8 @@ u_1 = turbine['efficiency']['ksi']*c_2s
 #7 Давление газа на входе в турбину
 p_0Stagn = p_2\
     /pow(
-        1 - L_TsStagn/exhaust['c_pExh']/engine['heat']['T_0Stagn'],
-        exhaust['k_Exh']/(exhaust['k_Exh'] - 1)
+        1 - L_TsStagn/engine['exhaust']['c_p']/engine['heat']['T_0Stagn'],
+        engine['exhaust']['k']/(engine['exhaust']['k'] - 1)
     ) 
 
 #8 Проверка соотношения полного давления перед впускными клапанами
@@ -110,19 +111,19 @@ beta_1 = turbine['geometry']['beta_1Blade']\
     - math.degrees(math.atan( w_1u/c_1a ))
 
 #17 Температура газа на входе в колесо
-T_1 = engine['heat']['T_0Stagn'] - pow(c_1, 2)/2/exhaust['c_pExh'] 
+T_1 = engine['heat']['T_0Stagn'] - pow(c_1, 2)/2/engine['exhaust']['c_p'] 
 
 #18 Давление на входе в колесо
 p_1 = p_0Stagn\
     *pow(
-        1 - L_cS/exhaust['c_pExh']/engine['heat']['T_0Stagn'],
-        exhaust['k_Exh']/(exhaust['k_Exh'] - 1)
+        1 - L_cS/engine['exhaust']['c_p']/engine['heat']['T_0Stagn'],
+        engine['exhaust']['k']/(engine['exhaust']['k'] - 1)
     )
 
 pressureRelationSetOfNozzles = p_1/p_0Stagn
 
 #19 Плотность ρ_1 на входе в колесо
-rho_1 = p_1/exhaust['R_Exh']/T_1
+rho_1 = p_1/engine['exhaust']['R']/T_1
 
 #20 Средний диаметр решеток соплового аппарата на выходе
 #   и рабочего колеса на входе
@@ -148,7 +149,7 @@ z_1 = round( math.pi*D_1/t_1_0 )
 t_1 = math.pi*D_1/z_1
 
 #25 Число Маха на выходе из сопловой решетки
-M_c1 = c_1/math.sqrt( exhaust['k_Exh']*exhaust['R_Exh']*T_1 )
+M_c1 = c_1/math.sqrt( engine['exhaust']['k']*engine['exhaust']['R']*T_1 )
 
 #26 Ширина решетки в наиболее узкой ее части
 if (M_c1 > 0.4) & (M_c1 < 0.6):
@@ -190,10 +191,10 @@ L_pS = turbine['efficiency']['rho']*L_TsStagn
 w_2 = turbine['losses']['psi']*math.sqrt( 2*L_pS + pow(w_1, 2) )
 
 #32 Температура Т_2 на выходе из колеса
-T_2 = T_1 - (pow(w_2, 2) - pow(w_1, 2))/2/exhaust['c_pExh']
+T_2 = T_1 - (pow(w_2, 2) - pow(w_1, 2))/2/engine['exhaust']['c_p']
 
 #33 Плотность на выходе из колеса
-rho_2 = p_2/exhaust['R_Exh']/T_2
+rho_2 = p_2/engine['exhaust']['R']/T_2
 
 #35 Площадь проходного сечения F_2 на выходе из колеса
 F_2 = math.pi*D_1*l_1
@@ -245,7 +246,7 @@ z_2 = round( math.pi*D_1/t_2_0 )
 t_2 = math.pi*D_1/z_2
 
 #48 Число Маха на выходе из сопловой решетки
-M_w2 = w_2/math.sqrt( exhaust['k_Exh']*exhaust['R_Exh']*T_2 ) 
+M_w2 = w_2/math.sqrt( engine['exhaust']['k']*engine['exhaust']['R']*T_2 ) 
 
 #49 Ширина решетки в наиболее узкой ее части
 if (M_c1 > 0.4) & (M_c1 < 0.6):

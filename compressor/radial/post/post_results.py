@@ -23,6 +23,6 @@ shutil.move("axisCut.png",  f"{resultsFolder}/compressor/axisCut.png")
 shutil.move("blades.png",   f"{resultsFolder}/compressor/blades.png")
 shutil.move("outWheel.png", f"{resultsFolder}/compressor/outWheel.png")
 
-if 'VANED' in compressor['run']['diffuserType']:
+if 'VANED' in compressor['diffuser']:
     shutil.move("perpendicularCut.png",
                 f"{resultsFolder}/compressor/perpendicularCut.png")

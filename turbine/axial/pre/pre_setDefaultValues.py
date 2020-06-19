@@ -5,8 +5,8 @@ def setDefaultValues(exhaust, turbine):
 
     from defaultValue import defaultValue
 
-    exhaust['dragInletRatio'] = defaultValue(
-        exhaust['dragInletRatio'],
+    turbine['losses']['dragInletRatio'] = defaultValue(
+        turbine['losses']['dragInletRatio'],
         1.046
     ) # (0)
 

@@ -7,8 +7,8 @@ def setDefaultValues(compressor):
 
 
     # [initial]
-    compressor['initial']['beta_2Blade'] = defaultValue(
-        compressor['initial']['beta_2Blade'], 75.0)
+    compressor['geometry']['beta_2Blade'] = defaultValue(
+        compressor['geometry']['beta_2Blade'], 75.0)
     compressor['initial']['c_0'] = defaultValue(
         compressor['initial']['c_0'],         40.0)
 
@@ -42,13 +42,13 @@ def setDefaultValues(compressor):
     compressor['geometry']['coefficients']['relDiffOutToCompOut'] = defaultValue(
         compressor['geometry']['coefficients']['relDiffOutToCompOut'],  1.4)
 
-    if 'VANELESS' in compressor['run']['diffuserType']:
+    if 'VANELESS' in compressor['diffuser']:
         compressor['geometry']['coefficients']['vanelessWideCoef'] = defaultValue(
             compressor['geometry']['coefficients']['vanelessWideCoef'], 0.9)
         compressor['geometry']['coefficients']['vanelessDiamCoef'] = defaultValue(
             compressor['geometry']['coefficients']['vanelessDiamCoef'], 1.8)
 
-    elif 'VANED' in compressor['run']['diffuserType']:
+    elif 'VANED' in compressor['diffuser']:
         compressor['geometry']['coefficients']['vanelessWideCoef'] = defaultValue(
             compressor['geometry']['coefficients']['vanelessWideCoef'], 1.0)
         compressor['geometry']['coefficients']['vanelessDiamCoef'] = defaultValue(
