@@ -18,7 +18,7 @@ d.text((340, 173), str('{0}' .format(round(l_1*1e+03          , 1))), (0,0,0), f
 d.text((340, 422), str('{0}' .format(round(l_1*1e+03          , 1))), (0,0,0), font=font)
 d.text((150, 422), str('{0}' .format(round((D_1 - l_1/2)*1e+03, 1))), (0,0,0), font=font)
 d.text((150, 485), str('{0}' .format(round((D_1 + l_1/2)*1e+03, 1))), (0,0,0), font=font)
-d.text((500, 485), str('{0}' .format(round(delta*1e+03        , 1))), (0,0,0), font=font)
+d.text((500, 485), str('{0}' .format(round(turbine['geometry']['delta']*1e+03        , 1))), (0,0,0), font=font)
 
 axisCut.rotate(90).crop((40, 67, 520, 494)).save('axisCut.png')
 
@@ -29,7 +29,7 @@ d.text((288, 234), str('{0}'     .format(round(b_1*1e+03, 1))), (0,0,0), font=fo
 d.text((534, 720), str('={0}m/s' .format(round(c_1,       2))), (0,0,0), font=font)
 d.text((538, 482), str('={0}m/s' .format(round(w_1,       2))), (0,0,0), font=font)
 d.text((426, 531), str('={0}deg' .format(round(beta_1,    1))), (0,0,0), font=font)
-d.text((402, 694), str('={0}deg' .format(round(alpha_1,   1))), (0,0,0), font=font)
+d.text((402, 694), str('={0}deg' .format(round(turbine['geometry']['alpha_1'],   1))), (0,0,0), font=font)
 d.text((248, 430), str('{0}'     .format(round(a_1*1e+03, 1))), (0,0,0), font=font)
 
 d.text((408, 234), str('{0}'     .format(round(b_2*1e+03, 1))), (0,0,0), font=font)
