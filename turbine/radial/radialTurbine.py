@@ -14,7 +14,9 @@
 from __future__ import division
 import math, os, shutil, sys
 from PIL        import ImageFont, Image, ImageDraw
-sys.path.extend(['../../', '../../etc/', '../../etc/turbine/', '../'])
+sys.path.extend(
+    ['../../', '../../etc/', '../../etc/turbine/', '../../compressor/', '../']
+)
 sys.path.extend(['pre/', 'post/'])
 
 from logo             import turboChargerLogo
@@ -23,12 +25,13 @@ from output           import output
 
 from pre_setDefaultValues import setDefaultValues
 from pre_plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot,\
-                             relD_1H, relD_2B
+                               relD_1H, relD_2B
 
 # Loading input data from project dictionaries
-from commonConfig  import *
-from engineConfig  import *
-from turbineConfig import *
+from commonConfig     import *
+from engineConfig     import *
+from compressorConfig import *
+from turbineConfig    import *
 from compressorToTurbineConfig import *
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -73,7 +76,7 @@ else:
 
 # Flow volume | Расход
 if 'TYPE1' in projectType:
-    G_K = engine['efficiency']['N_e']*engine['efficiency']['b_e']*engine['combustion']['l_0']*engine['combustion']['alpha']*engine['combustion']['phi']/3600 # [kg/s]
+    compressor['G_K'] = engine['efficiency']['N_e']*engine['efficiency']['b_e']*engine['combustion']['l_0']*engine['combustion']['alpha']*engine['combustion']['phi']/3600 # [kg/s]
 
 # Inlet turbine temperature (for HW) | Температура перед турбиной
 if 'HW' in projectType:
@@ -91,7 +94,7 @@ p_2 = turbine['losses']['dragInletRatio']*p_a*1e+06 # [Pa]
 # Radial turbine parameters
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
 #1 Расход газа через турбину с учетом утечки
-G_T = G_K*turbine['efficiency']['sigma_esc']*(
+G_T = compressor['G_K']*turbine['efficiency']['sigma_esc']*(
     1 + 1/engine['combustion']['alpha']
          /engine['combustion']['phi']
          /engine['combustion']['l_0']
@@ -102,7 +105,7 @@ D_1 = turbine['geometry']['coefficients']['diameterRatio']*D_2K
 u_1 = turbine['geometry']['coefficients']['diameterRatio']*u_2K
 
 #4 Изоэнтропная работа турбины
-L_TsStagn = L_KsStagn*G_K/eta_KsStagnRated/turbine['efficiency']['eta_Te']/G_T
+L_TsStagn = L_KsStagn*compressor['G_K']/eta_KsStagnRated/turbine['efficiency']['eta_Te']/G_T
 
 #5 Условная изоэнтропная скорость истечения из турбины
 c_2s = math.sqrt( 2*L_TsStagn )

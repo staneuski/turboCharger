@@ -67,7 +67,7 @@ engine['efficiency']['p_e'] = ( # [Pa]
 
 # Flow volume | Расход
 if 'TYPE1' in projectType:
-    G_K = ( # [kg/s]
+    compressor['G_K'] = ( # [kg/s]
         engine['efficiency']['N_e']
         *engine['efficiency']['b_e']\
         *engine['combustion']['l_0']
@@ -78,7 +78,7 @@ if 'TYPE1' in projectType:
 # Wheel diameter
 # Оценка диаметра рабочего колеса и установка параметров зависящих от него
 if issubclass(type(compressor['geometry']['estimD_2']), str):
-    D_2 = (160*G_K + 40)*1e-03 # [m]
+    D_2 = (160*compressor['G_K'] + 40)*1e-03 # [m]
 else:
     D_2 = compressor['geometry']['estimD_2']*1e-02 # [m]
 D_2Init = D_2 # [m]
@@ -89,13 +89,13 @@ if 'TYPE1' in projectType:
     compressor['efficiency']['eta_KsStagn'] = etaPlot(
         compressor['efficiency']['eta_KsStagn'], D_2)
 
-    pi_K = 1;    validity = 1e-04
+    compressor['pi_K'] = 1;    validity = 1e-04
     while (abs(
-        pressureIncreaseRatio(engine, compressor, R, k, pi_K) - pi_K) > validity
+        pressureIncreaseRatio(engine, compressor, R, k, compressor['pi_K']) - compressor['pi_K']) > validity
     ):
-        pi_K += validity
+        compressor['pi_K'] += validity
     else:
-        pressureIncreaseRatio(engine, compressor, R, k, pi_K)
+        pressureIncreaseRatio(engine, compressor, R, k, compressor['pi_K'])
 
 
 # Compressor parameters
@@ -111,7 +111,7 @@ p_0 = p_0Stagn*pow(T_0/T_0Stagn, k/(k - 1)) #[Pa]
 
 #4 Isentropy compression work in compressor
 #  Изоэнтропная работа сжатия в компрессоре
-L_KsStagn = c_p*T_0Stagn*(pow(pi_K, (k - 1)/k) - 1)
+L_KsStagn = c_p*T_0Stagn*(pow(compressor['pi_K'], (k - 1)/k) - 1)
 
 #5 Wheel outer diameter circular velocity
 #  Окружная скорость на наружном диаметре колеса
@@ -146,7 +146,7 @@ p_1 = p_0*pow(T_1/T_0, n_1/(n_1 - 1))
 rho_1 = p_1/R/T_1
 
 #13 Наружный диаметр колеса на входе D_1H
-F_1 = G_K/c_1/rho_1 # площадь поперечного сечения в колесе
+F_1 = compressor['G_K']/c_1/rho_1 # площадь поперечного сечения в колесе
 
 compressor['geometry']['coefficients']['relD_1H'] = relD_1HPlot(
     compressor['geometry']['coefficients']['relD_1H'], D_2
@@ -299,7 +299,7 @@ alpha_2 = math.degrees(math.acos( c_2u/c_2 ))
 beta_2  = math.degrees(math.acos( w_2u/w_2 ))
 
 #41 Ширина колеса на выходе из турбины
-b_2 = G_K/math.pi/D_2/c_2r/rho_2/compressor['load']['tau_2']
+b_2 = compressor['G_K']/math.pi/D_2/c_2r/rho_2/compressor['load']['tau_2']
 
 #43 Температура заторможенного потока на выходе из колеса
 T_2Stagn = T_2 + pow(c_2, 2)/2/c_p
@@ -443,7 +443,7 @@ errorH = (H_KsStagnRated - compressor['efficiency']['H_KsStagn'])\
     /compressor['efficiency']['H_KsStagn']*100
 
 #63 Мощность затрачиваемая на привод компрессора
-N_K = G_K*L_KsStagn/eta_KsStagnRated
+N_K = compressor['G_K']*L_KsStagn/eta_KsStagnRated
 
 #64 Полное давление перед впускными клапанами поршневой части
 p_vStagn = p_KStagn*compressor['losses']['sigma_c']\
@@ -451,7 +451,7 @@ p_vStagn = p_KStagn*compressor['losses']['sigma_c']\
 
 #65 Расхождение с предварительно оценнёной/заданной степенью повышения
 #   давления компрессора
-errorpi_K = (pi_KStagn - pi_K)/pi_K*100
+pi_KError = (pi_KStagn - compressor['pi_K'])/compressor['pi_K']*100
 
 
 # Display the results
@@ -459,7 +459,7 @@ if 'VANELESS' in compressor['diffuser']:
     output(
         compressor, D_2,
         T_1, p_1, T_2, p_2, T_2, p_2, T_4, p_4,
-        pi_KStagn, pi_K, errorpi_K,
+        pi_KStagn, pi_KError,
         eta_KsStagnRated, errorEta,
         H_KsStagnRated, errorH
     )
@@ -467,7 +467,7 @@ else:
     output(
         compressor, D_2,
         T_1, p_1, T_2, p_2, T_3, p_3, T_4, p_4,
-        pi_KStagn, pi_K, errorpi_K,
+        pi_KStagn, pi_KError,
         eta_KsStagnRated, errorEta,
         H_KsStagnRated, errorH
     )

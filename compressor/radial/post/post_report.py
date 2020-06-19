@@ -17,7 +17,7 @@ if 'TYPE1' in projectType:
  - Предварительная оценка диаметра колеса:\n\
  $$\n D_{2} = 160G_{K} + 40 = %2.0f \quad мм, \n$$\n\n\
  - Cтепень повышения давления полученная методом последовательных приближений:\n\
- $$\n \pi_{к} = %3.4f, \n$$\n\n" %(p_e_MPa, G_K, D_2Init*1e+03, pi_K)
+ $$\n \pi_{к} = %3.4f, \n$$\n\n" %(p_e_MPa, compressor['G_K'], D_2Init*1e+03, compressor['pi_K'])
 )
 
 else:   report.write(
@@ -25,7 +25,7 @@ else:   report.write(
  - Расход:\
  \n$$\n G_{к} = %0.2f \quad кг/с, \n$$\n\n\
  - Cтепень повышения давления:\
- \n$$\n \pi_{к} = %1.2f, \n$$\n\n" %(G_K, pi_K)
+ \n$$\n \pi_{к} = %1.2f, \n$$\n\n" %(compressor['G_K'], compressor['pi_K'])
 )
 
 ## Расчёт

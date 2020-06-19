@@ -19,10 +19,16 @@ from commonConfig import(p_a, T_a)
 
 compressor = dict(
 
-    type = "radial",
+    type     = "radial",
 
     # Тип диффузора: БЛД ('VANELESS') или ЛД ('VANED')
     diffuser = 'VANELESS', # 'VANELESS' or ='VANED'
+
+    # Расход через компрессор ['TYPE2']
+    G_K      = 4.5, # [kg/s] (для осевой турбины должен быть задан)
+
+    # Cтепень повышения давления в компрессоре ['TYPE2']
+    pi_K     = 3.0,
 
     # Initial parameters | Начальные параметры
     initial = dict(

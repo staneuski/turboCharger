@@ -1,4 +1,4 @@
-def output(compressor, D_2, T_1, p_1, T_2, p_2, T_3, p_3, T_4, p_4, pi_KStagn, pi_K, errorpi_K, eta_KsStagnRated, errorEta, H_KsStagnRated, errorH):
+def output(compressor, D_2, T_1, p_1, T_2, p_2, T_3, p_3, T_4, p_4, pi_KStagn, pi_KError, eta_KsStagnRated, errorEta, H_KsStagnRated, errorH):
     '''
         Description:    Output results in the Terminal window
     '''
@@ -22,8 +22,8 @@ def output(compressor, D_2, T_1, p_1, T_2, p_2, T_3, p_3, T_4, p_4, pi_KStagn, p
 
     print('Actual pressure degree increase is {0:.2f}, when\n\
     precalculated/set pressure degree increase is {1:.2f}'\
-        .format(pi_KStagn, pi_K)) # (57)
-    printError(errorpi_K) # (60)
+        .format(pi_KStagn, compressor['pi_K'])) # (57)
+    printError(pi_KError) # (60)
 
     print("Energy conversion efficiency coeficients are:\n\
         eta_Ks*  = {0:.4f} - set\n\

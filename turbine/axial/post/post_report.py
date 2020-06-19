@@ -9,7 +9,7 @@ r.write(
  "- В соответствии с исходными данными для наддува двигателя имеем:\
  \n$$\n G_{K} = %0.4f\quad кг/с;\quad \\engine['combustion']['alpha'] = %1.1f;\quad \\varengine['combustion']['phi']\
   = %3.3f,\quad l_{0} = %4.2f\n$$\n\n"
- %(G_K, engine['combustion']['alpha'], engine['combustion']['phi'], engine['combustion']['l_0']) )
+ %(compressor['G_K'], engine['combustion']['alpha'], engine['combustion']['phi'], engine['combustion']['l_0']) )
 r.write(
  "- Для выпускных газов принимаем:\
  \n$$\n R' = %0.1f\quad Дж/кг;\quad {c'}_{p} = %1.1f\quad\
@@ -41,7 +41,7 @@ r.write("2. Значение эффективного КПД осевых тур
  \n$$\n \eta_{те} = %0.2f \n$$\n\n"
  %turbine['efficiency']['eta_Te'])
 r.write("3. Изоэнтропная работа турбины:\
- \n$$\n L_{TS}^{*} = {L^{*}_{TS}G_K \over \eta_{KS}\eta_{Te}G_{T}} = %0.1f\quad Дж/кг \n$$\n\n"
+ \n$$\n L_{TS}^{*} = {L^{*}_{TS}compressor['G_K'] \over \eta_{KS}\eta_{Te}G_{T}} = %0.1f\quad Дж/кг \n$$\n\n"
  %L_TsStagn)
 r.write("4. Условная изоэнтропная скорость истечения из турбины:\
  \n$$\n c_{2s} = \sqrt{ 2L_{TS} } = %0.3f\quad м/с \n$$\n\n"
