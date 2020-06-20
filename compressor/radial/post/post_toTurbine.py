@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-# '''
-#     Description:    Make dictionary for turbine after compressor run
-# '''
+def toTurbine(CompCalc):
+    '''
+        Description:    Make dictionary for turbine after compressor run
+    '''
 
-toTurbine = open("compressorToTurbineConfig.py", "w")
-toTurbine.write(f"""\
+    toTurbine = open("compressorToTurbineConfig.py", "w")
+    toTurbine.write(f"""\
 # '''
 #     API:            Python 3.x
 #     Project:        https://github.com/StasF1/turboCharger
@@ -18,21 +18,21 @@ toTurbine.write(f"""\
 #
 # '''
 
-u_2K = {u_2} # [m/s]
+u_2K = {CompCalc.u_2} # [m/s]
 
-D_2K = {D_2} # [m]
+D_2K = {CompCalc.D_2} # [m]
 
-n_TCh = {n_tCh} # [1/min]
+n_TCh = {CompCalc.n_tCh} # [1/min]
 
-eta_KsStagnRated = {eta_KsStagnRated} # [-]
+eta_KsStagnRated = {CompCalc.eta_KsStagnRated} # [-]
 
-L_KsStagn = {L_KsStagn} # [J/kg]
+L_KsStagn = {CompCalc.L_KsStagn} # [J/kg]
 
-N_K = {N_K} # [W]
+N_K = {CompCalc.N_K} # [W]
 
-p_vStagn = {p_vStagn} # [Pa]
+p_vStagn = {CompCalc.p_vStagn} # [Pa]
 
 # ''' (C) 2018-2019 Stanislau Stasheuski '''\
 """)
 
-toTurbine.close()
+    toTurbine.close
