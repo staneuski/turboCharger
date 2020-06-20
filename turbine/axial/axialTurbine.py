@@ -114,7 +114,7 @@ beta_1 = turbine['geometry']['beta_1Blade']\
     - math.degrees(math.atan( w_1u/c_1a ))
 
 #17 Температура газа на входе в колесо
-T_1 = engine['heat']['T_0Stagn'] - pow(c_1, 2)/2/engine['exhaust']['c_p'] 
+T_1 = engine['heat']['T_0Stagn'] - c_1**2/2/engine['exhaust']['c_p'] 
 
 #18 Давление на входе в колесо
 p_1 = p_0Stagn\
@@ -182,7 +182,7 @@ b_1 = math.sin(
 
 #28 Относительная скорость w1 на входе в рабочее колесо
 w_1 = math.sqrt(
-    pow(c_1, 2) + pow(u_1, 2)\
+    c_1**2 + u_1**2\
     - 2*c_1*u_1*math.cos(math.radians( turbine['geometry']['alpha_1'] ))
 )
 
@@ -191,10 +191,10 @@ w_1 = math.sqrt(
 L_pS = turbine['efficiency']['rho']*L_TsStagn
 
 #31 Относительная скорость на среднем диаметре D_2
-w_2 = turbine['losses']['psi']*math.sqrt( 2*L_pS + pow(w_1, 2) )
+w_2 = turbine['losses']['psi']*math.sqrt(2*L_pS + w_1**2)
 
 #32 Температура Т_2 на выходе из колеса
-T_2 = T_1 - (pow(w_2, 2) - pow(w_1, 2))/2/engine['exhaust']['c_p']
+T_2 = T_1 - (w_2**2 - w_1**2)/2/engine['exhaust']['c_p']
 
 #33 Плотность на выходе из колеса
 rho_2 = p_2/engine['exhaust']['R']/T_2
@@ -207,7 +207,7 @@ w_2a = G_T/F_2/rho_2
 
 #37 Угол β_2 наклона вектора относительной скорости w2
 #   на выходе из рабочего колеса
-beta_2_0 = math.degrees(math.asin( w_2a/w_2 ))
+beta_2_0 = math.degrees(math.asin(w_2a/w_2))
 
 #38 Утечки через этот радиальный зазор Δ между корпусом
 #   и колесом турбины составят
@@ -229,10 +229,10 @@ beta_2 = math.degrees(math.asin(c_2a/w_2))
 c_2u = w_2*math.cos(math.radians(beta_2)) - u_1
 
 #43 Абсолютная скорость на выходе из колеса
-c_2 = math.sqrt(pow(c_2a, 2) + pow(c_2u, 2))
+c_2 = math.sqrt(c_2a**2 + c_2u**2)
 
 #44 Угол α_2 выхода потока из колеса в абсолютном движении
-alpha_2 = math.degrees(math.asin( c_2a/c_2 ))
+alpha_2 = math.degrees(math.asin(c_2a/c_2))
 if (alpha_2 < 80) | (alpha_2 > 100):
     exit("\033[91mError 44: Angle 'alpha_2' is not in the allowable diapason!\
         \nIt equals %0.1f but must be from 80 to 100 degrees."
@@ -243,7 +243,7 @@ if (alpha_2 < 80) | (alpha_2 > 100):
 t_2_0 = turbine['geometry']['coefficients']['t2Tol2']*l_1
 
 #46 Число лопаток рабочего колеса
-z_2 = round( math.pi*D_1/t_2_0 )
+z_2 = round(math.pi*D_1/t_2_0)
 
 #47 Шаг решётки рабочего колеса с учётом округления числа лопаток
 t_2 = math.pi*D_1/z_2
@@ -253,9 +253,9 @@ M_w2 = w_2/math.sqrt( engine['exhaust']['k']*engine['exhaust']['R']*T_2 )
 
 #49 Ширина решетки в наиболее узкой ее части
 if (M_c1 > 0.4) & (M_c1 < 0.6):
-    a_2 = t_2*math.sin(math.radians( beta_2 ))/m
+    a_2 = t_2*math.sin(math.radians(beta_2))/m
 elif M_c1 >= 0.6:
-    a_2 = t_2*math.sin(math.radians( beta_2 ))
+    a_2 = t_2*math.sin(math.radians(beta_2))
 else:
     exit("\033[91mError 49: Mach number is not in the allowable diapason!\
         \nIt equals %0.1f but must be at least more then 0.4"
@@ -263,15 +263,15 @@ else:
     )
 
 #50 Ширина b_2 рабочего колеса по направлению оси вращения
-b_2 = (2*t_2*math.sin(math.radians( beta_2 ))
-       /turbine['efficiency']['c_u2']/math.sin(math.radians( beta_1 ))
+b_2 = (2*t_2*math.sin(math.radians(beta_2))
+       /turbine['efficiency']['c_u2']/math.sin(math.radians(beta_1))
             *math.sin(math.radians(beta_1 + beta_2)))
 
 #51 Потери в сопловом аппарате турбины
-Z_c = (1/pow(turbine['losses']['phi'], 2) - 1)*pow(c_1, 2)/2
+Z_c = (1/turbine['losses']['phi']**2 - 1)*c_1**2/2
 
 #52 Потери в рабочем колесе
-Z_p = (1/pow(turbine['losses']['psi'], 2) - 1)*pow(w_2, 2)/2
+Z_p = (1/turbine['losses']['psi']**2 - 1)*w_2**2/2
 
 #53 Суммарные потери в лопаточных каналах
 Z_Blades = Z_c + Z_p
@@ -284,7 +284,7 @@ eta_TBlades = L_TBlades/L_TsStagn
 
 #56 Потери в Z′_в с выходной скоростью при условии
 #   равномерного потока на выходе из рабочего колеса
-Z_SteadyOutlet = pow(c_2, 2)/2
+Z_SteadyOutlet = c_2**2/2
 
 #57 Работа L′_тu на окружности колеса c учётом потерь
 #   (определёная через потери)
@@ -308,7 +308,7 @@ Z_y = L_Tu*G_losses/G_T
 
 #61 Мощность N_тв, затрачиваемая на трение колеса в корпусе и вентиляцию
 N_TB = 735.5*turbine['geometry']['coefficients']['beta']\
-    *(rho_1 + rho_2)/2*pow(D_1, 2)*pow(u_1/100, 3)
+    *(rho_1 + rho_2)/2*D_1**2*pow(u_1/100, 3)
 
 #62 Потери Z_тв на трение и вентиляцию
 Z_TB = N_TB/G_T

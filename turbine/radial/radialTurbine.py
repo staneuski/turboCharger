@@ -76,14 +76,19 @@ else:
 
 # Flow volume | Расход
 if 'TYPE1' in run['type']:
-    compressor['G_K'] = engine['efficiency']['N_e']*engine['efficiency']['b_e']*engine['combustion']['l_0']*engine['combustion']['alpha']*engine['combustion']['phi']/3600 # [kg/s]
+    compressor['G_K'] = engine['efficiency']['N_e']\
+        *engine['efficiency']['b_e']\
+        *engine['combustion']['l_0']\
+        *engine['combustion']['alpha']\
+        *engine['combustion']['phi']/3600.0
+    # [kg/s]
 
 # Inlet turbine temperature (for HW) | Температура перед турбиной
 if 'HW' in run['type']:
     if D_2K < 0.3:
-        T_0Stagn = 923
+        T_0Stagn = 923.0
     elif (D_2K > 0.3) & (D_2K < 0.64):
-        T_0Stagn = 823
+        T_0Stagn = 823.0
     else:
         exit("\033[91mError 0: The diameter of the wheel is too big!")
 
@@ -144,7 +149,7 @@ D_2H = turbine['geometry']['coefficients']['outerDiamRatio']*D_1
 D_2B = turbine['geometry']['coefficients']['innerDiamRatio']*D_1
 
 #11 Средний диаметр колеса турбины на выходе
-D_2 = math.sqrt(( pow(D_2B, 2) + pow(D_2H, 2) )/2)
+D_2 = math.sqrt((D_2B**2 + D_2H**2)/2)
 
 #12 Вычисление параметра µ
 mu = D_2/D_1
@@ -173,7 +178,7 @@ c_1u = c_1*math.cos(math.radians( turbine['geometry']['alpha_1'] ))
 w_1u = c_1u - u_1
 
 #22 Относительная скорость на входе в рабочее колесо
-w_1 = math.sqrt(pow(c_1r, 2) - pow(w_1u, 2))
+w_1 = math.sqrt(c_1r**2 - w_1u**2)
 
 #23 Значение угла β_1 наклона вектора относительной скорости w_1
 beta_1 = turbine['geometry']['beta_1Blade'] - math.degrees(math.atan(w_1u/c_1r))
@@ -184,7 +189,7 @@ if (beta_1 < 80) | (beta_1 > 100):
     )
 
 #24 Температура газа на входе в колесо
-T_1 = engine['heat']['T_0Stagn'] - pow(c_1, 2)/2/engine['exhaust']['c_p']
+T_1 = engine['heat']['T_0Stagn'] - c_1**2/2/engine['exhaust']['c_p']
 
 #25 Давление на входе в колесо
 p_1 = p_0Stagn\
@@ -208,11 +213,11 @@ u_2 = mu*u_1
 
 #31 Относительная скорость на среднем диаметре D_2
 w_2 = turbine['losses']['psi']\
-    *math.sqrt( 2*L_pS + pow(w_1, 2) - pow(u_1, 2) + pow(u_2, 2) )
+    *math.sqrt(2*L_pS + w_1**2 - u_1**2 + u_2**2)
 
 #32 Температура Т_2 на выходе из колеса
 T_2 = T_1 - (
-        (pow(w_2, 2) - pow(u_2, 2) - pow(w_1, 2) + pow(u_1, 2))\
+        (w_2**2 - u_2**2 - w_1**2 + u_1**2)\
         /2/engine['exhaust']['c_p']
     )
 
@@ -220,7 +225,7 @@ T_2 = T_1 - (
 rho_2 = p_2/engine['exhaust']['R']/T_2
 
 #34 Площадь сечения на выходе из колеса
-F_2 = math.pi/4*(pow(D_2H, 2) - pow(D_2B, 2))
+F_2 = math.pi/4*(D_2H**2 - D_2B**2)
 
 #35 Утечки через радиальный зазор Δ между корпусом и колесом турбины
 G_losses = 0.45*2*turbine['geometry']['delta']*G_T/(D_2H - D_2B)\
@@ -234,8 +239,8 @@ G_F2 = G_T - G_losses
 w_2a = G_F2/F_2/rho_2
 
 #38 Окружная составляющая относительной скорости на выходе из колеса
-if (pow(w_2, 2) - pow(w_2a, 2)) > 0:
-    w_2u = math.sqrt(pow(w_2, 2) - pow(w_2a, 2))
+if (w_2**2 - w_2a**2) > 0:
+    w_2u = math.sqrt(w_2**2 - w_2a**2)
 else:
     exit("\033[91mError 38: Radicand is less then 0!\
         \nDifference between speeds is %0.3f m/s."
@@ -244,13 +249,13 @@ else:
 
 #39 Угол β_2 наклона вектора относительной скорости w2
 #   на выходе из рабочего колеса
-beta_2 = math.degrees(math.asin( w_2a/w_2 ))
+beta_2 = math.degrees(math.asin(w_2a/w_2))
 
 #40 Окружная составляющая с2u абсолютной скорости на выходе из колеса
 c_2u = w_2u - u_2
 
 #41 Абсолютная скорость на выходе из колеса
-c_2 = math.sqrt(pow(w_2a, 2) + pow(c_2u, 2)) 
+c_2 = math.sqrt(w_2a**2 + c_2u**2) 
 
 #42 Угол α_2 выхода потока из колеса в абсолютном движении
 alpha_2 = 90 - math.degrees(math.atan( c_2u/w_2a ))
@@ -261,10 +266,10 @@ if (alpha_2 < 75) | (alpha_2 > 105):
     )
 
 #43 Потери в сопловом аппарате турбины
-Z_c = (1/pow(turbine['losses']['phi'], 2) - 1)*pow(c_1, 2)/2
+Z_c = (1/turbine['losses']['phi']**2 - 1)*c_1**2/2
 
 #44 Потери в рабочем колесе
-Z_p = (1/pow(turbine['losses']['psi'], 2) - 1)*pow(w_2, 2)/2
+Z_p = (1/turbine['losses']['psi']**2 - 1)*w_2**2/2
 
 #45 Суммарные потери в лопаточных каналах
 Z_Blades = Z_c + Z_p
@@ -277,7 +282,7 @@ eta_TBlades = L_TBlades/L_TsStagn
 
 #48 Потери в Z′_в с выходной скоростью при условии равномерного потока на
 #   выходе из рабочего колеса
-Z_SteadyOutlet = pow(c_2, 2)/2
+Z_SteadyOutlet = c_2**2/2
 
 #49 Работа L′_тu на окружности колеса c учётом потерь
 #   определёная через потери
@@ -308,7 +313,7 @@ Z_y = L_Tu*G_losses/G_T
 
 #55 Мощность N_тв, затрачиваемая на трение колеса в корпусе и вентиляцию
 N_TB = 735.5*turbine['geometry']['coefficients']['beta']\
-    *(rho_1 + rho_2)/2*pow(D_1, 2)*pow(u_1/100, 3)
+    *(rho_1 + rho_2)/2*D_1**2*pow(u_1/100, 3)
 
 #56 Потери Z_тв на трение и вентиляцию
 Z_TB = N_TB/G_T
