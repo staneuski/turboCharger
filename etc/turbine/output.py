@@ -1,6 +1,6 @@
 def output(turbine, eta_TeRated, errorEta, N_K, N_T, errorN):
     '''
-        Description:    Output results in the Terminal window
+        Output results in the Terminal window
     '''
 
     from errorVar import printError

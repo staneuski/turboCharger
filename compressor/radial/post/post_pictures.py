@@ -1,6 +1,6 @@
 def pictures(compressor, CompCalc):
     '''
-        Description:    Edit pictures
+        Edit pictures
     '''
 
     from PIL import ImageFont, Image, ImageDraw

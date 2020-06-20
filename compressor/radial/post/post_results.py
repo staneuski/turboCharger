@@ -1,6 +1,6 @@
 def results(compressor):
     '''
-        Description:    Create results/compressor/ folder & move results there
+        Create results/compressor/ folder & move results there
     '''
 
     import os, shutil

@@ -1,6 +1,6 @@
 def report(run, engine, compressor, CompCalc):
     '''
-        Description:    Create the report for a compressor
+        Create the report for a compressor
     '''
 
     report = open("compressorReport.md", "w")

@@ -1,6 +1,6 @@
 def toTurbine(CompCalc):
     '''
-        Description:    Make dictionary for turbine after compressor run
+        Make dictionary for turbine after compressor run
     '''
 
     toTurbine = open("compressorToTurbineConfig.py", "w")

@@ -1,6 +1,6 @@
 def setDefaultValues(compressor):
     '''
-        Description:    Default values for coefficients
+        Default values for coefficients
     '''
 
     from defaultValue import defaultValue

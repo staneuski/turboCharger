@@ -1,6 +1,6 @@
 def setDefaultValues(exhaust, turbine):
     '''
-        Description:    Default coefficients values
+        Default coefficients values
     '''
 
     from defaultValue import defaultValue

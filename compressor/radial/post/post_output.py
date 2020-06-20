@@ -1,6 +1,6 @@
 def output(compressor, CompCalc):
     '''
-        Description:    Output results in the Terminal window
+        Output results in the Terminal window
     '''
 
     from errorVar import printError
