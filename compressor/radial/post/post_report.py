@@ -109,7 +109,7 @@ def report(run, engine, compressor, CompCalc):
     %(CompCalc.D_2estimated, compressor['geometry']['D_2']*1e+03) )
     report.write("16. Частота вращения ротора турбокомпрессора:\
     \n$$\n n_{тк} = {60u_{2} \over \pi D_{2}} = %0.1f\quad мин^{-1} \n$$\n\n"
-    %CompCalc.n_tCh)
+    %CompCalc.RPM)
     report.write("17. Средний диаметр на входе в колесо:\
     \n$$\n D_{1} = \sqrt{{ D_{1в}^2+D_{1н}^2 \over 2}} = %0.6f\quad м\n$$\n\n"
     %CompCalc.D_1)

@@ -1,12 +1,12 @@
-def diffuser_outlet_T(inlet, b_2, D_2, T_2, c_2, b_4, D_4, guessedT_4, n_4):
+def diffuser_outlet_T(inlet, D_2, b_2, T_2, c_2, D_out, b_out, T_out, n_out):
     '''
         Calculate diffuser outlet temperature
     '''
 
-    q = pow(D_2*b_2/D_4/b_4, 2)
-    m = 2/(n_4 - 1)
+    q = pow(D_2*b_2/D_out/b_out, 2)
+    m = 2/(n_out - 1)
     sigma = (inlet['k'] - 1)/2 * pow(c_2, 2)/inlet['k']/inlet['R']/T_2
 
-    T_4 = T_2*(1 + sigma*(1 - q*pow(T_2/guessedT_4, m)))
+    T_out = T_2*(1 + sigma*(1 - q*pow(T_2/T_out, m)))
 
-    return T_4
+    return T_out

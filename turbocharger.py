@@ -27,7 +27,7 @@ def main():
 
     from compressor_radial_pre import compressor_radial_pre
     from compressor_radial_run import compressor_radial_run
-    from compressor_radial_post import compressor_radial_post
+    # from compressor_radial_post import compressor_radial_post
 
     # Load input data from project dictionaries
     from commonConfig import run

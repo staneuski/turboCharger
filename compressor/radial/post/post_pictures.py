@@ -56,7 +56,7 @@ def pictures(compressor, CompCalc):
     # outWheel.png
     outWheel = Image.open("etc/compressor/outWheel.png")
     d = ImageDraw.Draw(outWheel)
-    d.text((250, 393), str(" = {0} engine['efficiency']['RPM']" .format(round(CompCalc.n_tCh))), (0,0,0), font=font)
+    d.text((250, 393), str(" = {0} engine['efficiency']['RPM']" .format(round(CompCalc.RPM))), (0,0,0), font=font)
     d.text((10, 80),   str("{0} deg" .format(round(compressor['geometry']['beta_2Blade'], 2))), (0,0,0), font=font)
     d.text((40, 120),  str("{0} deg" .format(round(CompCalc.beta_2, 1))), (0,0,0), font=font)
     d.text((238, 160), str("{0} deg" .format(round(CompCalc.alpha_2, 2))), (0,0,0), font=font)

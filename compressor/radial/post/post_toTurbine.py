@@ -22,7 +22,7 @@ u_2K = {CompCalc.u_2} # [m/s]
 
 D_2K = {compressor['geometry']['D_2']} # [m]
 
-n_TCh = {CompCalc.n_tCh} # [1/min]
+RPM = {CompCalc.RPM} # [1/min]
 
 eta_KsStagnRated = {CompCalc.eta_KsStagnRated} # [-]
 

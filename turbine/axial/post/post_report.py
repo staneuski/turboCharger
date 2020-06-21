@@ -20,7 +20,7 @@ r.write(
  \n$$\n D_{2K} = %1.3f\quad м;\quad\n$$\
  \n$$\n n_{тк} = %2.f\quad об/мин;\quad\eta = %3.5f;\quad {L'}_{KS} = %4.1f;\quad\n$$\
  \n$$\n N_{K} = %5.1f\quad Вт;\quad {p'}_{v} = %6.f\quad Па; \n$$\n\n"
- %(D_2K, n_TCh, eta_KsStagnRated, L_KsStagn, N_K, p_vStagn) )
+ %(D_2K, RPM, eta_KsStagnRated, L_KsStagn, N_K, p_vStagn) )
 r.write(
  "- Давление $$p_{2}$$ газов за турбиной\
  превышает атмосферное и составляет\

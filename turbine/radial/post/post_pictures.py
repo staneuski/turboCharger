@@ -9,7 +9,7 @@ font = ImageFont.truetype('../../etc/fontGOST.ttf', 18)
 # axisCut.png
 axisCut = Image.open('../../etc/turbine/radial/axisCut.png')
 d = ImageDraw.Draw(axisCut)
-d.text((303, 517), str('={0} engine["RPM"]' .format(round(n_TCh,   1))), (0,0,0), font=font)
+d.text((303, 517), str('={0} engine["RPM"]' .format(round(RPM,   1))), (0,0,0), font=font)
 d.text((591, 360), str('={0}' .format(round(b_1  *1e+03, 1))), (0,0,0), font=font)
 
 axisCut = axisCut.rotate(-90)

@@ -332,7 +332,7 @@ eta_Ti = L_Ti/L_TsStagn
 eta_TeRated = turbine['efficiency']['eta_m']*eta_Ti
 
 #61 Расхождение с заданным КПД турбины
-errorEta = (eta_TeRated - turbine['efficiency']['eta_Te'])\
+errorEta = (turbine['efficiency']['eta_Te'] - eta_TeRated)\
     /turbine['efficiency']['eta_Te']*100 # [%]
 
 #62 Эффективная работа L_т е турбины
