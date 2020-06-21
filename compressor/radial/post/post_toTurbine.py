@@ -1,4 +1,4 @@
-def toTurbine(CompCalc):
+def toTurbine(compressor, CompCalc):
     '''
         Make dictionary for turbine after compressor run
     '''
@@ -20,7 +20,7 @@ def toTurbine(CompCalc):
 
 u_2K = {CompCalc.u_2} # [m/s]
 
-D_2K = {CompCalc.D_2} # [m]
+D_2K = {compressor['geometry']['D_2']} # [m]
 
 n_TCh = {CompCalc.n_tCh} # [1/min]
 

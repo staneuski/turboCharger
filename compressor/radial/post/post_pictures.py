@@ -6,10 +6,10 @@ def pictures(compressor, CompCalc):
     from PIL import ImageFont, Image, ImageDraw
 
     # Load Fonts
-    font = ImageFont.truetype("../../etc/fontGOST.ttf", 22)
+    font = ImageFont.truetype("etc/fontGOST.ttf", 22)
 
     # axisCut.png
-    axisCut=Image.open("../../etc/compressor/axisCut.png")
+    axisCut=Image.open("etc/compressor/axisCut.png")
     d = ImageDraw.Draw(axisCut)
     d.text((331, 67),  str(round(CompCalc.b_4*1e+03, 2)), (0,0,0), font=font)
     if 'VANED' in compressor['diffuser']:
@@ -21,7 +21,7 @@ def pictures(compressor, CompCalc):
     d.text((75, 82),  str(round(CompCalc.D_1H*1e+03, 2)), (0,0,0), font=font)
     d.text((75, 127), str(round(CompCalc.D_1*1e+03, 2)), (0,0,0), font=font)
     d.text((75, 163), str(round(CompCalc.D_1B*1e+03, 2)), (0,0,0), font=font)
-    d.text((75, 348), str(round(CompCalc.D_2*1e+03, 2)), (0,0,0), font=font)
+    d.text((75, 348), str(round(compressor['geometry']['D_2']*1e+03, 2)), (0,0,0), font=font)
 
     if 'VANED' in compressor['diffuser']: # ЛД
         d.text((75,387), str(round(CompCalc.D_3*1e+03, 2)), (0,0,0), font=font)
@@ -31,14 +31,14 @@ def pictures(compressor, CompCalc):
 
     # perpendicularCut.png
     if 'VANED' in compressor['diffuser']: # ЛД
-        perpendicularCut=Image.open("../../etc/compressor/perpendicularCut.png")
+        perpendicularCut=Image.open("etc/compressor/perpendicularCut.png")
         d = ImageDraw.Draw(perpendicularCut)
         d.text((113, 327), str("{0}deg" .format(round(CompCalc.alpha_2, 1))), (0,0,0), font=font)
         d.text((207, 111), str("{0}deg" .format(round(CompCalc.alpha_4, 1))), (0,0,0), font=font)
         perpendicularCut.save("perpendicularCut.png")
 
     # blades.png
-    blades=Image.open("../../etc/compressor/blades.png")
+    blades=Image.open("etc/compressor/blades.png")
     d = ImageDraw.Draw(blades)
     d.text((38, 98),  str(round(CompCalc.beta_1Blade, 2)), (0,0,0), font=font)
     d.text((95, 120), str(round(CompCalc.beta_1,      2)), (0,0,0), font=font)
@@ -51,10 +51,10 @@ def pictures(compressor, CompCalc):
     blades.save("blades.png")
 
     # Change font size
-    font = ImageFont.truetype("../../etc/fontGOST.ttf", 12)
+    font = ImageFont.truetype("etc/fontGOST.ttf", 12)
 
     # outWheel.png
-    outWheel = Image.open("../../etc/compressor/outWheel.png")
+    outWheel = Image.open("etc/compressor/outWheel.png")
     d = ImageDraw.Draw(outWheel)
     d.text((250, 393), str(" = {0} engine['efficiency']['RPM']" .format(round(CompCalc.n_tCh))), (0,0,0), font=font)
     d.text((10, 80),   str("{0} deg" .format(round(compressor['geometry']['beta_2Blade'], 2))), (0,0,0), font=font)

@@ -101,12 +101,12 @@ def report(run, engine, compressor, CompCalc):
     \n$$\n D_{2} = {D_{1н} \over \overline{D}_{1н}} = %0.4f\quad мм\n$$\n\
     После оценки диаметра, принимается ближайшее значение\
     из ряда нормальных значений: $$ D_2 = %1.f$$ мм\n\n"
-    %(CompCalc.D_2estimated, CompCalc.D_2*1e+03) )
+    %(CompCalc.D_2estimated, compressor['geometry']['D_2']*1e+03) )
     else:   report.write("15. Наружный диаметр колеса компрессора на выходе,\
     оценивается по формуле:\
     \n$$\n D_{2} = {D_{1н} \over \overline{D}_{1н}} = %0.4f\quad мм\n$$\n\
     При округлении до целового, диаметр принимается: $$ D_2 = %1.f$$ мм\n\n"
-    %(CompCalc.D_2estimated, CompCalc.D_2*1e+03) )
+    %(CompCalc.D_2estimated, compressor['geometry']['D_2']*1e+03) )
     report.write("16. Частота вращения ротора турбокомпрессора:\
     \n$$\n n_{тк} = {60u_{2} \over \pi D_{2}} = %0.1f\quad мин^{-1} \n$$\n\n"
     %CompCalc.n_tCh)

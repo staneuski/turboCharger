@@ -3,9 +3,9 @@ def output(compressor, CompCalc):
         Output results in the Terminal window
     '''
 
-    from errorVar import printError
+    from output_calc_error import output_calc_error
 
-    print('Diameter of the wheel is {0:.0f} mm\n' .format(CompCalc.D_2*1e+03)) # (15)
+    print('Diameter of the wheel is {0:.0f} mm\n' .format(compressor['geometry']['D_2']*1e+03)) # (15)
 
     print('Parameters by cuts:')
     if 'VANELESS' in compressor['diffuser']:  print('\
@@ -23,19 +23,19 @@ def output(compressor, CompCalc):
     print('Actual pressure degree increase is {0:.2f}, when\n\
     precalculated/set pressure degree increase is {1:.2f}'\
         .format(CompCalc.pi_KStagn, compressor['pi_K'])) # (57)
-    printError(CompCalc.pi_KError) # (60)
+    output_calc_error(CompCalc.pi_KError) # (60)
 
     print("Energy conversion efficiency coeficients are:\n\
         eta_Ks*  = {0:.4f} - set\n\
         eta_Ks*' = {1:.4f} - rated"
         .format(compressor['efficiency']['eta_KsStagn'], CompCalc.eta_KsStagnRated)) # (dict) & (59)
-    printError(CompCalc.errorEta) # (60)
+    output_calc_error(CompCalc.errorEta) # (60)
 
     print("Isentropy head coeficients are:\n\
         H_Ks*  = {0:.4f} - set\n\
         H_Ks*' = {1:.4f} - rated"
         .format(compressor['efficiency']['H_KsStagn'], CompCalc.H_KsStagnRated)) # (dict) & (61)
-    printError(CompCalc.errorH) # (62)
+    output_calc_error(CompCalc.errorH) # (62)
 
     print("If something doesn't work correctly make a new issue or check the others:\n\
     https://github.com/StasF1/turboCharger/issues")

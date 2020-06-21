@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-def pressureIncreaseRatio(engine, compressor):
+def pressure_increase_ratio(engine, compressor):
     '''
-    Description:    Calculate pressure increase ratio
+        Calculate compressor pressure increase ratio
     '''
 
     # Calculation pressure degree increase

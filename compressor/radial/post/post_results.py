@@ -6,19 +6,19 @@ def results(compressor):
     import os, shutil
 
     # Creating directory if needed
-    resultsFolder = '../../results'
+    resultsFolder = 'results'
     if not os.path.exists(f"{resultsFolder}/compressor"):
         os.makedirs(f"{resultsFolder}/compressor")
 
     shutil.move(
         "compressorToTurbineConfig.py",
-        "../../turbine/compressorToTurbineConfig.py"
+        "turbine/compressorToTurbineConfig.py"
     )
 
     shutil.move("compressorReport.md",   f"{resultsFolder}/compressorReport.md")
 
     shutil.copyfile(
-        "../compressorConfig.py",
+        "compressor/compressorConfig.py",
         f"{resultsFolder}/compressor/compressorConfig.py"
     )
     shutil.move("axisCut.png",  f"{resultsFolder}/compressor/axisCut.png")

@@ -19,12 +19,12 @@ sys.path.extend(
 )
 sys.path.extend(['pre/', 'post/'])
 
-from logo             import turboChargerLogo
-from defaultValue     import defaultValue
+from logo             import logo
+from default_value     import default_value
 from output           import output
 
-from pre_setDefaultValues import setDefaultValues
-from pre_plotToFunction import etaPlot, alphaPlot, phiPlot, psiPlot, ksiPlot,\
+from set_default_values import set_default_values
+from plot2func import eta_plot2func, alpha_plot2func, phi_plot2func, psi_plot2func, ksi_plot2func,\
                                relD_1H, relD_2B
 
 # Loading input data from project dictionaries
@@ -35,7 +35,7 @@ from turbineConfig    import *
 from compressorToTurbineConfig import *
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-turboChargerLogo()
+logo()
 
 # Converting data to SI dimensions
 engine['efficiency']['N_e'] *= 1e+03 # -> [W]
@@ -43,19 +43,19 @@ engine['efficiency']['b_e'] *= 1e-03 # -> [kg/W/h] or [g/engine['inlet']['k']W/h
 if issubclass(type(turbine['geometry']['delta']), float):
     turbine['geometry']['delta'] *= 1e-03 # -> [m]
 
-setDefaultValues(engine['exhaust'], turbine)
+set_default_values(engine['exhaust'], turbine)
 
 # Set values using balance coefficients from dictionary
-turbine['efficiency']['eta_Te'] = etaPlot(
+turbine['efficiency']['eta_Te'] = eta_plot2func(
     turbine['efficiency']['eta_Te'], D_2K
 )
-turbine['geometry']['alpha_1'] = alphaPlot(
+turbine['geometry']['alpha_1'] = alpha_plot2func(
     turbine['geometry']['alpha_1'], D_2K
 )
-turbine['losses']['phi'] = phiPlot(
+turbine['losses']['phi'] = phi_plot2func(
     turbine['losses']['phi'], D_2K
 )
-turbine['losses']['psi'] = psiPlot(
+turbine['losses']['psi'] = psi_plot2func(
     turbine['losses']['psi'], D_2K
 )
 turbine['geometry']['coefficients']['outerDiamRatio'] = relD_1H(
@@ -117,8 +117,8 @@ c_2s = math.sqrt( 2*L_TsStagn )
 
 #6 Расчёт параметра ksi
 ksi = u_1/c_2s
-ksiLower = ksiPlot(0, D_2K)
-ksiUpper = ksiPlot(1, D_2K)
+ksiLower = ksi_plot2func(0, D_2K)
+ksiUpper = ksi_plot2func(1, D_2K)
 if (ksi < ksiLower) | (ksi > ksiUpper):
     exit("\033[91mError 6: Parameter 'ksi' is not in the allowable diapason!\
  It equals %2.3f but must be from %0.2f to %1.3f."

@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-def diffuserOutletT(inlet, b_2, D_2, T_2, c_2, b_4, D_4, guessedT_4, n_4):
+def diffuser_outlet_T(inlet, b_2, D_2, T_2, c_2, b_4, D_4, guessedT_4, n_4):
     '''
         Calculate diffuser outlet temperature
     '''

@@ -34,7 +34,7 @@ compressor = dict(
     initial = dict(
         #- Inlet gas parameters | Параматры газа на входе
         #0 Stagnation pressure | давление торможения
-        p_aStagn    = ambient['p'], # [MPa]
+        p_aStagn    = ambient['p'], # [Pa]
 
         #0 Stagnation pressure | температура торможения
         T_aStagn    = ambient['T'], # [К]

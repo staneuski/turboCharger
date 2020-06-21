@@ -19,11 +19,11 @@ sys.path.extend(
 )
 sys.path.extend(['pre/', 'post/'])
 
-from logo             import turboChargerLogo
-from defaultValue     import defaultValue
+from logo             import logo
+from default_value     import default_value
 from output           import output
 
-from pre_setDefaultValues import setDefaultValues
+from set_default_values import set_default_values
 
 # Loading input data from project dictionaries
 from commonConfig     import *
@@ -33,7 +33,7 @@ from turbineConfig    import *
 from compressorToTurbineConfig import *
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-turboChargerLogo()
+logo()
 
 # Converting data to SI dimensions
 engine['efficiency']['N_e'] *= 1e+03 # -> [W]
@@ -43,7 +43,7 @@ if issubclass(type(turbine['geometry']['delta']), float):
     turbine['geometry']['delta'] *= 1e-03 # -> [m]
 
 # Set default values
-setDefaultValues(engine['exhaust'], turbine)
+set_default_values(engine['exhaust'], turbine)
 
 # Теоретическое количество воздуха, необходимое для сгорания 1 кг топлива
 if 'SI' in engine['combustion']['ignition']:
