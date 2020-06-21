@@ -1,4 +1,4 @@
-def results(compressor):
+def save_results(compressor):
     '''
         Create results/compressor/ folder & move results there
     '''

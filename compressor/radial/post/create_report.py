@@ -1,4 +1,4 @@
-def report(run, engine, compressor, CompCalc):
+def create_report(run, engine, compressor, CompCalc):
     '''
         Create the report for a compressor
     '''

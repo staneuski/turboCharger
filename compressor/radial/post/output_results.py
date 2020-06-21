@@ -1,4 +1,4 @@
-def output(compressor, CompCalc):
+def output_results(compressor, CompCalc):
     '''
         Output results in the Terminal window
     '''

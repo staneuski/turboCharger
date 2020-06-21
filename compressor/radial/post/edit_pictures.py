@@ -1,4 +1,4 @@
-def pictures(compressor, CompCalc):
+def edit_pictures(compressor, CompCalc):
     '''
         Edit pictures
     '''

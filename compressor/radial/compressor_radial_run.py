@@ -6,22 +6,17 @@ def compressor_radial_run(run, engine, compressor):
 
     from set_standard import set_standard
     from plot2func import z_plot2func, H_plot2func, phi_plot2func,\
-                          relSpeeds_plot2func, relD_1H_plot2func,\
-                          relD_1B_plot2func
+                            relSpeeds_plot2func, relD_1H_plot2func,\
+                            relD_1B_plot2func
 
     from diffuser_outlet_T import diffuser_outlet_T
-
-    from post_output          import output
-    from post_toTurbine       import toTurbine
-    from post_report          import report
-    from post_pictures        import pictures
-    from post_results         import results
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     class CompCalc:
         '''
             Class with calculated compressor parameters
         '''
+
         D_2Init = compressor['geometry']['D_2'] # [m]
 
         #1 Stagnation parameters of inlet | Параметры торможения на входе
@@ -444,13 +439,7 @@ def compressor_radial_run(run, engine, compressor):
         #   давления компрессора
         pi_KError = (pi_KStagn - compressor['pi_K'])/compressor['pi_K']*100
 
-    toTurbine(compressor, CompCalc)
-    output(compressor, CompCalc)
-    report(run, engine, compressor, CompCalc)
-    pictures(compressor, CompCalc)
-    results(compressor)
-
-    return compressor
+    return compressor, CompCalc
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''
