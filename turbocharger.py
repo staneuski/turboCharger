@@ -11,7 +11,6 @@
 
 '''
 
-from __future__ import division
 import sys
 import math
 sys.path.append('etc/')
@@ -39,11 +38,11 @@ def turbocharger_compressor(run, engine, compressor):
  
     compressor_radial_pre(run, engine, compressor)
 
-    compressor, CompCalc = compressor_radial_run(run, engine, compressor)
+    compressor, Compressor = compressor_radial_run(run, engine, compressor)
 
-    compressor_radial_post(run, engine, compressor, CompCalc)
+    compressor_radial_post(run, engine, compressor, Compressor)
 
-    return CompCalc
+    return Compressor
 
 
 def main():

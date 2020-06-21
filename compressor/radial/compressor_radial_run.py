@@ -6,13 +6,13 @@ def compressor_radial_run(run, engine, compressor):
 
     from set_standard import set_standard
     from plot2func import z_plot2func, H_plot2func, phi_plot2func,\
-                            relSpeeds_plot2func, relD_1H_plot2func,\
-                            relD_1B_plot2func
+                          relSpeeds_plot2func, relD_1H_plot2func,\
+                          relD_1B_plot2func
 
     from diffuser_outlet_T import diffuser_outlet_T
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    class CompCalc:
+    class Compressor:
         '''
             Class with calculated compressor parameters
         '''
@@ -439,7 +439,7 @@ def compressor_radial_run(run, engine, compressor):
         #   давления компрессора
         pi_KError = (pi_KStagn - compressor['pi_K'])/compressor['pi_K']*100
 
-    return compressor, CompCalc
+    return compressor, Compressor
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

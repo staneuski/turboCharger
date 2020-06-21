@@ -1,4 +1,4 @@
-def compressor_radial_post(run, engine, compressor, CompCalc):
+def compressor_radial_post(run, engine, compressor, Compressor):
     '''
         Calculate compressor parameters using 0D method
     '''
@@ -9,13 +9,13 @@ def compressor_radial_post(run, engine, compressor, CompCalc):
     from save_results import save_results
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    toTurbine(compressor, CompCalc)
+    toTurbine(compressor, Compressor)
 
-    output_results(compressor, CompCalc)
+    output_results(compressor, Compressor)
 
-    create_report(run, engine, compressor, CompCalc)
+    create_report(run, engine, compressor, Compressor)
 
-    edit_pictures(compressor, CompCalc)
+    edit_pictures(compressor, Compressor)
 
     save_results(compressor)
 

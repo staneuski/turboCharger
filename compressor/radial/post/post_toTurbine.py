@@ -1,4 +1,4 @@
-def toTurbine(compressor, CompCalc):
+def toTurbine(compressor, Compressor):
     '''
         Make dictionary for turbine after compressor run
     '''
@@ -18,19 +18,19 @@ def toTurbine(compressor, CompCalc):
 #
 # '''
 
-u_2K = {CompCalc.u_2} # [m/s]
+u_2K = {Compressor.u_2} # [m/s]
 
 D_2K = {compressor['geometry']['D_2']} # [m]
 
-RPM = {CompCalc.RPM} # [1/min]
+RPM = {Compressor.RPM} # [1/min]
 
-eta_KsStagnRated = {CompCalc.eta_KsStagnRated} # [-]
+eta_KsStagnRated = {Compressor.eta_KsStagnRated} # [-]
 
-L_KsStagn = {CompCalc.L_KsStagn} # [J/kg]
+L_KsStagn = {Compressor.L_KsStagn} # [J/kg]
 
-N_K = {CompCalc.N_K} # [W]
+N_K = {Compressor.N_K} # [W]
 
-p_vStagn = {CompCalc.p_vStagn} # [Pa]
+p_vStagn = {Compressor.p_vStagn} # [Pa]
 
 # ''' (C) 2018-2019 Stanislau Stasheuski '''\
 """)
