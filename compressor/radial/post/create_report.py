@@ -3,7 +3,7 @@ def create_report(run, engine, compressor, Compressor):
         Create the report for a compressor
     '''
 
-    report = open("compressorReport.md", "w")
+    report = open("compressorReport.md", "w", encoding='utf-8')
 
     # Предварительные расчёты
     if 'TYPE1' in run['type']:

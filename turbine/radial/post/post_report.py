@@ -3,7 +3,7 @@
 #     Description:    Generate radial turbine report
 # '''
 
-r = open("radialTurbineReport.md", "w")
+r = open("radialTurbineReport.md", "w", encoding='utf-8')
 r.write("#Данные для расчёта турбины\n")
 if 'TYPE1' in run['type']:    r.write(
  "- В соответствии с исходными данными для наддува двигателя имеем:\
