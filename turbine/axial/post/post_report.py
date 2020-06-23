@@ -3,7 +3,7 @@
 #     Description:    Generate the report
 # '''
 
-r = open("axialTurbineReport.md", "w")
+r = open("axialTurbineReport.md", "w", encoding='utf-8')
 r.write("#Данные для расчёта турбины\n")
 r.write(
  "- В соответствии с исходными данными для наддува двигателя имеем:\
