@@ -21,7 +21,7 @@ sys.path.extend(['pre/', 'post/'])
 
 from logo             import logo
 from default_value     import default_value
-from output           import output
+from turbine_output import turbine_output
 
 from set_default_values import set_default_values
 
