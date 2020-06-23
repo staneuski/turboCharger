@@ -2,6 +2,7 @@ def output_results(compressor, Compressor):
     '''
         Output results in the Terminal window
     '''
+    print("\033[94m''' Compressor ''' \033[0m\n")
 
     from output_calc_error import output_calc_error
 
@@ -37,6 +38,4 @@ def output_results(compressor, Compressor):
         .format(compressor['efficiency']['H_KsStagn'], Compressor.H_KsStagnRated)) # (dict) & (61)
     output_calc_error(Compressor.errorH) # (62)
 
-    print("If something doesn't work correctly make a new issue or check the others:\n\
-    https://github.com/StasF1/turboCharger/issues")
-
+    print("\n\033[94m''' Turbine ''' \033[0m\n")

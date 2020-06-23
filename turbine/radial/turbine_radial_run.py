@@ -1,43 +1,11 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-'''
-    API:            Python 3.x
-    Project:        https://github.com/StasF1/turboCharger
-    Version:        2.x
-    License:        GNU General Public License 3.0 ( see LICENSE )
-    Author:         Stanislau Stasheuski
-
-    Script:         radialTurbine
-    Description:    Calculate radial turbine parameters using 0D method
-
-'''
-import math
-
-import sys
-sys.path.extend(
-    ['../../', '../../etc/', '../../etc/turbine/', '../../compressor/', '../']
-)
-sys.path.extend(['pre/', 'post/'])
-
-from radial_turbine_pre import radial_turbine_pre
-from radial_turbine_post import radial_turbine_post
-
-# Loading input data from project dictionaries
-from commonConfig     import *
-from engineConfig     import *
-from compressorConfig import *
-from turbineConfig    import *
-from compressorToTurbineConfig import *
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-def radial_turbine_run(ambient, engine,
-        compressor, u_2K, D_2K, eta_KsStagnRated, L_KsStagn, N_K, p_vStagn,
+def turbine_radial_run(ambient, engine,
+        compressor, Compressor,
         turbine):
     '''
         Calculate radial turbine parameters using 0D method
     '''
-    from plot2func import ksi_plot2func
+    import math
+    from turbine_radial_plot2func import ksi_plot2func
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     class Turbine:
@@ -54,12 +22,12 @@ def radial_turbine_run(ambient, engine,
                      /engine['combustion']['l_0'])
 
         #2 Диаметр колеса турбины и окружная скорость на входе в колесо турбины
-        D_1 = turbine['geometry']['coefficients']['diameterRatio']*D_2K
-        u_1 = turbine['geometry']['coefficients']['diameterRatio']*u_2K
+        D_1 = turbine['geometry']['coefficients']['diameterRatio']*compressor['geometry']['D_2']
+        u_1 = turbine['geometry']['coefficients']['diameterRatio']*Compressor.u_2
 
         #4 Изоэнтропная работа турбины
-        L_TsStagn = L_KsStagn*compressor['G_K']\
-                    /eta_KsStagnRated\
+        L_TsStagn = Compressor.L_KsStagn*compressor['G_K']\
+                    /Compressor.eta_KsStagnRated\
                     /turbine['efficiency']['eta_Te']\
                     /G_T
 
@@ -68,8 +36,8 @@ def radial_turbine_run(ambient, engine,
 
         #6 Расчёт параметра ksi
         ksi = u_1/c_2s
-        ksiLower = ksi_plot2func(0, D_2K)
-        ksiUpper = ksi_plot2func(1, D_2K)
+        ksiLower = ksi_plot2func(0, compressor['geometry']['D_2'])
+        ksiUpper = ksi_plot2func(1, compressor['geometry']['D_2'])
         if (ksi < ksiLower) | (ksi > ksiUpper):
             exit("\033[91mError 6: Parameter 'ksi' is not in the allowable diapason!\
                  \nIt equals %2.3f but must be from %0.2f to %1.3f."
@@ -83,7 +51,7 @@ def radial_turbine_run(ambient, engine,
 
         #8 Проверка соотношения полного давления перед впускными клапанами
         #  поршневой части и давлением газа на входе в турбину
-        pressureRelation = p_vStagn/p_0Stagn
+        pressureRelation = Compressor.p_vStagn/p_0Stagn
         if (pressureRelation < 1.1) | (pressureRelation > 1.3):
             exit("\033[91mError 8: Pressure ratio is not in the allowable diapason!\
                 \nIt equals %0.2f but must be from 1.1 to 1.3.\
@@ -285,21 +253,9 @@ def radial_turbine_run(ambient, engine,
         N_T = L_Te*G_T
 
         #64 Расхождение с мощностью N_к, потребляемой компрессором
-        errorN = (N_K - N_T)/N_K*100 # [%]
+        errorN = (Compressor.N_K - N_T)/Compressor.N_K*100 # [%]
 
     return turbine, Turbine
-
-
-run, ambient, engine, turbine, T_0Stagn = radial_turbine_pre(
-    run, ambient, engine, compressor, D_2K, turbine)
-
-turbine, Turbine = radial_turbine_run(ambient, engine,
-                                      compressor, u_2K, D_2K, eta_KsStagnRated, L_KsStagn, N_K, p_vStagn,
-                                      turbine)
-
-radial_turbine_post(run, engine,
-                    compressor, u_2K, D_2K, RPM, eta_KsStagnRated, L_KsStagn, N_K, p_vStagn,
-                    turbine, Turbine)
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

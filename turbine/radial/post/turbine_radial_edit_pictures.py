@@ -1,18 +1,18 @@
-def edit_pictures(RPM, turbine, Turbine):
+def edit_pictures(Compressor, turbine, Turbine):
     '''
         Edit radial compressor pictures
     '''
     from PIL import ImageFont, Image, ImageDraw
 
-    font = ImageFont.truetype('../../etc/fontGOST.ttf', 18)
+    font = ImageFont.truetype('etc/fontGOST.ttf', 18)
 
 
     # axisCut.png
-    axisCut = Image.open('../../etc/turbine/radial/axisCut.png')
+    axisCut = Image.open('etc/turbine/radial/axisCut.png')
 
     d = ImageDraw.Draw(axisCut)
     d.text((303, 517),
-           str('={0} RPM' .format(round(RPM, 1))),
+           str('={0} RPM' .format(Compressor.RPM)),
                (0,0,0), font=font)
     d.text((591, 360),
            str('={0}' .format(round(Turbine.b_1*1e+03, 1))),
@@ -40,7 +40,7 @@ def edit_pictures(RPM, turbine, Turbine):
 
 
     # inTurbineWheel.png
-    inTurbineWheel = Image.open('../../etc/turbine/radial/inTurbineWheel.png')
+    inTurbineWheel = Image.open('etc/turbine/radial/inTurbineWheel.png')
     d = ImageDraw.Draw(inTurbineWheel)
     d.text((101, 93),
            str('={0}deg' .format(round(turbine['geometry']['alpha_1'], 1))),
@@ -68,7 +68,7 @@ def edit_pictures(RPM, turbine, Turbine):
 
 
     # outTurbineWheel.png
-    outTurbineWheel = Image.open('../../etc/turbine/radial/outTurbineWheel.png')
+    outTurbineWheel = Image.open('etc/turbine/radial/outTurbineWheel.png')
     d = ImageDraw.Draw(outTurbineWheel)
     d.text((368, 232),
            str('={0}deg' .format(round(Turbine.beta_2,  1))),

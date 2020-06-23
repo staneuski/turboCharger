@@ -1,6 +1,6 @@
 def compressor_radial_post(run, engine, compressor, Compressor):
     '''
-        Calculate compressor parameters using 0D method
+        Post-processing calculated radial compressor data
     '''
     from output_results import output_results
     from post_toTurbine import toTurbine

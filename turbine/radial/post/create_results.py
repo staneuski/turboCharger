@@ -1,4 +1,6 @@
-def create_results(run, engine, compressor, u_2K, D_2K, RPM, eta_KsStagnRated, L_KsStagn, N_K, p_vStagn, turbine, Turbine):
+def create_results(run, engine,
+        compressor, Compressor,
+        turbine, Turbine):
     '''
         Description:    Generate radial turbine report
     '''
@@ -25,7 +27,7 @@ def create_results(run, engine, compressor, u_2K, D_2K, RPM, eta_KsStagnRated, L
     \n$$\n u_{2}(u_{2}) = %0.1f\quad м/с;\quad D_{2K} = %1.3f\quad м;\quad\n$$\
     \n$$\n n_{тк} = %2.f\quad об/мин;\quad\eta = %3.5f;\quad {L'}_{KS} = %4.1f;\quad\n$$\
     \n$$\n N_{K} = %5.1f\quad Вт;\quad {p'}_{v} = %6.f\quad Па; \n$$\n\n"
-    %(u_2K, D_2K, RPM, eta_KsStagnRated, L_KsStagn, N_K, p_vStagn) )
+    %(Compressor.u_2, compressor['geometry']['D_2'], Compressor.RPM, Compressor.eta_KsStagnRated, Compressor.L_KsStagn, Compressor.N_K, Compressor.p_vStagn) )
     r.write(
     "- Давление $$p_{2}$$ газов за турбиной\
     превышает атмосферное и составляет\
