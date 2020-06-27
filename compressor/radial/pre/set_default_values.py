@@ -15,7 +15,7 @@ def set_default_values(compressor):
 
     # [efficiency]
     compressor['efficiency']['eta_KsStagn'] = default_value(
-        compressor['efficiency']['eta_KsStagn'], 0.55)
+        compressor['efficiency']['eta_KsStagn'], 0.6)
     compressor['efficiency']['H_KsStagn'] = default_value(
         compressor['efficiency']['H_KsStagn'],   0.4)
     compressor['efficiency']['phi_flow'] = default_value(
@@ -42,13 +42,13 @@ def set_default_values(compressor):
     compressor['geometry']['coefficients']['relDiffOutToCompOut'] = default_value(
         compressor['geometry']['coefficients']['relDiffOutToCompOut'],  1.4)
 
-    if 'VANELESS' in compressor['diffuser']:
+    if 'VANED' in compressor['diffuser']:
         compressor['geometry']['coefficients']['vanelessWideCoef'] = default_value(
             compressor['geometry']['coefficients']['vanelessWideCoef'], 0.9)
         compressor['geometry']['coefficients']['vanelessDiamCoef'] = default_value(
             compressor['geometry']['coefficients']['vanelessDiamCoef'], 1.8)
 
-    elif 'VANED' in compressor['diffuser']:
+    elif 'VANELESS' in compressor['diffuser']:
         compressor['geometry']['coefficients']['vanelessWideCoef'] = default_value(
             compressor['geometry']['coefficients']['vanelessWideCoef'], 1.0)
         compressor['geometry']['coefficients']['vanelessDiamCoef'] = default_value(

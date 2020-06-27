@@ -7,7 +7,7 @@ def compressor_radial_run(run, engine, compressor):
     from set_standard import set_standard
     from plot2func import z_plot2func, H_plot2func, phi_plot2func,\
                           relSpeeds_plot2func, relD_1H_plot2func,\
-                          relD_1B_plot2func
+                          relD_1B_plot2func, eta_plot2func
 
     from diffuser_outlet_T import diffuser_outlet_T
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
