@@ -13,8 +13,7 @@
 import sys
 import math
 
-sys.path.append('etc/')
-sys.path.extend(['compressor/', 'turbine/'])
+sys.path.extend(['etc/', 'compressor/', 'turbine/'])
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 def turbocharger_compressor(run, engine, compressor):
@@ -25,19 +24,16 @@ def turbocharger_compressor(run, engine, compressor):
     from compressor_run import compressor_run
     from compressor_post import compressor_post
 
-    sys.path.extend(['compressor/pre',
-                     'compressor/run',
-                     'compressor/post'])
+    sys.path.extend(['compressor/pre', 'compressor/post'])
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  
-    compressor_pre(run, engine,
-                          compressor)
+    compressor_pre(run, engine, compressor)
 
-    (compressor, Compressor) = compressor_run(run, engine,
-                                                     compressor)
+    (compressor, Compressor) = compressor_run(run, engine, 
+                                              compressor)
 
     compressor_post(run, engine,
-                           compressor, Compressor)
+                    compressor, Compressor)
 
     return Compressor
 
@@ -52,21 +48,21 @@ def turbocharger_turbine(run, ambient, engine,
     from turbine_run import turbine_run
     from turbine_post import turbine_post
 
-    sys.path.extend(['turbine/pre',
-                     'turbine/post'])
+    sys.path.extend(['turbine/pre', 'turbine/post'])
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    (run, engine, turbine) = turbine_pre(run, engine,
-                                         compressor,
-                                         turbine)
+    turbine_pre(run, engine, compressor, turbine)
 
     (turbine, Turbine) = turbine_run(ambient, engine,
-                                            compressor, Compressor,
-                                            turbine)
+                                     compressor, Compressor,
+                                     turbine)
 
     turbine_post(run, engine,
                  compressor, Compressor,
                  turbine, Turbine)
+
+    return Turbine
+
 
 def main():
     '''
@@ -80,17 +76,20 @@ def main():
     from compressorConfig import compressor
     from turbineConfig import turbine
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-    # Precalculations
     logo()
     engine_extend(engine)
+
 
     Compressor = turbocharger_compressor(run, engine,
                                          compressor)
 
-    turbocharger_turbine(run, ambient, engine,
-                         compressor, Compressor,
-                         turbine)
+
+    Turbine = turbocharger_turbine(run, ambient, engine,
+                                   compressor, Compressor,
+                                   turbine)
+
+    return compressor, Compressor, turbine, Turbine
+
 
 if __name__ == '__main__':
     main()

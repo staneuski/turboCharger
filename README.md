@@ -21,7 +21,7 @@
 
 # История версий
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger) ![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
-### 📥 [Скачать текущую версию: _v2.1_](https://github.com/StasF1/turboCharger/archive/v2.1.zip) 📥
+### 📥 [Скачать текущую версию: _v2.2_](https://github.com/StasF1/turboCharger/archive/v2.2.zip) 📥
 
 # Порядок работы с программой
 ‼ Подробное руководство по работе с программой (текущей версии - v1-beta) выложено в [**Wiki**](https://github.com/StasF1/turboCharger/wiki).
@@ -30,7 +30,7 @@ _⚠ ВНИМАНИЕ:_ По завершении расчёта создаёт�
 
 # Структура
 ```gitignore
-turboCharger-2.1-beta
+turboCharger-2.2-beta
 ├── compressor
 │   ├── post
 │   ├── pre
