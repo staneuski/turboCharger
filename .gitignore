@@ -6,3 +6,4 @@ compressorToTurbineConfig.py
 # Folders
 __pycache__/
 results/
+.vscode/
