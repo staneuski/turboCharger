@@ -10,9 +10,9 @@
 #### Примеры отчётов
 |Вариант расчёта         |Настройки        |Отчёт                   |
 |-----------------------:|----------------:|:-----------------------|
-|     Компрессор         | По умолчанию    |[compressorReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/compressorReport.pdf)|
+|              Компрессор| По умолчанию    |[compressorReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/compressorReport.pdf)|
 |Радиально-осевая турбина| По умолчанию    |[radialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/radialTurbineReport.pdf)|
-|Осевая турбина          | Не по умолчанию |[axialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/axialTurbineReport.pdf)|
+|          Осевая турбина| Не по умолчанию |[axialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/axialTurbineReport.pdf)|
 
 # Требования
 1. [Python 3](https://www.python.org/downloads/)
@@ -21,7 +21,7 @@
 
 # История версий
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger) ![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
-### 📥 [Скачать текущую версию: _v2.0_](https://github.com/StasF1/turboCharger/archive/v2.0.zip) 📥
+### 📥 [Скачать текущую версию: _v2.1_](https://github.com/StasF1/turboCharger/archive/v2.1.zip) 📥
 
 # Порядок работы с программой
 ‼ Подробное руководство по работе с программой (текущей версии - v1-beta) выложено в [**Wiki**](https://github.com/StasF1/turboCharger/wiki).
@@ -30,9 +30,10 @@ _⚠ ВНИМАНИЕ:_ По завершении расчёта создаёт�
 
 # Структура
 ```gitignore
-turboCharger-2-beta
+turboCharger-2.1-beta
 ├── compressor
-│   └── radial
+│   ├── post
+│   ├── pre
 ├── etc                 # шрифты, бланки картинок и проч.
 │   ├── compressor
 │   └── turbine
@@ -44,9 +45,8 @@ turboCharger-2-beta
 │       ├── axial
 │       └── radial
 └── turbine
-    ├── axial
-    └── radial
-
+    ├── post
+    └── pre
 # *создаётся при проведённом расчёте
 ```
 

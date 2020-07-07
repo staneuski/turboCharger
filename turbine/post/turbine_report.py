@@ -1,4 +1,4 @@
-def turbine_create_results(run, engine,
+def turbine_report(run, engine,
         compressor, Compressor,
         turbine, Turbine):
     '''

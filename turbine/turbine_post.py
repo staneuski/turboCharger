@@ -6,14 +6,14 @@ def turbine_post(run, engine,
     '''
     from turbine_output import turbine_output
     from turbine_edit_pictures import turbine_edit_pictures
-    from turbine_create_results import turbine_create_results
+    from turbine_report import turbine_report
     from turbine_save_results import turbine_save_results
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     turbine_output(Compressor,
                    turbine, Turbine)
 
-    turbine_create_results(run, engine,
+    turbine_report(run, engine,
                            compressor, Compressor,
                            turbine, Turbine)
 
