@@ -22,7 +22,5 @@ def save_results():
                     "results/turbine/radial/i-sPlot.png")
     shutil.copyfile("commonConfig.py",
                     "results/commonConfig.py")
-    shutil.copyfile("turbine/radial/turbineConfig.py",
+    shutil.copyfile("turbine/turbineConfig.py",
                     "results/turbine/radial/turbineConfig.py")
-    shutil.copyfile("turbine/compressorToTurbineConfig.py",
-                    "results/turbine/compressorToTurbineConfig.py")

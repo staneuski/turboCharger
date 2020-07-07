@@ -22,29 +22,32 @@ def turbine_radial_pre(run, ambient, engine,
 
     # Set values using balance coefficients from dictionary
     turbine['efficiency']['eta_Te'] = eta_plot2func(
-        turbine['efficiency']['eta_Te'], compressor['geometry']['D_2']
-    )
+        turbine['efficiency']['eta_Te'],
+        compressor['geometry']['D_2'])
     turbine['geometry']['alpha_1'] = alpha_plot2func(
-        turbine['geometry']['alpha_1'], compressor['geometry']['D_2']
-    )
+        turbine['geometry']['alpha_1'],
+        compressor['geometry']['D_2'])
     turbine['losses']['phi'] = phi_plot2func(
-        turbine['losses']['phi'], compressor['geometry']['D_2']
-    )
+        turbine['losses']['phi'],
+        compressor['geometry']['D_2'])
     turbine['losses']['psi'] = psi_plot2func(
-        turbine['losses']['psi'], compressor['geometry']['D_2']
-    )
+        turbine['losses']['psi'],
+        compressor['geometry']['D_2'])
     turbine['geometry']['coefficients']['outerDiamRatio'] = relD_1H(
-        turbine['geometry']['coefficients']['outerDiamRatio'], compressor['geometry']['D_2']
-    )
+        turbine['geometry']['coefficients']['outerDiamRatio'],
+        compressor['geometry']['D_2'])
     turbine['geometry']['coefficients']['innerDiamRatio'] = relD_2B(
-        turbine['geometry']['coefficients']['innerDiamRatio'], compressor['geometry']['D_2']
-    )
+        turbine['geometry']['coefficients']['innerDiamRatio'],
+        compressor['geometry']['D_2'])
 
     # Inlet turbine temperature | Температура перед турбиной
     if 'TYPE2' in run['type']:
         if compressor['geometry']['D_2'] < 0.3:
             engine['heat']['T_0Stagn'] = 923.0 # [K]
-        elif (compressor['geometry']['D_2'] > 0.3) & (compressor['geometry']['D_2'] < 0.64):
+        elif (
+            compressor['geometry']['D_2'] > 0.3
+            and compressor['geometry']['D_2'] < 0.64
+        ):
             engine['heat']['T_0Stagn'] = 823.0 # [K]
         else:
             exit("\033[91mError 0: The diameter of the wheel is too big!")

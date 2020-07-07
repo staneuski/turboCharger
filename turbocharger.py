@@ -10,13 +10,11 @@
     Description:    Calculate turbocharger parameters using 0D method
 
 '''
-
 import sys
 import math
 sys.path.append('etc/')
 sys.path.extend(['compressor/', 'compressor/radial/',
-                 'turbine/', 'turbine/radial/'])
-
+                 'turbine/', 'turbine/axial/', 'turbine/radial/'])
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 def turbocharger_compressor(run, engine, compressor):
@@ -32,11 +30,14 @@ def turbocharger_compressor(run, engine, compressor):
                      'compressor/radial/post'])
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  
-    compressor_radial_pre(run, engine, compressor)
+    compressor_radial_pre(run, engine,
+                          compressor)
 
-    (compressor, Compressor) = compressor_radial_run(run, engine, compressor)
+    (compressor, Compressor) = compressor_radial_run(run, engine,
+                                                     compressor)
 
-    compressor_radial_post(run, engine, compressor, Compressor)
+    compressor_radial_post(run, engine,
+                           compressor, Compressor)
 
     return Compressor
 
@@ -52,24 +53,47 @@ def turbocharger_turbine(run, ambient, engine,
     from turbine_radial_pre import turbine_radial_pre
     from turbine_radial_run import turbine_radial_run
     from turbine_radial_post import turbine_radial_post
+    from turbine_axial_pre import turbine_axial_pre
+    from turbine_axial_run import turbine_axial_run
+    from turbine_axial_post import turbine_axial_post
     sys.path.append('etc/turbine/')
     sys.path.extend(['turbine/radial/pre',
                      'turbine/radial/run',
                      'turbine/radial/post'])
+    sys.path.extend(['turbine/axial/pre',
+                     'turbine/axial/run',
+                     'turbine/axial/post'])
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- 
-    (run, ambient, engine, turbine) = turbine_radial_pre(run, ambient, engine,
-                                                         compressor,
-                                                         turbine)
 
-    (turbine, Turbine) = turbine_radial_run(ambient, engine,
+    print(turbine['type'])
+    if turbine['type'] == 'radial':
+        (run, ambient, engine, turbine) = turbine_radial_pre(run, ambient, engine,
+                                                            compressor,
+                                                            turbine)
+
+        (turbine, Turbine) = turbine_radial_run(ambient, engine,
+                                                compressor, Compressor,
+                                                turbine)
+
+        turbine_radial_post(run, engine,
+                            compressor, Compressor,
+                            turbine, Turbine)
+
+    elif turbine['type'] == 'axial':
+        turbine = turbine_axial_pre(run, ambient, engine,
+                                    compressor,
+                                    turbine)
+
+        (turbine, Turbine) = turbine_axial_run(ambient, engine,
                                             compressor, Compressor,
                                             turbine)
 
-    turbine_radial_post(run, engine,
+        turbine_axial_post(run, engine,
                         compressor, Compressor,
                         turbine, Turbine)
 
+    else:
+        exit(f"\033[91mError: turbine['type'] variable is incorrect!")
 
 def main():
     '''
@@ -88,9 +112,12 @@ def main():
     logo()
     engine_extend(engine)
 
-    Compressor = turbocharger_compressor(run, engine, compressor)
-    turbocharger_turbine(run, ambient, engine, compressor, Compressor, turbine)
+    Compressor = turbocharger_compressor(run, engine,
+                                         compressor)
 
+    turbocharger_turbine(run, ambient, engine,
+                         compressor, Compressor,
+                         turbine)
 
 if __name__ == '__main__':
     main()
