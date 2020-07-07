@@ -50,50 +50,25 @@ def turbocharger_turbine(run, ambient, engine,
     '''
     from default_value import default_value
     from output_calc_error import output_calc_error
-    from turbine_radial_pre import turbine_radial_pre
-    from turbine_radial_run import turbine_radial_run
-    from turbine_radial_post import turbine_radial_post
-    from turbine_axial_pre import turbine_axial_pre
-    from turbine_axial_run import turbine_axial_run
-    from turbine_axial_post import turbine_axial_post
+    from turbine_pre import turbine_pre
+    from turbine_run import turbine_run
+    from turbine_post import turbine_post
     sys.path.append('etc/turbine/')
-    sys.path.extend(['turbine/radial/pre',
-                     'turbine/radial/run',
-                     'turbine/radial/post'])
-    sys.path.extend(['turbine/axial/pre',
-                     'turbine/axial/run',
-                     'turbine/axial/post'])
+    sys.path.extend(['turbine/pre',
+                     'turbine/post'])
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    print(turbine['type'])
-    if turbine['type'] == 'radial':
-        (run, ambient, engine, turbine) = turbine_radial_pre(run, ambient, engine,
-                                                            compressor,
-                                                            turbine)
+    (run, engine, turbine) = turbine_pre(run, engine,
+                                         compressor,
+                                         turbine)
 
-        (turbine, Turbine) = turbine_radial_run(ambient, engine,
-                                                compressor, Compressor,
-                                                turbine)
-
-        turbine_radial_post(run, engine,
-                            compressor, Compressor,
-                            turbine, Turbine)
-
-    elif turbine['type'] == 'axial':
-        turbine = turbine_axial_pre(run, ambient, engine,
-                                    compressor,
-                                    turbine)
-
-        (turbine, Turbine) = turbine_axial_run(ambient, engine,
+    (turbine, Turbine) = turbine_run(ambient, engine,
                                             compressor, Compressor,
                                             turbine)
 
-        turbine_axial_post(run, engine,
-                        compressor, Compressor,
-                        turbine, Turbine)
-
-    else:
-        exit(f"\033[91mError: turbine['type'] variable is incorrect!")
+    turbine_post(run, engine,
+                 compressor, Compressor,
+                 turbine, Turbine)
 
 def main():
     '''

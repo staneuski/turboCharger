@@ -23,3 +23,6 @@ def turbine_output(Compressor,
 
     print("If something doesn't work correctly make a new issue or check the others:\
     \nhttps://github.com/StasF1/turboCharger/issues")
+
+
+# ''' (C) 2018-2020 Stanislau Stasheuski '''
