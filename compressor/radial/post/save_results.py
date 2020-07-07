@@ -2,29 +2,28 @@ def save_results(compressor):
     '''
         Create results/compressor/ folder & move results there
     '''
-
     import os, shutil
 
-    # Creating directory if needed
     resultsFolder = 'results'
-    if not os.path.exists(f"{resultsFolder}/compressor"):
-        os.makedirs(f"{resultsFolder}/compressor")
 
-    shutil.move(
-        "compressorToTurbineConfig.py",
-        "turbine/compressorToTurbineConfig.py"
-    )
+    # Creating directory if needed
+    if not os.path.exists("results/compressor"):
+        os.makedirs("results/compressor")
 
-    shutil.move("compressorReport.md",   f"{resultsFolder}/compressorReport.md")
+    shutil.move("compressorReport.md",
+                "results/compressorReport.md")
 
-    shutil.copyfile(
-        "compressor/compressorConfig.py",
-        f"{resultsFolder}/compressor/compressorConfig.py"
-    )
-    shutil.move("axisCut.png",  f"{resultsFolder}/compressor/axisCut.png")
-    shutil.move("blades.png",   f"{resultsFolder}/compressor/blades.png")
-    shutil.move("outWheel.png", f"{resultsFolder}/compressor/outWheel.png")
+    shutil.copyfile("compressor/compressorConfig.py",
+                    "results/compressor/compressorConfig.py")
+
+    shutil.move("axisCut.png",
+                "results/compressor/axisCut.png")
+    shutil.move("blades.png",
+                "results/compressor/blades.png")
+    shutil.move("outWheel.png",
+                "results/compressor/outWheel.png")
 
     if 'VANED' in compressor['diffuser']:
         shutil.move("perpendicularCut.png",
-                    f"{resultsFolder}/compressor/perpendicularCut.png")
+                    "results/compressor/perpendicularCut.png")
+s

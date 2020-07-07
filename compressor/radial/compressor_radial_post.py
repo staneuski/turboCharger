@@ -3,13 +3,10 @@ def compressor_radial_post(run, engine, compressor, Compressor):
         Post-processing calculated radial compressor data
     '''
     from output_results import output_results
-    from post_toTurbine import toTurbine
     from create_report import create_report
     from edit_pictures import edit_pictures
     from save_results import save_results
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-    toTurbine(compressor, Compressor)
 
     output_results(compressor, Compressor)
 
