@@ -13,7 +13,7 @@
 '''
 turbine = dict(
 
-    type = "radial",
+    type = "radial", # 'radial' or 'axial'
 
     # Energy conversion efficiency (ECE) & other coefficints
     # КПД и другие коэффициенты

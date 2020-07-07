@@ -44,11 +44,11 @@ def turbine_pre(run, engine,
         if 'TYPE2' in run['type']:
             if compressor['geometry']['D_2'] < 0.3:
                 engine['heat']['T_0Stagn'] = 923.0 # [K]
-            elif (
-                compressor['geometry']['D_2'] > 0.3
-                and compressor['geometry']['D_2'] < 0.64
-            ):
+
+            elif (compressor['geometry']['D_2'] > 0.3
+                  and compressor['geometry']['D_2'] < 0.64):
                 engine['heat']['T_0Stagn'] = 823.0 # [K]
+
             else:
                 exit("\033[91mError 0: The diameter of the wheel is too big!")
 

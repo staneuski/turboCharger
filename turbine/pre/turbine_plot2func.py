@@ -21,8 +21,8 @@ def value_range_of_plot(balance_coef, delta, lower_value):
 def checkWheelDiameter(D):
     if (D < 0.04) | (D > 0.24):
         exit('\033[91mError: No data for that wheel diameter!\
-             \nIt equals %0.0f cm but must be from 4 to 24 cm.\
-             \nMay be try to calculate axial turbine!'
+              \nIt equals %0.0f cm but must be from 4 to 24 cm.\
+              \nMay be try to calculate axial turbine!'
              %(D*1e+02))
 
 

@@ -21,7 +21,9 @@ def pressure_increase_ratio(engine, compressor):
                 )/compressor['efficiency']['eta_KsStagn'] + 1
             )
             *(1 - engine['heat']['E'])
-            + engine['heat']['E']*engine['heat']['T_ca']/compressor['initial']['T_aStagn']
+            + engine['heat']['E']
+              *engine['heat']['T_ca']
+              /compressor['initial']['T_aStagn']
         )
         /compressor['initial']['p_aStagn']/3600
         /compressor['losses']['sigma_0']
@@ -95,7 +97,7 @@ def compressor_run(run, engine, compressor):
 
         if u_2 >= 550:
             exit('\033[91mError 5: Wheel outer diameter circular velocity is too high!\
-                \nTry to increase wheel diameter &/or set other ECE parameters')
+                  \nTry to increase wheel diameter &/or set other ECE parameters')
 
         #6 Абсолютная скорость потока на входе в рабочее колесо
         compressor['efficiency']['phi_flow'] = phi_plot2func(
@@ -136,7 +138,7 @@ def compressor_run(run, engine, compressor):
 
         if relD_1BToH >= 1:
             exit('\033[91mError 13: Relation relD_1B/relD_1H = %0.2f > 1.\
-                 \nSquare root argument is less than 0!' %(relD_1BToH))
+                  \nSquare root argument is less than 0!' %(relD_1BToH))
 
         D_1H = math.sqrt(4*F_1/math.pi/(1 - relD_1BToH**2))
 
@@ -151,6 +153,7 @@ def compressor_run(run, engine, compressor):
         if 'ON' in compressor['geometry']['coefficients']['DToSTD']:
             compressor['geometry']['D_2'] = set_standard(D_2estimated)\
                                             *1e-03 # [m]
+
         else:
             if D_2estimated <= 85:
                 compressor['geometry']['D_2'] = round(D_2estimated*2, -1)/2\
@@ -197,8 +200,8 @@ def compressor_run(run, engine, compressor):
         M_w1 = w_1H/math.sqrt(engine['inlet']['k']*engine['inlet']['R']*T_1)
         if M_w1 > 0.9:
             print('\033[93mWarning 24: Mach number is too high!\
-                  \nIt must be less than 0.9 but it equals {0:.3f}\
-                  \nTry to increase "tau_1", "relD_1H" &/or decrease "phi_flow", "relD_1B".\033[0m\n'
+                   \nIt must be less than 0.9 but it equals {0:.3f}\
+                   \nTry to increase "tau_1", "relD_1H" &/or decrease "phi_flow", "relD_1B".\033[0m\n'
                   .format(M_w1))
 
         #25 Относительная скорость на среднем диаметре входа в колесо
@@ -212,8 +215,7 @@ def compressor_run(run, engine, compressor):
         compressor['geometry']['coefficients']['relW_2rToC_1a'] = (
             relSpeeds_plot2func(
                 compressor['geometry']['coefficients']['relW_2rToC_1a'],
-                compressor['geometry']['D_2'])
-        )
+                compressor['geometry']['D_2']))
         c_2r = compressor['geometry']['coefficients']['relW_2rToC_1a']*c_1
 
         #28 Потери на поворот и трение в межлопаточных каналах рабочего колеса
