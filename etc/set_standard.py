@@ -1,6 +1,6 @@
 def set_standard(size):
     '''
-        Get the size & return it standartized with using Russian ISO
+        Get the size & return it standartized with using Russian ISO (GOST)
 
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 18, 20, 22, 24, 26,
         28, 30, 32, 34, 36, 38, 40, 42, 45, 48, 50, 52, 55, 58, 60, 65, 70, 75,

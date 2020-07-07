@@ -1,15 +1,61 @@
-def compressor_radial_run(run, engine, compressor):
+def pressure_increase_ratio(engine, compressor):
+    '''
+        Calculate compressor pressure increase ratio
+    '''
+
+    # Calculation pressure degree increase
+    compressor['pi_K'] = (
+        engine['inlet']['R']
+        *compressor['initial']['T_aStagn']
+        *engine['efficiency']['b_e']
+        *engine['combustion']['l_0']
+        *engine['combustion']['alpha']
+        *engine['efficiency']['p_e']
+        *(
+            (
+                (
+                    pow(
+                        compressor['pi_K'],
+                        (engine['inlet']['k'] - 1)/engine['inlet']['k']
+                    ) - 1
+                )/compressor['efficiency']['eta_KsStagn'] + 1
+            )
+            *(1 - engine['heat']['E'])
+            + engine['heat']['E']*engine['heat']['T_ca']/compressor['initial']['T_aStagn']
+        )
+        /compressor['initial']['p_aStagn']/3600
+        /compressor['losses']['sigma_0']
+        /compressor['losses']['sigma_c']
+        /compressor['losses']['sigma_v']
+    )
+
+    return compressor['pi_K']
+
+
+def diffuser_outlet_T(inlet,
+        D_2, b_2, T_2, c_2,
+        D_out, b_out, T_out, n_out):
+    '''
+        Calculate diffuser outlet temperature
+    '''
+
+    q = pow(D_2*b_2/D_out/b_out, 2)
+    m = 2/(n_out - 1)
+    sigma = (inlet['k'] - 1)/2 * pow(c_2, 2)/inlet['k']/inlet['R']/T_2
+
+    return T_2*(1 + sigma*(1 - q*pow(T_2/T_out, m)))
+
+
+def compressor_run(run, engine, compressor):
     '''
         Calculate compressor parameters using 0D method
     '''
     import math
 
     from set_standard import set_standard
-    from plot2func import z_plot2func, H_plot2func, phi_plot2func,\
-                          relSpeeds_plot2func, relD_1H_plot2func,\
-                          relD_1B_plot2func, eta_plot2func
-
-    from diffuser_outlet_T import diffuser_outlet_T
+    from compressor_plot2func import z_plot2func, H_plot2func, phi_plot2func,\
+                                     relSpeeds_plot2func, relD_1H_plot2func,\
+                                     relD_1B_plot2func, eta_plot2func
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     class Compressor:
@@ -264,8 +310,7 @@ def compressor_radial_run(run, engine, compressor):
                 abs(diffuser_outlet_T(engine['inlet'],
                                       compressor['geometry']['D_2'],
                                       b_2, T_2, c_2,
-                                      D_4,
-                                      b_4, T_4, n_4)
+                                      D_4, b_4, T_4, n_4)
                 - T_4) > validity
             ):
                 T_4 += validity
@@ -274,8 +319,7 @@ def compressor_radial_run(run, engine, compressor):
                 T_4 = diffuser_outlet_T(engine['inlet'],
                                         compressor['geometry']['D_2'],
                                         b_2, T_2, c_2,
-                                        D_4,
-                                        b_4, T_4, n_4)
+                                        D_4, b_4, T_4, n_4)
 
             #48 Давление на выходе из диффузора
             p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1))
@@ -322,8 +366,7 @@ def compressor_radial_run(run, engine, compressor):
                 abs(diffuser_outlet_T(engine['inlet'],
                                       compressor['geometry']['D_2'],
                                       b_2, T_2, c_2,
-                                      D_3,
-                                      b_3, T_3, n_3)
+                                      D_3, b_3, T_3, n_3)
                 - T_3) > validity
             ):
                 T_3 += validity
@@ -332,8 +375,7 @@ def compressor_radial_run(run, engine, compressor):
                 T_3 = diffuser_outlet_T(engine['inlet'],
                                         compressor['geometry']['D_2'],
                                         b_2, T_2, c_2,
-                                        D_3,
-                                        b_3, T_3, n_3)
+                                        D_3, b_3, T_3, n_3)
 
             #48 Давление на выходе из колеса
             p_3 = p_2*pow(T_3/T_2, n_3/(n_3 - 1))

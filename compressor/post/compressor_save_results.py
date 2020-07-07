@@ -1,8 +1,9 @@
-def save_results(compressor):
+def compressor_save_results(compressor):
     '''
         Create results/compressor/ folder & move results there
     '''
     import os, shutil
+    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     resultsFolder = 'results'
 
@@ -26,4 +27,6 @@ def save_results(compressor):
     if 'VANED' in compressor['diffuser']:
         shutil.move("perpendicularCut.png",
                     "results/compressor/perpendicularCut.png")
-s
+
+
+# ''' (C) 2018-2020 Stanislau Stasheuski '''

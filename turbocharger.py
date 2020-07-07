@@ -12,31 +12,31 @@
 '''
 import sys
 import math
+
 sys.path.append('etc/')
-sys.path.extend(['compressor/', 'compressor/radial/',
-                 'turbine/', 'turbine/axial/', 'turbine/radial/'])
+sys.path.extend(['compressor/', 'turbine/'])
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 def turbocharger_compressor(run, engine, compressor):
     '''
         Calculate compressor part of the turbocharger
     '''
-    from compressor_radial_pre import compressor_radial_pre
-    from compressor_radial_run import compressor_radial_run
-    from compressor_radial_post import compressor_radial_post
+    from compressor_pre import compressor_pre
+    from compressor_run import compressor_run
+    from compressor_post import compressor_post
 
-    sys.path.extend(['compressor/radial/pre',
-                     'compressor/radial/run',
-                     'compressor/radial/post'])
+    sys.path.extend(['compressor/pre',
+                     'compressor/run',
+                     'compressor/post'])
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  
-    compressor_radial_pre(run, engine,
+    compressor_pre(run, engine,
                           compressor)
 
-    (compressor, Compressor) = compressor_radial_run(run, engine,
+    (compressor, Compressor) = compressor_run(run, engine,
                                                      compressor)
 
-    compressor_radial_post(run, engine,
+    compressor_post(run, engine,
                            compressor, Compressor)
 
     return Compressor
@@ -48,12 +48,10 @@ def turbocharger_turbine(run, ambient, engine,
     '''
         Calculate turbine part of the turbocharger
     '''
-    from default_value import default_value
-    from output_calc_error import output_calc_error
     from turbine_pre import turbine_pre
     from turbine_run import turbine_run
     from turbine_post import turbine_post
-    sys.path.append('etc/turbine/')
+
     sys.path.extend(['turbine/pre',
                      'turbine/post'])
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

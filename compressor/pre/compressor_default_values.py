@@ -1,10 +1,9 @@
-def set_default_values(compressor):
+def compressor_default_values(compressor):
     '''
         Default values for coefficients
     '''
-
     from default_value import default_value
-
+    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     # [initial]
     compressor['geometry']['beta_2Blade'] = default_value(
@@ -85,3 +84,6 @@ def set_default_values(compressor):
         compressor['load']['tau_4'],   0.965)
 
     return compressor
+
+
+# ''' (C) 2018-2020 Stanislau Stasheuski '''

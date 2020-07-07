@@ -1,4 +1,5 @@
-def create_report(run, engine, compressor, Compressor):
+def compressor_report(run, engine,
+        compressor, Compressor):
     '''
         Create the report for a compressor
     '''
@@ -418,3 +419,6 @@ def create_report(run, engine, compressor, Compressor):
     %(i, Compressor.p_vStagn)); i += 1
 
     report.close()
+
+
+# ''' (C) 2018-2020 Stanislau Stasheuski '''

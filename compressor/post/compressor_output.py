@@ -1,4 +1,4 @@
-def output_results(compressor, Compressor):
+def compressor_output(compressor, Compressor):
     '''
         Output results in the Terminal window
     '''
@@ -51,3 +51,6 @@ def output_results(compressor, Compressor):
     output_calc_error(Compressor.errorH) # (62)
 
     print("\n\033[94m''' Turbine ''' \033[0m\n")
+
+
+# ''' (C) 2018-2020 Stanislau Stasheuski '''
