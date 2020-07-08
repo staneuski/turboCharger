@@ -14,7 +14,7 @@ def compressor_pre(run, engine, compressor):
 
     # Flow volume | Расход
     if 'TYPE1' in run['type']:
-        compressor['G_K'] = engine['efficiency']['N_e']\
+        compressor['G'] = engine['efficiency']['N_e']\
                             *engine['efficiency']['b_e']\
                             *engine['combustion']['l_0']\
                             *engine['combustion']['alpha']\
@@ -24,7 +24,7 @@ def compressor_pre(run, engine, compressor):
     # Wheel diameter
     # Оценка диаметра рабочего колеса и установка параметров зависящих от него
     if issubclass(type(compressor['geometry']['estimD_2']), str):
-        compressor['geometry']['D_2'] = (160*compressor['G_K'] + 40)\
+        compressor['geometry']['D_2'] = (160*compressor['G'] + 40)\
                                         *1e-03 # [m]
     else:
         compressor['geometry']['D_2'] = compressor['geometry']['estimD_2']\
@@ -37,10 +37,10 @@ def compressor_pre(run, engine, compressor):
             compressor['efficiency']['eta_KsStagn'],
             compressor['geometry']['D_2'])
 
-        compressor['pi_K'] = 1;    validity = 1e-04
+        compressor['pi'] = 1;    validity = 1e-04
         while (abs(pressure_increase_ratio(engine, compressor)
-                   - compressor['pi_K']) > validity):
-            compressor['pi_K'] += validity
+                   - compressor['pi']) > validity):
+            compressor['pi'] += validity
 
         else:
             pressure_increase_ratio(engine, compressor)

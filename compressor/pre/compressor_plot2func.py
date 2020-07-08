@@ -5,7 +5,10 @@ def value_btw_two_plots(balance_coef, upper_value, lower_value):
     '''
 
     if (balance_coef < 0) | (balance_coef > 1):
-        exit('\033[91mError: Balance coefficient variable is incorrect!')
+        exit('\033[91mERROR:\
+             Balance coefficient is incorrect!\
+             \nValid values are from 0.0 to 1.0'
+             .replace('             ', ' '))
 
     return balance_coef*upper_value + (1 - balance_coef)*lower_value
 
@@ -23,8 +26,10 @@ def H_plot2func(balance_coef, D):
     import math
 
     if (D < 0.04) | (D > 0.8):
-        exit('\033[91mError 5: No data for that wheel diameter!\
+        exit('\033[91mERROR 5:\
+             No data for that wheel diameter!\
              \nIt equals %0.0f cm but must be from 4 to 80 cm.'
+             .replace('             ', ' ')
              %(D*1e+02))
 
     return value_btw_two_plots(
@@ -35,8 +40,10 @@ def H_plot2func(balance_coef, D):
 
 def phi_plot2func(balance_coef, D):
     if (D < 0.04) | (D > 0.8):
-        exit('\033[91mError 6: No data for that wheel diameter!\
+        exit('\033[91mERROR 6:\
+             No data for that wheel diameter!\
              \nIt equals %0.0f cm but must be from 4 to 80 cm.'
+             .replace('             ', ' ')
              %(D*1e+02))
 
     return value_btw_two_plots(
@@ -47,8 +54,10 @@ def phi_plot2func(balance_coef, D):
 
 def eta_plot2func(balance_coef, D):
     if (D < 0.04) | (D > 0.8):
-        exit('\033[91mError 15: No data for that wheel diameter!\
+        exit('\033[91mERROR 15:\
+             No data for that wheel diameter!\
              \nIt equals %0.0f cm but must be from 4 to 80 cm.'
+             .replace('             ', ' ')
              %(D*1e+02))
 
     return value_btw_two_plots(
@@ -59,8 +68,10 @@ def eta_plot2func(balance_coef, D):
 
 def relD_1H_plot2func(balance_coef, D):
     if (D < 0.04) | (D > 0.8):
-        exit('\033[91mError 13: No data for that wheel diameter!\
+        exit('\033[91mERROR 13:\
+             No data for that wheel diameter!\
              \nIt equals %0.0f cm but must be from 4 to 80 cm.'
+             .replace('             ', ' ')
              %(D*1e+02))
 
     return value_btw_two_plots(
@@ -71,8 +82,10 @@ def relD_1H_plot2func(balance_coef, D):
 
 def relD_1B_plot2func(balance_coef, D):
     if (D < 0.04) | (D > 0.8):
-        exit('\033[91mError 13: No data for that wheel diameter!\
+        exit('\033[91mERROR 13:\
+             No data for that wheel diameter!\
              \nIt equals %0.0f cm but must be from 4 to 80 cm.'
+             .replace('             ', ' ')
              %(D*1e+02))
 
     return value_range_of_plot(
@@ -83,8 +96,10 @@ def relD_1B_plot2func(balance_coef, D):
 
 def relSpeeds_plot2func(balance_coef, D):
     if (D < 0.04) | (D > 0.8):
-        exit('\033[91mError 27: No data for that wheel diameter!\
+        exit('\033[91mERROR 27:\
+             No data for that wheel diameter!\
              \nIt equals %0.0f cm but must be from 4 to 80 cm.'
+             .replace('             ', ' ')
              %(D*1e+02))
 
     return value_btw_two_plots(
@@ -95,8 +110,10 @@ def relSpeeds_plot2func(balance_coef, D):
 
 def z_plot2func(balance_coef, D):
     if (D < 0.04) | (D > 0.8):
-        exit('\033[91mError 30: No data for that wheel diameter!\
+        exit('\033[91mERROR 30:\
+             No data for that wheel diameter!\
              \nIt equals %0.0f cm but must be from 4 to 80 cm.'
+             .replace('             ', ' ')
              %(D*1e+02))
 
     return value_range_of_plot(

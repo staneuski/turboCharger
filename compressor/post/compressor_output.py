@@ -31,7 +31,7 @@ def compressor_output(compressor, Compressor):
 
     print('Actual pressure degree increase is {0:.2f}, when\
           \nprecalculated/set pressure degree increase is {1:.2f}'\
-          .format(Compressor.pi_KStagn, compressor['pi_K'])) # (57)
+          .format(Compressor.pi_KStagn, compressor['pi'])) # (57)
 
     output_calc_error(Compressor.pi_KError) # (60)
 
@@ -40,7 +40,7 @@ def compressor_output(compressor, Compressor):
         \n\teta_Ks*' = {1:.4f} - rated"
           .format(compressor['efficiency']['eta_KsStagn'],
                   Compressor.eta_KsStagnRated)) # (dict) & (59)
-    output_calc_error(Compressor.errorEta) # (60)
+    output_calc_error(Compressor.eta_error) # (60)
 
     print("Isentropy head coeficients are:\
           \n\tH_Ks*  = {0:.4f} - set\
@@ -48,7 +48,7 @@ def compressor_output(compressor, Compressor):
           .format(compressor['efficiency']['H_KsStagn'],
                   Compressor.H_KsStagnRated)) # (dict) & (61)
 
-    output_calc_error(Compressor.errorH) # (62)
+    output_calc_error(Compressor.H_error) # (62)
 
     print("\n\033[94m''' Turbine ''' \033[0m\n")
 

@@ -4,7 +4,7 @@ def pressure_increase_ratio(engine, compressor):
     '''
 
     # Calculation pressure degree increase
-    compressor['pi_K'] = (
+    compressor['pi'] = (
         engine['inlet']['R']
         *compressor['initial']['T_aStagn']
         *engine['efficiency']['b_e']
@@ -15,7 +15,7 @@ def pressure_increase_ratio(engine, compressor):
             (
                 (
                     pow(
-                        compressor['pi_K'],
+                        compressor['pi'],
                         (engine['inlet']['k'] - 1)/engine['inlet']['k']
                     ) - 1
                 )/compressor['efficiency']['eta_KsStagn'] + 1
@@ -31,7 +31,7 @@ def pressure_increase_ratio(engine, compressor):
         /compressor['losses']['sigma_v']
     )
 
-    return compressor['pi_K']
+    return compressor['pi']
 
 
 def diffuser_outlet_T(inlet,
@@ -83,7 +83,7 @@ def compressor_run(run, engine, compressor):
         #4 Isentropy compression work in compressor
         #  Изоэнтропная работа сжатия в компрессоре
         L_KsStagn = engine['inlet']['c_p']*T_0Stagn*(
-            pow(compressor['pi_K'],
+            pow(compressor['pi'],
                 (engine['inlet']['k'] - 1)/engine['inlet']['k'])
             - 1
         )
@@ -94,10 +94,11 @@ def compressor_run(run, engine, compressor):
             compressor['efficiency']['H_KsStagn'],
             compressor['geometry']['D_2'])
         u_2 = math.sqrt(L_KsStagn/compressor['efficiency']['H_KsStagn'])
-
         if u_2 >= 550:
-            exit('\033[91mError 5: Wheel outer diameter circular velocity is too high!\
-                  \nTry to increase wheel diameter &/or set other ECE parameters')
+            exit('\033[91mERROR 5:\
+                 Wheel outer diameter circular velocity is too high!\
+                 \nTry to increase wheel diameter &/or set other ECE parameters'
+                 .replace('                 ', ' '))
 
         #6 Абсолютная скорость потока на входе в рабочее колесо
         compressor['efficiency']['phi_flow'] = phi_plot2func(
@@ -125,20 +126,29 @@ def compressor_run(run, engine, compressor):
         rho_1 = p_1/engine['inlet']['R']/T_1
 
         #13 Наружный диаметр колеса на входе D_1H
-        F_1 = compressor['G_K']/c_1/rho_1 # площадь поп. сечения в колесе
+        F_1 = compressor['G']/c_1/rho_1 # площадь поп. сечения в колесе
 
-        compressor['geometry']['coefficients']['relD_1H'] = relD_1H_plot2func(
-            compressor['geometry']['coefficients']['relD_1H'],
-            compressor['geometry']['D_2'])
-        compressor['geometry']['coefficients']['relD_1B'] = relD_1B_plot2func(
-            compressor['geometry']['coefficients']['relD_1B'],
-            compressor['geometry']['D_2'])
-        relD_1BToH = compressor['geometry']['coefficients']['relD_1B']\
-                     /compressor['geometry']['coefficients']['relD_1H']
+        compressor['geometry']['coefficients']['D_1Down_relative'] = \
+            relD_1H_plot2func(compressor['geometry']['coefficients']
+                                        ['D_1Down_relative'],
+                              compressor['geometry']['D_2'])
+
+        compressor['geometry']['coefficients']['D_1Up_relative'] = \
+            relD_1B_plot2func(compressor['geometry']['coefficients']
+                                        ['D_1Up_relative'],
+                              compressor['geometry']['D_2'])
+    
+        relD_1BToH = compressor['geometry']['coefficients']\
+                               ['D_1Up_relative']\
+                     /compressor['geometry']['coefficients']\
+                               ['D_1Down_relative']
 
         if relD_1BToH >= 1:
-            exit('\033[91mError 13: Relation relD_1B/relD_1H = %0.2f > 1.\
-                  \nSquare root argument is less than 0!' %(relD_1BToH))
+            exit('\033[91mERROR 13:\
+                 Relation relD_1B/relD_1H = %0.2f > 1.\
+                 \nSquare root argument is less than 0!'
+                 .replace('                 ', ' ')
+                 %(relD_1BToH))
 
         D_1H = math.sqrt(4*F_1/math.pi/(1 - relD_1BToH**2))
 
@@ -147,7 +157,8 @@ def compressor_run(run, engine, compressor):
 
         #15 Наружный диаметр колеса на комперссора на выходе
         D_2estimated = D_1H\
-                       /compressor['geometry']['coefficients']['relD_1H']\
+                       /compressor['geometry']['coefficients']\
+                                  ['D_1Down_relative']\
                        *1e+03 # [mm]
 
         if 'ON' in compressor['geometry']['coefficients']['DToSTD']:
@@ -199,26 +210,31 @@ def compressor_run(run, engine, compressor):
         #24 Число маха на наружном диаметре входа в колесо
         M_w1 = w_1H/math.sqrt(engine['inlet']['k']*engine['inlet']['R']*T_1)
         if M_w1 > 0.9:
-            print('\033[93mWarning 24: Mach number is too high!\
-                   \nIt must be less than 0.9 but it equals {0:.3f}\
-                   \nTry to increase "tau_1", "relD_1H" &/or decrease "phi_flow", "relD_1B".\033[0m\n'
+            print('\033[93mWARNING 24:\
+                  Mach number is too high!\
+                  \nIt must be less than 0.9 but it equals {0:.3f}\
+                  \nTry to increase "tau_1", "D_1Down_relative" &/or decrease\
+                  "phi_flow", "D_1Up_relative".\033[0m\n'
+                  .replace('                  ', ' ')
                   .format(M_w1))
 
         #25 Относительная скорость на среднем диаметре входа в колесо
         w_1 = math.sqrt(c_1Tau**2 + u_1**2)
 
-        #26 Удельная работа потерь во входном вращающемся направляющем аппарате колеса
+        #26 Удельная работа потерь во входном вращающемся направляющем
+        #   аппарате колеса
         L_BA = compressor['losses']['dzeta_BA']*w_1**2/2
 
         #27 Радиальная составляющая абсолютной/относительной скорости
         #   на выходе из колеса
-        compressor['geometry']['coefficients']['relW_2rToC_1a'] = (
-            relSpeeds_plot2func(
-                compressor['geometry']['coefficients']['relW_2rToC_1a'],
-                compressor['geometry']['D_2']))
-        c_2r = compressor['geometry']['coefficients']['relW_2rToC_1a']*c_1
+        compressor['geometry']['coefficients']['w2r_c1a_ratio'] = \
+            relSpeeds_plot2func(compressor['geometry']['coefficients']\
+                                          ['w2r_c1a_ratio'],
+                                compressor['geometry']['D_2'])
+        c_2r = compressor['geometry']['coefficients']['w2r_c1a_ratio']*c_1
 
-        #28 Потери на поворот и трение в межлопаточных каналах рабочего колеса
+        #28 Потери на поворот и трение в межлопаточных каналах рабочего
+        #   колеса
         L_TF = compressor['losses']['dzeta_TF']*c_2r**2/2
 
         #29 Потери на трение диска колеса о воздух
@@ -229,19 +245,21 @@ def compressor_run(run, engine, compressor):
         zLower = z_plot2func(0, compressor['geometry']['D_2'])
         zUpper = z_plot2func(1, compressor['geometry']['D_2'])
 
-        if ((compressor['geometry']['z_K'] < zLower)
-            or (compressor['geometry']['z_K'] > zUpper)):
-            exit('\033[91mError 30: Number of blades is not in the allowable diapason!\n\
-                 \nFor diameter of the wheel %0.0fmm this diapason is from %1.0f to %2.0f.'
-                 %(compressor['geometry']['D_2']*1e+03,
-                   round(zLower + 0.5), int(zUpper)))
+        if ((compressor['geometry']['blades'] < zLower)
+            or (compressor['geometry']['blades'] > zUpper)):
+            exit('\033[91mERROR 30:\
+                Number of blades is not in the allowable diapason!\n\
+                \nFor diameter of the wheel %0.0fmm this diapason from %1.0f\
+                to %2.0f.'
+                .replace('                 ', ' ')
+                %(compressor['geometry']['D_2']*1e+03,
+                  round(zLower + 0.5), int(zUpper)))
 
         #31 Коэффициент мощности учитывабщий число лопаток и проч.
-        mu = 1/(1 + 2/3*math.pi/compressor['geometry']['z_K']
+        mu = 1/(1 + 2/3*math.pi/compressor['geometry']['blades']
                 *math.sin(
                     math.radians(compressor['geometry']['beta_2Blade']))
-                    /(1 - pow(D_1/compressor['geometry']['D_2'], 2)
-                ))
+                    /(1 - pow(D_1/compressor['geometry']['D_2'], 2)))
 
         #32 Температура воздуха за колесом
         T_2 = T_1 + ((mu + compressor['losses']['alpha_wh'] - 0.5*mu**2)
@@ -280,7 +298,7 @@ def compressor_run(run, engine, compressor):
 
         #41 Ширина колеса на выходе из турбины
         b_2 = math.pi\
-              /compressor['G_K']\
+              /compressor['G']\
               /compressor['geometry']['D_2']\
               /compressor['load']['tau_2']\
               /c_2r/rho_2
@@ -291,23 +309,26 @@ def compressor_run(run, engine, compressor):
         # Расчёт параметров безлопаточного диффузора
         if 'VANELESS' in compressor['diffuser']:
             #44 Ширина безлопаточного диффузора на выходе
-            b_4 = compressor['geometry']['coefficients']['vanelessWideCoef']\
+            b_4 = compressor['geometry']['coefficients']\
+                            ['diffuser']['vaneless_wide']\
                   *b_2
 
             #45 Диаметр безлопаточного диффузора на выходе
-            D_4 = compressor['geometry']['coefficients']['vanelessDiamCoef']\
+            D_4 = compressor['geometry']['coefficients']\
+                            ['diffuser']['vaneless_diam']\
                   *compressor['geometry']['D_2']
 
             #46 Показатель политропы сжатия в диффузоре
-            n_4 = (compressor['efficiency']['eta_diff']*engine['inlet']['k']
+            n_4 = (compressor['efficiency']['eta_diffuser']\
+                   *engine['inlet']['k']
                    /(engine['inlet']['k'] - 1))\
-                  /(compressor['efficiency']['eta_diff']*engine['inlet']['k']
-                   /(engine['inlet']['k'] - 1) - 1)
+                  /(compressor['efficiency']['eta_diffuser']\
+                    *engine['inlet']['k']
+                    /(engine['inlet']['k'] - 1) - 1)
 
             #47 Температура на выходе из диффузора
             # (методом последовательных приближений)
-            T_4 = T_2
-            validity = 1e-02
+            T_4 = T_2;    validity = 1e-02
             while (
                 abs(diffuser_outlet_T(engine['inlet'],
                                       compressor['geometry']['D_2'],
@@ -316,6 +337,10 @@ def compressor_run(run, engine, compressor):
                 - T_4) > validity
             ):
                 T_4 += validity
+                if T_4 > 1000:
+                    exit('\033[91mERROR 47:\
+                         Cannot find outlet diffuser temperature!'
+                         .replace('                         ', " "))
 
             else:
                 T_4 = diffuser_outlet_T(engine['inlet'],
@@ -337,29 +362,38 @@ def compressor_run(run, engine, compressor):
 
             #F50 Проверка на число лопаток относительно их количества в РК
             if (
-                (compressor['geometry']['z_diffuser']
-                 < compressor['geometry']['z_K'] - 5)
-                or (compressor['geometry']['z_diffuser']
-                    > compressor['geometry']['z_K'] + 2)
+                (compressor['geometry']['blades_diffuser']
+                 < compressor['geometry']['blades'] - 5)
+                or (compressor['geometry']['blades_diffuser']
+                    > compressor['geometry']['blades'] + 2)
             ):
-                exit('\033[91mError F50: Number of diffuser blades is not in the allowable diapason!\
-                     \nFor %0.0f compressor blades this diapason is from %1.0f to %2.0f.'
-                     %(compressor['geometry']['z_K'],
-                       compressor['geometry']['z_K'] - 5,
-                       compressor['geometry']['z_K'] + 2))
+                exit('\033[91mERROR F50:\
+                     Number of diffuser blades is not in the allowable\
+                     diapason!\
+                     \nFor %0.0f compressor blades this diapason\
+                     from %1.0f to %2.0f.'
+                     .replace('                     ', ' ')
+                     %(compressor['geometry']['blades'],
+                       compressor['geometry']['blades'] - 5,
+                       compressor['geometry']['blades'] + 2))
 
             #44 Ширина безлопаточной части диффузора на выходе
-            b_3 = compressor['geometry']['coefficients']['vanelessWideCoef']*b_2
+            b_3 = compressor['geometry']['coefficients']\
+                            ['diffuser']['vaneless_wide']\
+                  *b_2
 
             #45 Диаметр безлопаточной части диффузора на выходе
-            D_3 = compressor['geometry']['coefficients']['vanelessDiamCoef']\
+            D_3 = compressor['geometry']['coefficients']\
+                            ['diffuser']['vaneless_diam']\
                   *compressor['geometry']['D_2']
 
             #46 Показатель политропы сжатия безлопаточной части диффузора
-            n_3 = (compressor['efficiency']['eta_diff']*engine['inlet']['k']
+            n_3 = (compressor['efficiency']['eta_diffuser']\
+                   *engine['inlet']['k']
                    /(engine['inlet']['k'] - 1))\
-                  /(compressor['efficiency']['eta_diff']*engine['inlet']['k']
-                   /(engine['inlet']['k'] - 1) - 1)
+                  /(compressor['efficiency']['eta_diffuser']\
+                    *engine['inlet']['k']
+                    /(engine['inlet']['k'] - 1) - 1)
 
             #47 Температура на выходе из диффузора (методом
             #   последовательных приближений)
@@ -372,6 +406,10 @@ def compressor_run(run, engine, compressor):
                 - T_3) > validity
             ):
                 T_3 += validity
+                if T_3 > 1000:
+                    exit('\033[91mERROR 47:\
+                         Cannot find outlet diffuser temperature!'
+                         .replace('                         ', " "))
 
             else:
                 T_3 = diffuser_outlet_T(engine['inlet'],
@@ -389,11 +427,13 @@ def compressor_run(run, engine, compressor):
             c_3 = c_2*compressor['geometry']['D_2']*b_2*rho_2/D_3/b_3/rho_3
 
             #F47 Диаметр лопаточного диффузора на выходе
-            D_4 = compressor['geometry']['coefficients']['vanedDiamCoef']\
+            D_4 = compressor['geometry']['coefficients']\
+                            ['diffuser']['vaned_diam']\
                   *compressor['geometry']['D_2']
 
             #F48 Ширина лопаточного диффузора на выходе
-            b_4 = compressor['geometry']['coefficients']['vanedWideCoef']*b_3
+            b_4 = compressor['geometry']['coefficients']\
+                            ['diffuser']['vaned_wide']*b_3
 
             #F49 Угол наклона лопаток на выходе из диффузора
             alpha_4 = alpha_2 + compressor['geometry']['deltaDiffuser']
@@ -412,6 +452,10 @@ def compressor_run(run, engine, compressor):
                 - T_4) > validity
             ):
                 T_4 += validity
+                if T_4 > 1000:
+                    exit('\033[91mERROR F51:\
+                         Cannot find outlet blade diffuser temperature!'
+                         .replace('                         ', ' '))
 
             else:
                 T_4 = diffuser_outlet_T(engine['inlet'],
@@ -428,7 +472,8 @@ def compressor_run(run, engine, compressor):
 
         #51 Скорость на выходе из компрессора
         c_K = c_4\
-              /compressor['geometry']['coefficients']['relDiffOutToCompOut']
+              /compressor['geometry']['coefficients']\
+                         ['diffuser']['c_out_ratio']
 
         #52 Температура на выходе из компрессора
         T_K = T_4 + (c_4**2 - c_K**2)/2/engine['inlet']['c_p']
@@ -460,20 +505,20 @@ def compressor_run(run, engine, compressor):
                            /(T_KStagn/T_0Stagn - 1)
 
         #60 Расхождение с заданным КПД компрессора
-        errorEta = (compressor['efficiency']['eta_KsStagn']
-                    - eta_KsStagnRated)\
-                   /compressor['efficiency']['eta_KsStagn']*100
+        eta_error = (compressor['efficiency']['eta_KsStagn']
+                     - eta_KsStagnRated)\
+                    /compressor['efficiency']['eta_KsStagn']*100
 
         #61 Расчётный коэффициент напора по заторможенным параметрам
         H_KsStagnRated = L_KsStagnRated/u_2**2
 
         #62 Расхождение с заданным КПД компрессора
-        errorH = (compressor['efficiency']['H_KsStagn']
-                  - H_KsStagnRated)\
-                 /compressor['efficiency']['H_KsStagn']*100
+        H_error = (compressor['efficiency']['H_KsStagn']
+                   - H_KsStagnRated)\
+                  /compressor['efficiency']['H_KsStagn']*100
 
         #63 Мощность затрачиваемая на привод компрессора
-        N_K = compressor['G_K']*L_KsStagn/eta_KsStagnRated
+        N_K = compressor['G']*L_KsStagn/eta_KsStagnRated
 
         #64 Полное давление перед впускными клапанами поршневой части
         p_vStagn = p_KStagn*compressor['losses']['sigma_c']\
@@ -481,7 +526,7 @@ def compressor_run(run, engine, compressor):
 
         #65 Расхождение с предварительно оценнёной/заданной степенью повышения
         #   давления компрессора
-        pi_KError = (pi_KStagn - compressor['pi_K'])/compressor['pi_K']*100
+        pi_KError = (pi_KStagn - compressor['pi'])/compressor['pi']*100
 
     return compressor, Compressor
 

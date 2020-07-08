@@ -17,7 +17,10 @@ def engine_extend(engine):
     elif 'CI' in engine['combustion']['ignition']:
         engine['combustion']['l_0'] = 14.31 # [kg]
     else:
-        exit(f"\033[91mError: engine['combustion']['ignition'] variable is incorrect!")
+        exit(f"\033[91mERROR:\
+             Variable engine['combustion']['ignition'] is incorrect!\
+             \nValid values are 'SI' and 'CI'"
+             .replace('             ', ' '))
 
     # Effective pressure | Среднее эффективное давление
     engine['efficiency']['p_e'] = (

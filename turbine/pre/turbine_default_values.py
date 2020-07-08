@@ -5,8 +5,8 @@ def turbine_default_values(turbine):
     from default_value import default_value
 
     if turbine['type'] == 'radial':
-        turbine['losses']['dragInletRatio'] = default_value(
-            turbine['losses']['dragInletRatio'],
+        turbine['losses']['drag_inlet_ratio'] = default_value(
+            turbine['losses']['drag_inlet_ratio'],
             1.017)
 
         # [efficiency]
@@ -39,14 +39,14 @@ def turbine_default_values(turbine):
             3*1e-04)
 
         #- [geometry][coefficients]
-        turbine['geometry']['coefficients']['outerDiamRatio'] = default_value(
-            turbine['geometry']['coefficients']['outerDiamRatio'],
+        turbine['geometry']['coefficients']['d_outer_ratio'] = default_value(
+            turbine['geometry']['coefficients']['d_outer_ratio'],
             0.8)
-        turbine['geometry']['coefficients']['innerDiamRatio'] = default_value(
-            turbine['geometry']['coefficients']['innerDiamRatio'],
+        turbine['geometry']['coefficients']['d_inner_ratio'] = default_value(
+            turbine['geometry']['coefficients']['d_inner_ratio'],
             0.95)
-        turbine['geometry']['coefficients']['diameterRatio'] = default_value(
-            turbine['geometry']['coefficients']['diameterRatio'],
+        turbine['geometry']['coefficients']['D_ratio'] = default_value(
+            turbine['geometry']['coefficients']['D_ratio'],
             1.0)
         turbine['geometry']['coefficients']['beta'] = default_value(
             turbine['geometry']['coefficients']['beta'],
@@ -62,8 +62,8 @@ def turbine_default_values(turbine):
             0.96) #(29)
 
     elif turbine['type'] == 'axial':
-        turbine['losses']['dragInletRatio'] = default_value(
-            turbine['losses']['dragInletRatio'],
+        turbine['losses']['drag_inlet_ratio'] = default_value(
+            turbine['losses']['drag_inlet_ratio'],
             1.046) # (0)
 
         # [efficiency]

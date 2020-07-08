@@ -22,49 +22,49 @@ turbine = dict(
         sigma_esc = 'DEFAULT', #0.9…0.99 {0.99}
 
         #3 Turbine energy conversion efficiency | КПД турбины
-        eta_Te    = 'DEFAULT', #wght {0.73}
+        eta_Te = 'DEFAULT', #wght {0.73}
 
         #13 Cтепень реактивности
-        rho       = 'DEFAULT', #0.45…0.55 {0.52}
+        rho = 'DEFAULT', #0.45…0.55 {0.52}
 
         #51 Коэффициент учитывающий неравномерность потока на выходе из РК
-        dzeta     = 'DEFAULT', #1.1…1.5 {1.24}
+        dzeta = 'DEFAULT', #1.1…1.5 {1.24}
 
         #61 Механический КПД (60)
-        eta_m     = 'DEFAULT', #0.92…0.96 {0.94}
+        eta_m = 'DEFAULT', #0.92…0.96 {0.94}
     ),
 
     # Geometric parameters | Параметры геометрии
     geometry = dict(
         #18 Угол α_1 наклона вектора абсолютной скорости с_1
-        alpha_1     = 'DEFAULT', #0…1 {0} [deg]
+        alpha_1 = 'DEFAULT', #0…1 {0} [deg]
 
         #23 угол установки лопаток
         beta_1Blade = 'DEFAULT', # {90} [deg]
 
         #35 Радиальный зазор Δ между корпусом и РК
-        delta       = 'DEFAULT', #0.3…1.5 {0.3} [mm]
+        delta = 'DEFAULT', #0.3…1.5 {0.3} [mm]
 
         # Geometric сoefficients | Коэффициенты геометрии
         coefficients = dict(
             #2 Отношение диаметров колеса турбины и компрессора
-            diameterRatio  = 'DEFAULT', #1.0…1.1 {1.0}
+            D_ratio = 'DEFAULT', #1.0…1.1 {1.0}
 
             #9 Отношение диаметров РК турбины к её наружному диаметру
-            outerDiamRatio = 'DEFAULT', #wght {0.8}
+            d_outer_ratio = 'DEFAULT', #wght {0.8}
 
             #10 Отношение диаметров РК турбины к её внутреннему диаметру
-            innerDiamRatio = 'DEFAULT', #wght {0.95}
+            d_inner_ratio = 'DEFAULT', #wght {0.95}
 
             #55 Опытный коэффициент, зависящий от типа РК
-            beta           = 'DEFAULT', #3.5…5.0 {4.6}
+            beta = 'DEFAULT', #3.5…5.0 {4.6}
         )
     ),
 
     # Losses coeficients | Коэффициенты потерь
     losses = dict(
         #p40 Коэффициент отношения давления на выходе из турбины к атмосферному
-        dragInletRatio = 'DEFAULT', #1.01…1.1 {1.017}
+        drag_inlet_ratio = 'DEFAULT', #1.01…1.1 {1.017}
 
         #16 Скоростной Коэффициент ϕ учитывающий потери скорости в СА
         phi = 'DEFAULT', #wght {1}
