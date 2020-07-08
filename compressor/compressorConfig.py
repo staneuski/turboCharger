@@ -24,10 +24,10 @@ compressor = dict(
     diffuser = 'VANELESS', # 'VANELESS' or 'VANED'
 
     # Расход через компрессор ['TYPE2']
-    G_K = 4.5, # [kg/s] (для осевой турбины должен быть задан)
+    G = 4.5, # [kg/s] (для осевой турбины должен быть задан)
 
     # Cтепень повышения давления в компрессоре ['TYPE2']
-    pi_K = 3.0,
+    pi = 3.0,
 
     # Initial parameters | Начальные параметры
     initial = dict(
@@ -54,7 +54,7 @@ compressor = dict(
         eta_KsStagn = 'DEFAULT', #wght {0.6}
 
         #46 Политропный КПД диффузора
-        eta_diff = 'DEFAULT', #0.55…0.78 {0.75}
+        eta_diffuser = 'DEFAULT', #0.55…0.78 {0.75}
     ),
 
     # Geometric parameters
@@ -71,10 +71,10 @@ compressor = dict(
         iDeg = 3.913, #2…6 [deg]
 
         #30 Количество лопаток РК
-        z_K = 12, #9…40
+        blades = 12, #9…40
 
         #F50 Уоличество лопаток ЛД ['VANELESS']
-        z_diffuser = 13, #7…35
+        blades_diffuser = 13, #7…35
 
         #F49 Разница в наклоне лопоток на выходе из ЛД и РК ['VANELESS']
         deltaDiffuser = 'DEFAULT', # 10…15 [deg] {14}
@@ -88,33 +88,35 @@ compressor = dict(
                             #  стандартных значений
 
             #13 Diameter coefficients | Коэффициенты диаметра
-            relD_1H = 'DEFAULT', #wght {0.6}
-            relD_1B = 'DEFAULT', #wght {0.55}
+            D_1Down_relative = 'DEFAULT', #wght {0.6}
+            D_1Up_relative = 'DEFAULT', #wght {0.55}
 
             #27 Отношение w_2r к с_1a (27)
-            relW_2rToC_1a = 'DEFAULT', #wght {0.6}
+            w2r_c1a_ratio = 'DEFAULT', #wght {0.6}
 
-            #44 Отношение ширины (безлопаточной части)
-            #   диффузора на входе и выходе
-            vanelessWideCoef = 'DEFAULT', #0.95…1  {1} ['VANELESS']
-                                          #0.7…1.0 {0.9} ['VANED']
+            diffuser = dict(
+                #44 Отношение ширины (безлопаточной части)
+                #   диффузора на входе и выходе
+                vaneless_wide = 'DEFAULT', #0.95…1  {1} ['VANELESS']
+                                           #0.7…1.0 {0.9} ['VANED']
 
-            #45 Отношение диаметра (безлопаточной части)
-            #   диффузора на входе и выходе
-            vanelessDiamCoef = 'DEFAULT', #1.05…1.2 {1.14} ['VANELESS']
-                                          #1.6…1.9  {1.8} ['VANED']
+                #45 Отношение диаметра (безлопаточной части)
+                #   диффузора на входе и выходе
+                vaneless_diam = 'DEFAULT', #1.05…1.2 {1.14} ['VANELESS']
+                                           #1.6…1.9  {1.8} ['VANED']
 
-            #51 Отношение скорости на выходе из компрессора
-            #   к скорости на выходе из диффузора
-            relDiffOutToCompOut = 'DEFAULT', #1.3…1.4 {1.4}
+                #51 Отношение скорости на выходе из компрессора
+                #   к скорости на выходе из диффузора
+                c_out_ratio = 'DEFAULT', #1.3…1.4 {1.4}
 
-            #F47 Отношение диаметра лопаточной части ЛД
-            #    на входе и выходе ['VANED']
-            vanedDiamCoef = 'DEFAULT', #1.35…1.7 {1.6}
+                #F47 Отношение диаметра лопаточной части ЛД
+                #    на входе и выходе ['VANED']
+                vaned_diam = 'DEFAULT', #1.35…1.7 {1.6}
 
-            #F48 Отношение ширины лопаточной части ЛД
-            #    на входе и выходе ['VANED']
-            vanedWideCoef = 'DEFAULT', #1…1.3 {1}
+                #F48 Отношение ширины лопаточной части ЛД
+                #    на входе и выходе ['VANED']
+                vaned_wide = 'DEFAULT', #1…1.3 {1}
+            ),
         ),
     ),
 

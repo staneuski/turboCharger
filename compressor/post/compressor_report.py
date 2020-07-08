@@ -18,12 +18,12 @@ def compressor_report(run, engine,
                 \n- Предварительная оценка диаметра колеса:\
                 \n$$\n D_{2} = 160G_{K} + 40 = %2.0f \quad мм, \n$$\n\
                 \n- Cтепень повышения давления полученная методом\
- последовательных приближений:\
+                последовательных приближений:\
                 \n$$\n \pi_{к} = %3.4f, \n$$\n\n"
                 %(engine['efficiency']['p_e']*1e-6,
-                  compressor['G_K'],
+                  compressor['G'],
                   Compressor.D_2Init*1e+03,
-                  compressor['pi_K']))
+                  compressor['pi']))
 
     else:
         r.write("# Данные для расчёта компрессора\
@@ -32,7 +32,7 @@ def compressor_report(run, engine,
                 \n\
                 \n- Cтепень повышения давления:\
                 \n$$\n \pi_{к} = %1.2f, \n$$\n\n"
-                %(compressor['G_K'], compressor['pi_K']))
+                %(compressor['G'], compressor['pi']))
 
     ## Расчёт
     r.write("# Расчёт компрессора\
@@ -130,8 +130,8 @@ def compressor_report(run, engine,
             $$ D_{2} = %0.f $$ мм значения $$ \overline{D}_{1в} = %1.3f $$ и $$\
              \overline{D}_{1н} = %2.3f $$. Тогда $$ D_{1н} = %4.5f $$\n\n"
             %(Compressor.D_2Init*1e+03,
-              compressor['geometry']['coefficients']['relD_1B'],
-              compressor['geometry']['coefficients']['relD_1H'],
+              compressor['geometry']['coefficients']['D_1Up_relative'],
+              compressor['geometry']['coefficients']['D_1Down_relative'],
               Compressor.D_1H))
 
     r.write("14. Внутренний диаметр на входе (втулочный диаметр):\
@@ -240,7 +240,7 @@ def compressor_report(run, engine,
             значению к  $$c_{1a}$$ и составляет обычно $$(0.9…1.2)c_{1a}$$.\
             Принимая $$c_{2r} = %0.2fс_{1a}$$ , получаем:\
             \n$$\n c_{2r} \equiv w_{2r} = %1.3f\quad м/c \n$$\n\n"
-            %(compressor['geometry']['coefficients']['relW_2rToC_1a'],
+            %(compressor['geometry']['coefficients']['w2r_c1a_ratio'],
               Compressor.c_2r))
 
     r.write("28. Потери $$\Delta L_{пт}$$ на поворот и трение в межлопаточных\
@@ -260,7 +260,7 @@ def compressor_report(run, engine,
             %(Compressor.L_TB, compressor['losses']['alpha_wh']))
 
     r.write("30. Число лопаток колеса принимаем как $$z_{K} = %0.0f.$$\n\n"
-            %compressor['geometry']['z_K'])
+            %compressor['geometry']['blades'])
 
     r.write("31. Коэффициент мощности μ, учитывающий число лопаток,\
             угол их наклона на выходе и соотношение диаметров колеса,\
@@ -359,16 +359,16 @@ def compressor_report(run, engine,
                 в пределах $$b_{4} = (0.7…1.0)b_{2}$$.\
                 Выберем коэффициент %0.2f. Тогда:\
                 \n$$\n b_{4} = %0.2f b_{2} = %1.8f\quad м\n$$\n\n"
-                %(compressor['geometry']['coefficients']['vanelessWideCoef'],
-                  compressor['geometry']['coefficients']['vanelessWideCoef'],
+                %(compressor['geometry']['coefficients']['diffuser']['vaneless_wide'],
+                  compressor['geometry']['coefficients']['diffuser']['vaneless_wide'],
                   Compressor.b_4))
 
         r.write("45. Наружный диаметр безлопаточного диффузора\
                 выбирают в пределах $$(1.6…1.9)D_{2}$$.\
                 Принимаем значение коэффициента %0.2f. В результате:\
                 \n$$\n D_{4} = %0.2f D_{2} = %1.4f\quad м\n$$\n\n"
-                %(compressor['geometry']['coefficients']['vanelessDiamCoef'],
-                  compressor['geometry']['coefficients']['vanelessDiamCoef'],
+                %(compressor['geometry']['coefficients']['diffuser']['vaneless_diam'],
+                  compressor['geometry']['coefficients']['diffuser']['vaneless_diam'],
                   Compressor.D_4))
 
         r.write("![alt text](compressor/axisCut.png)\n\
@@ -383,7 +383,7 @@ def compressor_report(run, engine,
                 \n$$\n {n_{4} \over n_{4} - 1} = \eta_{д}{k \over k - 1}\n$$\n\
                 Тогда, решив уравнение методом последовательных приближений,\
                 получим $$n_{4} = %1.4f$$\n\n"
-                %(compressor['efficiency']['eta_diff'], Compressor.n_4))
+                %(compressor['efficiency']['eta_diffuser'], Compressor.n_4))
 
         r.write("47. Температура на выходе из диффузора\
                 определяется методом последовательных\
@@ -421,8 +421,8 @@ def compressor_report(run, engine,
                 компрессора $$с_{K}$$ обычно в 1.3…1.4 раза меньше скорости на\
                 выходе из диффузора. Примем значение $$с_{K} = %0.2f$$, тогда:\
                 \n$$\n c_{K} = {c_{4} \over %1.2f} = %2.3f\quad м/с \n$$\n\n"
-                %(compressor['geometry']['coefficients']['relDiffOutToCompOut'],
-                  compressor['geometry']['coefficients']['relDiffOutToCompOut'],
+                %(compressor['geometry']['coefficients']['diffuser']['c_out_ratio'],
+                  compressor['geometry']['coefficients']['diffuser']['c_out_ratio'],
                   Compressor.c_K))
 
         i = 52
@@ -433,16 +433,16 @@ def compressor_report(run, engine,
                 может изменяться в пределах $$b_{3} = (0.7…1.0)b_{2}$$.\
                 Выберем коэффициент %0.2f. Тогда:\
                 \n$$\n b_{3} = %0.2f b_{2} = %1.8f\quad м\n$$\n\n"
-                %(compressor['geometry']['coefficients']['vanelessWideCoef'],
-                  compressor['geometry']['coefficients']['vanelessWideCoef'],
+                %(compressor['geometry']['coefficients']['diffuser']['vaneless_wide'],
+                  compressor['geometry']['coefficients']['diffuser']['vaneless_wide'],
                   Compressor.b_3))
 
         r.write("45. Наружный диаметр безлопаточной части диффузора\
                 выбирают в пределах $$(1.6…1.9)D_{2}$$.\
                 Принимаем значение коэффициента %0.2f. В результате:\
                 \n$$\n D_{3} = %0.2f D_{2} = %1.4f\quad м\n$$\n\n"
-                %(compressor['geometry']['coefficients']['vanelessDiamCoef'],
-                  compressor['geometry']['coefficients']['vanelessDiamCoef'],
+                %(compressor['geometry']['coefficients']['diffuser']['vaneless_diam'],
+                  compressor['geometry']['coefficients']['diffuser']['vaneless_diam'],
                   Compressor.D_3))
 
         r.write("46. Показатель политропы сжатия в безлопаточной части\
@@ -452,7 +452,7 @@ def compressor_report(run, engine,
                 \n$$\n {n_{3} \over n_{3} - 1} = \eta_{д}{k \over k - 1}\n$$\
                 \nТогда, решив уравнение методом последовательных приближений,\
                 получим $$n_{3} = %1.4f$$\n\n"
-                %(compressor['efficiency']['eta_diff'], Compressor.n_3))
+                %(compressor['efficiency']['eta_diffuser'], Compressor.n_3))
 
         r.write("47. Температура на выходе из диффузора определяется\
                 методом последовательных приближений из уравнения:\
@@ -486,16 +486,16 @@ def compressor_report(run, engine,
                 может изменяться в пределах $$b_{4} = (1…1.3)b_{3}$$.\
                 Выберем коэффициент %0.2f. Тогда:\
                 \n$$\n b_{4} = %0.2f b_{3} = %1.8f\quad м\n$$\n\n"
-                %(compressor['geometry']['coefficients']['vanedWideCoef'],
-                  compressor['geometry']['coefficients']['vanedWideCoef'],
+                %(compressor['geometry']['coefficients']['diffuser']['vaned_wide'],
+                  compressor['geometry']['coefficients']['diffuser']['vaned_wide'],
                   Compressor.b_4))
 
         r.write("52. Наружный диаметр лопаточной части диффузора\
                 выбирают в пределах $$(1.35…1.7)D_{2}$$.\
                 Принимаем значение коэффициента %0.2f. В результате:\
                 \n$$\n D_{4} = %0.2f D_{2} = %1.4f\quad м\n$$\n\n"
-                %(compressor['geometry']['coefficients']['vanedDiamCoef'],
-                  compressor['geometry']['coefficients']['vanedDiamCoef'],
+                %(compressor['geometry']['coefficients']['diffuser']['vaned_diam'],
+                  compressor['geometry']['coefficients']['diffuser']['vaned_diam'],
                   Compressor.D_4))
 
         r.write("![alt text](compressor/axisCut.png)\n\
@@ -512,8 +512,8 @@ def compressor_report(run, engine,
         r.write("54. Число лопаток диффузора должно быть некратно числу\
                 лопаток $$z_{К} = %0.0f$$ компрессора.\
                 Принимаем: $$z_{д} = %0.0f$$.\n\n"
-                %(compressor['geometry']['z_K'],
-                 compressor['geometry']['z_diffuser']))
+                %(compressor['geometry']['blades'],
+                 compressor['geometry']['blades_diffuser']))
 
         r.write("![alt text](compressor/perpendicularCut.png)\n\
                 <center>\
@@ -575,8 +575,8 @@ def compressor_report(run, engine,
                 меньше скорости на выходе из диффузора.\
                 Примем значение $$c_{K} = %0.2f$$, тогда:\
                 \n$$\n c_{K} = {c_{4} \over %1.2f} = %2.3f\quad м/с \n$$\n\n"
-                %(compressor['geometry']['coefficients']['relDiffOutToCompOut'],
-                  compressor['geometry']['coefficients']['relDiffOutToCompOut'],
+                %(compressor['geometry']['coefficients']['diffuser']['c_out_ratio'],
+                  compressor['geometry']['coefficients']['diffuser']['c_out_ratio'],
                   Compressor.c_K))
 
         i = 61
@@ -628,7 +628,7 @@ def compressor_report(run, engine,
             \n$$\n {\mid {\eta'}_{КS}^{*} - \eta_{КS}^{*} \mid\
                     \over \eta_{КS}^{*}}\
                    = %0.3f \%% \n$$\n\n"
-            %(i, Compressor.errorEta)); i += 1
+            %(i, Compressor.eta_error)); i += 1
 
     r.write("%0.0f. Расчетный коэффициент напора по заторможенным параметрам:\
             \n$$\n {H'}_{КS}^{*} = {{L'}_{КS}^{*} \over u_{2}^2}\
@@ -638,7 +638,7 @@ def compressor_report(run, engine,
     r.write("%0.0f. Расхождение с заданным коэффициентом напора составляет:\
             \n$$\n {\mid {H'}_{КS}^{*} - H_{КS}^{*} \mid \over H_{КS}^{*}}\
                    = %0.3f \%% \n$$\n\n"
-            %(i, Compressor.errorH)); i += 1
+            %(i, Compressor.H_error)); i += 1
 
     r.write("%0.0f. Мощность, затрачиваемая на привод компрессора:\
             \n$$\n N_{K} = {G_{K}{L'}_{КS}^{*} \over {\eta'}_{КS}^{*}}\

@@ -19,7 +19,7 @@ def turbine_report(run, engine,
     r.write("- В соответствии с исходными данными имеем:\
             \n$$\n G_{K} = %0.4f\quad кг/с;\quad \\alpha = %1.1f;\quad \\varphi\
                          = %3.3f,\quad l_{0} = %4.2f\n$$\n\n"
-            %(compressor['G_K'],
+            %(compressor['G'],
             engine['combustion']['alpha'],
             engine['combustion']['phi'],
             engine['combustion']['l_0']))
@@ -50,7 +50,7 @@ def turbine_report(run, engine,
             превышает атмосферное и составляет\
             $$p_{2} = (1.01…1.10)p_{а}$$. Принимаем:\
             \n$$\n p_{2} = %0.2fp_{а} = %1.f\quad Па\n$$\n\n"
-            %(turbine['losses']['dragInletRatio'], Turbine.p_2))
+            %(turbine['losses']['drag_inlet_ratio'], Turbine.p_2))
 
     r.write("- Температура газов перед турбиной:\
             $$T_{0}^{*} = %0.1f\quad K$$\n\n\n"
@@ -76,17 +76,17 @@ def turbine_report(run, engine,
                 и соответственно окружная скорость $$u_{1}$$ на входе в колесо\
                 турбины будет равна:\
                 \n$$\n u_{1} = %1.1fu_{2K} = %3.3f\quad м\n$$\n\n"
-                %(turbine['geometry']['coefficients']['diameterRatio'],
-                  turbine['geometry']['coefficients']['diameterRatio'],
+                %(turbine['geometry']['coefficients']['D_ratio'],
+                  turbine['geometry']['coefficients']['D_ratio'],
                   Turbine.D_1,
-                  turbine['geometry']['coefficients']['diameterRatio'],
+                  turbine['geometry']['coefficients']['D_ratio'],
                   Turbine.u_1))
 
         r.write("3. Принимаем эффективный КПД турбины как: $$\eta = %0.3f$$\n\n"
                 %turbine['efficiency']['eta_Te'])
 
         r.write("4. Изоэнтропная работа турбины:\
-                \n$$\n L_{TS}^{*} = {L^{*}_{TS}compressor['G_K']\
+                \n$$\n L_{TS}^{*} = {L^{*}_{TS}compressor['G']\
                                      \over \eta_{KS}\eta_{Te}G_{T}}\
                                   = %0.1f\quad Дж/кг \n$$\n\n"
                 %Turbine.L_TsStagn)
@@ -114,14 +114,14 @@ def turbine_report(run, engine,
         r.write("9. Наружный диаметр рабочего колеса турбины на выходе\
                 составляет обычно $$D_{2H} = (0.70…0.85)D_{1}$$. Принимаем:\
                 \n$$\n D_{2H} = %0.2fD_{1} = %1.3f\quad м \n$$\n\n"
-                %(turbine['geometry']['coefficients']['outerDiamRatio'],
+                %(turbine['geometry']['coefficients']['d_outer_ratio'],
                   Turbine.D_2H))
 
         r.write("10. Внутренний (втулочный) диаметр рабочего колеса турбины на\
                 выходе составляет обычно $$D_{2H} = (0.25…0.32)D_{1}$$.\
                 Принимаем:\
                 \n$$\n D_{2B} = %0.2fD_{1} = %1.3f\quad м \n$$\n\n"
-                %(turbine['geometry']['coefficients']['innerDiamRatio'],
+                %(turbine['geometry']['coefficients']['d_inner_ratio'],
                   Turbine.D_2B))
 
         r.write("11. Средний диаметр колеса турбины на выходе:\
@@ -452,7 +452,7 @@ def turbine_report(run, engine,
                 имеем незначительную погрешность:\
                 \n$$\n {\mid {\eta'}_{Тe} - \eta_{Тe} \mid \over {\eta'}_{Тe}}\
                        = %0.3f \%% \n$$\n\n"
-                %Turbine.errorEta)
+                %Turbine.eta_error)
 
         r.write("62. Эффективная работа турбины:\
                 \n$$\n L_{Тe} = L_{TS}{\eta'}_{Тe} = %0.1f\quad Дж/кг \n$$\n\n"
@@ -466,7 +466,7 @@ def turbine_report(run, engine,
                 потребляемой компрессором, незначительно:\
                 \n$$\n {\mid N_{K} - N_{T} \mid \over N_{K}}\
                        = %0.3f \%% \n$$\n\n"
-                %Turbine.errorN)
+                %Turbine.N_error)
 
     elif turbine['type'] == 'axial':
         r.write("# Расчёт осевой турбины\n")
@@ -904,7 +904,7 @@ def turbine_report(run, engine,
                 имеем незначительную погрешность:\
                 \n$$\n {\mid {\eta'}_{Тe} - \eta_{Тe} \mid \over {\eta'}_{Тe}}\
                        = %0.3f \%% \n$$\n\n"
-                %Turbine.errorEta)
+                %Turbine.eta_error)
 
         r.write("68. Эффективная работа турбины:\
                 \n$$\n L_{Тe} = L_{TS}{\eta'}_{Тe} = %0.1f\quad Дж/кг \n$$\n\n"
@@ -918,7 +918,7 @@ def turbine_report(run, engine,
                 незначительно:\
                 \n$$\n {\mid N_{K} - N_{T} \mid \over N_{K}}\
                        = %0.3f \%% \n$$\n\n"
-                %Turbine.errorN)
+                %Turbine.N_error)
 
     else: None
 

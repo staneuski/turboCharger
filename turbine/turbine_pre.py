@@ -33,11 +33,11 @@ def turbine_pre(run, engine,
         turbine['losses']['psi'] = psi_plot2func(
             turbine['losses']['psi'],
             compressor['geometry']['D_2'])
-        turbine['geometry']['coefficients']['outerDiamRatio'] = relD_1H(
-            turbine['geometry']['coefficients']['outerDiamRatio'],
+        turbine['geometry']['coefficients']['d_outer_ratio'] = relD_1H(
+            turbine['geometry']['coefficients']['d_outer_ratio'],
             compressor['geometry']['D_2'])
-        turbine['geometry']['coefficients']['innerDiamRatio'] = relD_2B(
-            turbine['geometry']['coefficients']['innerDiamRatio'],
+        turbine['geometry']['coefficients']['d_inner_ratio'] = relD_2B(
+            turbine['geometry']['coefficients']['d_inner_ratio'],
             compressor['geometry']['D_2'])
 
         # Inlet turbine temperature | Температура перед турбиной
@@ -50,7 +50,9 @@ def turbine_pre(run, engine,
                 engine['heat']['T_0Stagn'] = 823.0 # [K]
 
             else:
-                exit("\033[91mError 0: The diameter of the wheel is too big!")
+                exit("\033[91mError 0:\
+                    The diameter of the wheel is too big!"
+                    .replace('                    ', ' '))
 
     return run, engine, turbine
 
