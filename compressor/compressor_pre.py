@@ -24,10 +24,10 @@ def compressor_pre(run, engine, compressor):
     # Wheel diameter
     # Оценка диаметра рабочего колеса и установка параметров зависящих от него
     if issubclass(type(compressor['geometry']['estimD_2']), str):
-        compressor['geometry']['D_2'] = (160*compressor['G_K'] + 40)
+        compressor['geometry']['D_2'] = (160*compressor['G_K'] + 40)\
                                         *1e-03 # [m]
     else:
-        compressor['geometry']['D_2'] = compressor['geometry']['estimD_2']
+        compressor['geometry']['D_2'] = compressor['geometry']['estimD_2']\
                                         *1e-02 # [m]
 
     # Calculation pressure degree increase with successive approximation method
