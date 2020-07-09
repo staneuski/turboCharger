@@ -6,18 +6,16 @@ def turbine_pre(run, engine,
         precalculate some compressor parameters
     '''
     import math
-    from default_value import default_value
     from turbine_default_values import turbine_default_values
     from turbine_plot2func import eta_plot2func, alpha_plot2func,\
                                   phi_plot2func, psi_plot2func,\
                                   ksi_plot2func, relD_1H, relD_2B
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    # Converting data to SI dimensions
-    if issubclass(type(turbine['geometry']['delta']), float):
-        turbine['geometry']['delta'] *= 1e-03 # -> [m]
-
     turbine_default_values(turbine)
+
+    # Converting data to SI dimensions
+    turbine['geometry']['delta'] *= 1e-03 # -> [m]
 
     if turbine['type'] == 'radial':
         # Set values using balance coefficients from dictionary
