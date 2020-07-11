@@ -1,7 +1,7 @@
 # About turboCharger
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger)
 ![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
-[[Русский 🇷🇺](https://github.com/StasF1/turboCharger/blob/master/README.ru.md)]
+**[[Русский 🇷🇺](https://github.com/StasF1/turboCharger/blob/master/README.ru.md)]**
 
 Piston engine turbocharger 0D simulation tool
 
