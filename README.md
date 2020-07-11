@@ -1,63 +1,102 @@
-# Описание
-Программа проводит 0D расчёт турбокомпрессора. Написана на языке **_Python 3_**.
+# About turboCharger
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger)
+![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
+**[[Русский 🇷🇺](https://github.com/StasF1/turboCharger/blob/master/README.ru.md)]**
 
-По результатам расчёта генерируются отчёты на языке **Markdown** (примеры отчётов представлены ниже), сохраняются рисунки с уже выставленными _размерами_ на них ([примеры рисунков](https://github.com/StasF1/turboCharger/wiki/Примеры-рисунков)). Всё это располагается в папке _results/_, создаваемой автоматически.
+Piston engine turbocharger 0D simulation tool
 
-![inTurbineWheel-dflt](https://github.com/StasF1/turboCharger/wiki/images/inTurbineWheel.png)
+After the successfull simulation the reports are created (in the Markdown
+language, in Russian for now only) with dimesioned pictures (see example below)
 
-Программа писалась для чтения отчётов  Markdown-редакторе [Typora](https://typora.io). Желательно использовать его для правильного отображения Latex-формул в файлах формата _.md_.
+![inTurbineWheel](https://github.com/StasF1/turboCharger/wiki/images/inTurbineWheel.png)
 
-#### Примеры отчётов
-|Вариант расчёта         |Настройки        |Отчёт                   |
-|-----------------------:|----------------:|:-----------------------|
-|              Компрессор| По умолчанию    |[compressorReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/compressorReport.pdf)|
-|Радиально-осевая турбина| По умолчанию    |[radialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/radialTurbineReport.pdf)|
-|          Осевая турбина| Не по умолчанию |[axialTurbineReport.pdf](https://github.com/StasF1/turboCharger/releases/download/v1-beta/axialTurbineReport.pdf)|
+The program was written to open reports in the Markdown editor
+[Typora](https://typora.io). It is advisable to use it to display LaTeX formulas
+correctly in Markdown files (automatic .pdf LaTeX generation in develop).
 
-# Требования
-1. [Python 3](https://www.python.org/downloads/)
-2. Pillow - Python-модуль для редактирования изображений ([как его скачать](https://github.com/StasF1/turboCharger/issues/2))
-3. Markdown-редактор ([Typora](https://typora.io/#download), желательно)
+#### Report examples
+| Run type | Settings |
+| -------: | -------- |
+| [Radial Compressor](https://github.com/StasF1/turboCharger/releases/download/v1-beta/compressorReport.pdf) | Default |
+| [Radial Turbine](https://github.com/StasF1/turboCharger/releases/download/v1-beta/radialTurbineReport.pdf) | Default |
+| [Axial Turbine](https://github.com/StasF1/turboCharger/releases/download/v1-beta/axialTurbineReport.pdf) | Not default |
 
-# История версий
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger) ![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
-### 📥 [Скачать текущую версию: _v2.2_](https://github.com/StasF1/turboCharger/archive/v2.2.zip) 📥
 
-# Порядок работы с программой
-‼ Подробное руководство по работе с программой (текущей версии - v1-beta) выложено в [**Wiki**](https://github.com/StasF1/turboCharger/wiki).
+# Requirements
+1. [Python 3](https://www.python.org/downloads/) with _pillow_ package
+1. Markdown editor ([Typora](https://typora.io/#download), preferably)
 
-_⚠ ВНИМАНИЕ:_ По завершении расчёта создаётся папка _results/_ со сгенерироваными в ней отчётами. Также в ней создаётся и аналогичная репозиторию файловая структура, что необходимо для сохранения в качестве бэкапа словарей (файлов с настройками, оканчивающиеся на _Config.py_). Например, копия словаря _turbineConfig.py_ будет располагаться в _results/turbine/radial/_. Таким образом, **папку _results/_ можно переименовать (например в _results001/_), чтоб не потерять словари настроек при проведении нового расчёта**. 
 
-# Структура
+# Usage
+## Installation
+### Windows
+1. Install a package managemer for Windows [Chocolatey](https://chocolatey.org/)
+(if not installed). Copy in the PowerShell elevated prompt and run:
+    ```PowerShell
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    ```
+1. Install Python 3 with required packages and Markdown editor (also using the PowerShell elevated prompt)
+    ```PowerShell
+    choco install -y python3 typora
+    python3 -m pip install pillow
+    ```
+1. Download turboCharger repository:
+    ```PowerShell
+    curl "https://github.com/StasF1/turboCharger/archive/v2.3-beta.zip" -o $HOME/Downloads/turboCharger
+    ```
+
+### macOS
+1. Install a package managemer for macOS [Homebrew](https://brew.sh/)
+(if not installed). Copy into the Terminal and run:
+    ```bash
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    ```
+1. Install Python 3 with required packages and Markdown editor
+    ```bash
+    brew install python3 typora
+    python3 -m pip install pillow
+    ```
+1. Download turboCharger repository:
+    ```bash
+    curl "https://github.com/StasF1/turboCharger/archive/v2.3-beta.zip" -o $HOME/Downloads/turboCharger
+    ```
+
+### Linux
+1. Install Python required packages
+    ```bash
+    python3 -m pip install pillow
+    ```
+1. Download turboCharger repository:
+    ```bash
+    curl "https://github.com/StasF1/turboCharger/archive/v2.3-beta.zip" -o $HOME/Downloads/turboCharger
+    ```
+
+## Run
+```bash
+cd $HOME/Downloads/turboCharger
+python3 turbocharger.py
+```
+⚠ A detailed guide is available on [**Wiki**](https://github.com/StasF1/turboCharger/wiki)
+
+
+# Structure
 ```gitignore
 turboCharger-2.2-beta
 ├── compressor
-│   ├── post
-│   ├── pre
-├── etc                 # шрифты, бланки картинок и проч.
-│   ├── compressor
-│   └── turbine
-│       ├── axial
-│       └── radial
-├── results*            # результаты расчётов и копии словарей (*Config.py-файлов)
-│   ├── compressor
-│   └── turbine
-│       ├── axial
-│       └── radial
+│   ├── post
+│   └── pre
+├── etc
+│   ├── compressor
+│   └── turbine
+│       ├── axial
+│       └── radial
+├── results*            # reports and dictionary copies (*Config.py-files)
+│   ├── compressor
+│   └── turbine
+│       ├── axial
+│       └── radial
 └── turbine
     ├── post
     └── pre
-# *создаётся при проведённом расчёте
+#* created during the calculation
 ```
-
----
-# DEBUGGING
-**[Типичные проблемы](https://github.com/StasF1/turboCharger/issues?utf8=✓&q=is%3Aissue+is%3Aclosed+label%3A%22good+first+issue%22+)** при первом запуске:
-
-- [Pillow](https://github.com/StasF1/turboCharger/issues/2)
-- [Make Python2 executable](https://github.com/StasF1/turboCharger/issues/3)
-
-Также, в случае, если у вас **что-то не работет** и решения нет – не стесняйтесь нажимать на [`New Issue`](https://github.com/StasF1/turboCharger/issues?utf8=✓&q=) и создавать сообщение о возникшей проблеме.
-
----
-Отдельная благодарность **Алексею Быкову** за проведённое тестирование кода и поиск ошибок.

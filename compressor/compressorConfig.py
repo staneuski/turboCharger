@@ -20,41 +20,42 @@ compressor = dict(
 
     type = "radial",
 
-    # Тип диффузора: БЛД ['VANELESS'] или ЛД ['VANED']
-    diffuser = 'VANELESS', # 'VANELESS' or 'VANED'
+    # Diffuser type
+    # Тип диффузора (лопаточный или безлопаточный)
+    # diffuser = 'VANED', #'VANELESS' or 'VANED' {'VANELESS'}
 
     # Расход через компрессор ['TYPE2']
-    G_K = 4.5, # [kg/s] (для осевой турбины должен быть задан)
+    G = 4.5, # [kg/s], for run['type'] == 'TYPE2' only or for axial turbine
 
-    # Cтепень повышения давления в компрессоре ['TYPE2']
-    pi_K = 3.0,
+    # Cтепень повышения давления в компрессоре
+    pi = 3.0, # for run['type'] == 'TYPE2' only
 
     # Initial parameters | Начальные параметры
     initial = dict(
         #- Inlet gas parameters | Параматры газа на входе
         #0 Stagnation pressure | давление торможения
-        p_aStagn = ambient['p'], # [Pa]
+        # p_aStagn = ambient['p'], # [Pa]
 
         #0 Stagnation pressure | температура торможения
-        T_aStagn = ambient['T'], # [К]
+        # T_aStagn = ambient['T'], # [К]
 
         #0 Intake speed | скорость на входе
-        c_0 = 'DEFAULT', # [m/s] {40}
+        # c_0 = 40.0, # [m/s] {40.0}
     ),
 
     # Efficiency parameters | Параметры эффективности
     efficiency = dict(
         #5 Напорный изоэнтропный КПД
-        H_KsStagn = 'DEFAULT', #wght {0.4}
+        # H_KsStagn = 0.4, #wght {0.4}
 
         #6 Коэффициент напора
-        phi_flow = 'DEFAULT', #wght {0.4}
+        # phi_flow = 0.6, #wght {0.4}
 
-        #15 КПД компрессора (для 'TYPE2')
-        eta_KsStagn = 'DEFAULT', #wght {0.6}
+        #15 КПД компрессора
+        # eta_KsStagn = 0.1, #wght {0.6} for run['type'] == 'TYPE2' only
 
         #46 Политропный КПД диффузора
-        eta_diff = 'DEFAULT', #0.55…0.78 {0.75}
+        # eta_diffuser = 0.75, #0.55…0.78 {0.75}
     ),
 
     # Geometric parameters
@@ -65,19 +66,19 @@ compressor = dict(
         estimD_2 = 'EQV', # 'EQV' / <int> [cm] (2.25)
 
         #0 Угол лопаток на выходе из рабочего колеса
-        beta_2Blade = 'DEFAULT', #55…75 {75}
+        # beta_2Blade = 75, #55…75 {75}
 
         #20 Угол атаки на входе в РК
         iDeg = 3.913, #2…6 [deg]
 
         #30 Количество лопаток РК
-        z_K = 12, #9…40
+        blades = 12, #9…40
 
-        #F50 Уоличество лопаток ЛД ['VANELESS']
-        z_diffuser = 13, #7…35
+        #F50 Уоличество лопаток ЛД
+        blades_diffuser = 13, #7…35, for vaneless diffuser
 
-        #F49 Разница в наклоне лопоток на выходе из ЛД и РК ['VANELESS']
-        deltaDiffuser = 'DEFAULT', # 10…15 [deg] {14}
+        #F49 Разница в наклоне лопоток на выходе из ЛД и РК
+        # deltaDiffuser = 14.0, # 10…15 [deg] {14}, for vaneless diffuser only
 
         # Geometric coefficients | Коэффициенты геометрии
         coefficients = dict(
@@ -88,79 +89,81 @@ compressor = dict(
                             #  стандартных значений
 
             #13 Diameter coefficients | Коэффициенты диаметра
-            relD_1H = 'DEFAULT', #wght {0.6}
-            relD_1B = 'DEFAULT', #wght {0.55}
+            # D_1Down_relative = 0.6, #wght {0.6}
+            # D_1Up_relative = 0.55, #wght {0.55}
 
             #27 Отношение w_2r к с_1a (27)
-            relW_2rToC_1a = 'DEFAULT', #wght {0.6}
+            # w2r_c1a_ratio = 0.6, #wght {0.6}
 
-            #44 Отношение ширины (безлопаточной части)
-            #   диффузора на входе и выходе
-            vanelessWideCoef = 'DEFAULT', #0.95…1  {1} ['VANELESS']
-                                          #0.7…1.0 {0.9} ['VANED']
+            diffuser = dict(
+                #44 Отношение ширины (безлопаточной части)
+                #   диффузора на входе и выходе
+                # vaneless_wide = 1.0, #0.95…1.0 {1.0}, for vaneless diffuser
+                                       #0.70…1.0 {0.9}, for vaned diffuser
 
-            #45 Отношение диаметра (безлопаточной части)
-            #   диффузора на входе и выходе
-            vanelessDiamCoef = 'DEFAULT', #1.05…1.2 {1.14} ['VANELESS']
-                                          #1.6…1.9  {1.8} ['VANED']
+                #45 Отношение диаметра (безлопаточной части)
+                #   диффузора на входе и выходе
+                # vaneless_diam = 1.12, #1.05…1.2 {1.14}, for vaneless diffuser
+                                        #1.6…1.9  {1.8}, for vaned diffuser
 
-            #51 Отношение скорости на выходе из компрессора
-            #   к скорости на выходе из диффузора
-            relDiffOutToCompOut = 'DEFAULT', #1.3…1.4 {1.4}
+                #51 Отношение скорости на выходе из компрессора
+                #   к скорости на выходе из диффузора
+                # c_out_ratio = 1.4, #1.3…1.4 {1.4}
 
-            #F47 Отношение диаметра лопаточной части ЛД
-            #    на входе и выходе ['VANED']
-            vanedDiamCoef = 'DEFAULT', #1.35…1.7 {1.6}
+                #F47 Отношение диаметра лопаточной части ЛД
+                #    на входе и выходе
+                # vaned_diam = 1.6, #1.35…1.7 {1.6}, for vaned diffuser only
 
-            #F48 Отношение ширины лопаточной части ЛД
-            #    на входе и выходе ['VANED']
-            vanedWideCoef = 'DEFAULT', #1…1.3 {1}
+                #F48 Отношение ширины лопаточной части ЛД
+                #    на входе и выходе
+                # vaned_wide = 1.0, #1.0…1.3 {1.0}, for vaned diffuser only
+            ),
         ),
     ),
 
     # Losses coeficients | Коэффициенты потерь
     losses = dict(
-        #0 Коэффициент потерь полного давления
-        sigma_0 = 0.980, #0 0.96…0.985 {0.98}
+        # Коэффициент потерь полного давления
+        # sigma_0 = 0.980, #0 0.96…0.985 {0.98}
 
-        #0 Коэффициент потерь в охладителе
-        sigma_c = 0.985, #0 {0.985}
+        # Коэффициент потерь в охладителе
+        # sigma_c = 0.985, #0 {0.985}
 
-        #0 Коэффициент потерь в коллекторе
-        sigma_v = 0.992, #0 {0.992}
+        # Коэффициент потерь в коллекторе
+        # sigma_v = 0.992, #0 {0.992}
 
         #8 Коэффициент сопротивления
-        dzeta_inlet = 'DEFAULT', #0.03…0.06 {0.04}
+        # dzeta_inlet = 0.04, #0.03…0.06 {0.04}
 
         #26 Коэффициент потерь в НА
-        dzeta_BA = 'DEFAULT', #0.1…0.3 {0.26}
+        # dzeta_BA = 0.26, #0.1…0.3 {0.26}
 
         #28 Коэффициент потерь на трение в межлопаточных каналах
-        dzeta_TF = 'DEFAULT', #0.1…0.2 {0.18}
+        # dzeta_TF = 0.18, #0.1…0.2 {0.18}
 
         #29 Коэффициент дисковых потерь
-        alpha_wh = 'DEFAULT', #0.04…0.08 {0.05}
+        # alpha_wh = 0.05, #0.04…0.08 {0.05}
 
-        #F51 Показатель политропы сжатия в ЛД ['VANED']
-        n_diffuser = 'DEFAULT', #1.5…1.8 {1.55}
+        #F51 Показатель политропы сжатия в ЛД
+        # n_diffuser = 1.55, #1.5…1.8 {1.55}, for vaned diffuser only
 
         #53 Показатель политропы сжатия в воздухосборнике/улитке
-        n_housing = 'DEFAULT', #1.85…2.2 {1.9}
+        # n_housing = 1.9, #1.85…2.2 {1.9}
     ),
 
     # Load factors | Коэффициенты загромождения
     load = dict(
         #21 Коэффициент загромождения на входе в РК
-        tau_1 = 'DEFAULT', #0.8…0.9 {0.9}
+        # tau_1 = 0.9, #0.8…0.9 {0.9}
 
         #42 Коэффициент загромождения на выходе из РК
-        tau_2 = 'DEFAULT', #0.92…0.96 {0.94}
+        # tau_2 = 0.94, #0.92…0.96 {0.94}
 
         #21 Коэффициент загромождения на входе в ЛД
-        tau_3 = 'DEFAULT', #0.95…0.97 {0.96}
+        # tau_3 = 0.96, #0.95…0.97
 
         #42 Коэффициент загромождения на выходе из ЛД
-        tau_4 = 'DEFAULT', #0.96…0.98 {0.965}
+        # tau_4 = 0.965, #0.96…0.98 {0.965}
     ),
 )
 

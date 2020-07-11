@@ -14,8 +14,8 @@ def turbine_post(run, engine,
                    turbine, Turbine)
 
     turbine_report(run, engine,
-                           compressor, Compressor,
-                           turbine, Turbine)
+                   compressor, Compressor,
+                   turbine, Turbine)
 
     turbine_edit_pictures(Compressor, turbine, Turbine)
 
