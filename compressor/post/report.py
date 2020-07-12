@@ -3,7 +3,7 @@ def report(project, engine,
     ''' Create the report for a compressor
     '''
 
-    r = open("compressorReport.md", "w", encoding='utf-8')
+    r = open("compressor_report.md", "w", encoding='utf-8')
 
     # Предварительные расчёты
     if 'TYPE1' in project['type']:
@@ -653,13 +653,13 @@ def report(project, engine,
 
 
     # Convert multiple spaces into one space
-    with open('compressorReport.md', 'r') as file:
+    with open('compressor_report.md', 'r') as file:
         report = file.read()
 
     while ('  ' in report):
             report = report.replace('  ', ' ')
 
-    with open('compressorReport.md', 'w') as file:
+    with open('compressor_report.md', 'w') as file:
         file.write(report)
 
 
