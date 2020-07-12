@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     API:            Python 3.x
     Project:        https://github.com/StasF1/turboCharger
@@ -6,18 +5,18 @@
     License:        GNU General Public License 3.0 ( see LICENSE )
     Author:         Stanislau Stasheuski
 
-    File:           commonConfig
+    File:           common_config
     Description:    Run and ambient paramaters
 
 '''
-run = dict(
+project = dict(
     # Project type | Тип расчёта
     type = "TYPE1" # "TYPE1" - по параметрам двигателя
                    # "TYPE2" - по расходу и степени повышения давления
 )
 
 ambient = dict(
-    # Atmospheric pressure  | Атмосферное давление
+    # Atmospheric pressure | Атмосферное давление
     p = 0.1013, # [MPa]
 
     # Temperature | температура

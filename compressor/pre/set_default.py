@@ -1,8 +1,7 @@
-def compressor_default_values(compressor):
+def set_default(compressor):
+    ''' Default values for coefficients
     '''
-        Default values for coefficients
-    '''
-    from commonConfig import ambient
+    from common_config import ambient
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     compressor.setdefault('diffuser', 'VANELESS')

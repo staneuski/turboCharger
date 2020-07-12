@@ -1,18 +1,17 @@
-def turbine_pre(run, engine,
+def pre(project, engine,
         compressor,
         turbine):
-    '''
-        Extend turbine dictionary with its relative parameters and
+    ''' Extend turbine dictionary with its relative parameters and
         precalculate some compressor parameters
     '''
     import math
-    from turbine_default_values import turbine_default_values
-    from turbine_plot2func import eta_plot2func, alpha_plot2func,\
+    from turbine.pre.default_values import default_values
+    from turbine.pre.plot2func import eta_plot2func, alpha_plot2func,\
                                   phi_plot2func, psi_plot2func,\
                                   ksi_plot2func, relD_1H, relD_2B
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    turbine_default_values(turbine)
+    default_values(turbine)
 
     # Converting data to SI dimensions
     turbine['geometry']['delta'] *= 1e-03 # -> [m]
@@ -39,7 +38,7 @@ def turbine_pre(run, engine,
             compressor['geometry']['D_2'])
 
         # Inlet turbine temperature | Температура перед турбиной
-        if 'TYPE2' in run['type']:
+        if 'TYPE2' in project['type']:
             if compressor['geometry']['D_2'] < 0.3:
                 engine['heat']['T_0Stagn'] = 923.0 # [K]
 
@@ -52,7 +51,7 @@ def turbine_pre(run, engine,
                     The diameter of the wheel is too big!"
                     .replace('                    ', ' '))
 
-    return run, engine, turbine
+    return project, engine, turbine
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

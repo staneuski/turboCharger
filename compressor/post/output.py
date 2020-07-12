@@ -1,8 +1,7 @@
-def compressor_output(compressor, Compressor):
+def output(compressor, Compressor):
+    ''' Output results in the Terminal window
     '''
-        Output results in the Terminal window
-    '''
-    from output_calc_error import output_calc_error
+    from etc.output_calc_error import output_calc_error
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     print("\033[94m''' Compressor '''\033[0m\n")

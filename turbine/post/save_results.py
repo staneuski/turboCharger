@@ -1,20 +1,19 @@
-def turbine_save_results(turbine):
-    '''
-        Create folder results/turbine and move results there
+def save_results(turbine):
+    ''' Create folder results/turbine and move results there
     '''
     import os, shutil
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    shutil.copyfile("commonConfig.py",
-                    "results/commonConfig.py")
+    shutil.copyfile("common_config.py",
+                    "results/common_config.py")
 
     if turbine['type'] == 'radial':
         # Creating directory if required
         if not os.path.exists("results/turbine/radial/"):
             os.makedirs("results/turbine/radial/")
 
-        shutil.copyfile("turbine/turbineConfig.py",
-                        "results/turbine/radial/turbineConfig.py")
+        shutil.copyfile("turbine/turbine_config.py",
+                        "results/turbine/radial/turbine_config.py")
 
         shutil.move("radialTurbineReport.md",
                     "results/radialTurbineReport.md")
@@ -32,8 +31,8 @@ def turbine_save_results(turbine):
         if not os.path.exists("results/turbine/axial/"):
             os.makedirs("results/turbine/axial")
 
-        shutil.copyfile("turbine/turbineConfig.py",
-                        "results/turbine/axial/turbineConfig.py")
+        shutil.copyfile("turbine/turbine_config.py",
+                        "results/turbine/axial/turbine_config.py")
 
         shutil.move("axialTurbineReport.md",
                     "results/axialTurbineReport.md")

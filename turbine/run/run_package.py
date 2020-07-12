@@ -1,17 +1,15 @@
-def turbine_run(ambient, engine,
+def run(ambient, engine,
         compressor, Compressor,
         turbine):
-    '''
-        Calculate radial turbine parameters using 0D method
+    ''' Calculate radial turbine parameters using 0D method
     '''
     import math
-    from turbine_plot2func import ksi_plot2func
+    from turbine.pre.plot2func import ksi_plot2func
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     if turbine['type'] == 'radial':
         class Turbine:
-            '''
-                Class with calculated turbine parameters
+            '''     Class with calculated turbine parameters
             '''
             # Outlet turbine pressure | Давление за турбиной
             p_2 = turbine['losses']['drag_inlet_ratio']*ambient['p']\
@@ -285,8 +283,7 @@ def turbine_run(ambient, engine,
 
     elif turbine['type'] == 'axial':
         class Turbine:
-            '''
-                Class with calculated axial turbine parameters
+            ''' Class with calculated axial turbine parameters
             '''
 
             # Outlet turbine pressure | Давление за турбиной

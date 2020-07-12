@@ -1,13 +1,12 @@
-def compressor_report(run, engine,
+def report(project, engine,
         compressor, Compressor):
-    '''
-        Create the report for a compressor
+    ''' Create the report for a compressor
     '''
 
     r = open("compressorReport.md", "w", encoding='utf-8')
 
     # Предварительные расчёты
-    if 'TYPE1' in run['type']:
+    if 'TYPE1' in project['type']:
         r.write("# Предварительные расчёты\
                 \n- Среднее эффективное давление:\
                 \n$$\n p_{e} = {0,12*10^{3}N_{e}\\tau \over \pi D^{2}Sni}\

@@ -1,6 +1,5 @@
-def compressor_save_results(compressor):
-    '''
-        Create results/compressor/ folder & move results there
+def save_results(compressor):
+    ''' Create results/compressor/ folder & move results there
     '''
     import os, shutil
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -14,8 +13,8 @@ def compressor_save_results(compressor):
     shutil.move("compressorReport.md",
                 "results/compressorReport.md")
 
-    shutil.copyfile("compressor/compressorConfig.py",
-                    "results/compressor/compressorConfig.py")
+    shutil.copyfile("compressor/compressor_config.py",
+                    "results/compressor/compressor_config.py")
 
     shutil.move("axisCut.png",
                 "results/compressor/axisCut.png")
