@@ -5,7 +5,7 @@ def turbine_run(ambient, engine,
         Calculate radial turbine parameters using 0D method
     '''
     import math
-    from turbine_plot2func import ksi_plot2func
+    from turbine.pre.turbine_plot2func import ksi_plot2func
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     if turbine['type'] == 'radial':

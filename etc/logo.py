@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 def logo():
     print("""\033[95m'''
     API:            Python 3.x

@@ -4,10 +4,10 @@ def turbine_post(run, engine,
     '''
         Post-processing calculated radial trubine data
     '''
-    from turbine_output import turbine_output
-    from turbine_edit_pictures import turbine_edit_pictures
-    from turbine_report import turbine_report
-    from turbine_save_results import turbine_save_results
+    from turbine.post.turbine_output import turbine_output
+    from turbine.post.turbine_edit_pictures import turbine_edit_pictures
+    from turbine.post.turbine_report import turbine_report
+    from turbine.post.turbine_save_results import turbine_save_results
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     turbine_output(Compressor,

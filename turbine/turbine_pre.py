@@ -6,8 +6,8 @@ def turbine_pre(run, engine,
         precalculate some compressor parameters
     '''
     import math
-    from turbine_default_values import turbine_default_values
-    from turbine_plot2func import eta_plot2func, alpha_plot2func,\
+    from turbine.pre.turbine_default_values import turbine_default_values
+    from turbine.pre.turbine_plot2func import eta_plot2func, alpha_plot2func,\
                                   phi_plot2func, psi_plot2func,\
                                   ksi_plot2func, relD_1H, relD_2B
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

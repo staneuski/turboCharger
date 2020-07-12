@@ -2,10 +2,10 @@ def compressor_post(run, engine, compressor, Compressor):
     '''
         Post-processing calculated radial compressor data
     '''
-    from compressor_output import compressor_output
-    from compressor_report import compressor_report
-    from compressor_edit_pictures import compressor_edit_pictures
-    from compressor_save_results import compressor_save_results
+    from compressor.post.compressor_output import compressor_output
+    from compressor.post.compressor_report import compressor_report
+    from compressor.post.compressor_edit_pictures import compressor_edit_pictures
+    from compressor.post.compressor_save_results import compressor_save_results
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     compressor_output(compressor, Compressor)

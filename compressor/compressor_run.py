@@ -53,11 +53,10 @@ def compressor_run(run, engine, compressor):
         Calculate compressor parameters using 0D method
     '''
     import math
-
-    from set_standard import set_standard
-    from compressor_plot2func import z_plot2func, H_plot2func, phi_plot2func,\
-                                     relSpeeds_plot2func, relD_1H_plot2func,\
-                                     relD_1B_plot2func, eta_plot2func
+    from etc.set_standard import set_standard
+    from pre.compressor_plot2func import z_plot2func, H_plot2func, phi_plot2func,\
+                                         relSpeeds_plot2func, relD_1H_plot2func,\
+                                         relD_1B_plot2func, eta_plot2func
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     class Compressor:

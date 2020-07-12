@@ -3,7 +3,7 @@ def turbine_output(Compressor,
     '''
         Output results in the Terminal window
     '''
-    from output_calc_error import output_calc_error
+    from etc.output_calc_error import output_calc_error
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     # Display some results right in the Terminal window

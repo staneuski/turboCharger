@@ -10,21 +10,14 @@
     Description:    Calculate turbocharger parameters using 0D method
 
 '''
-import sys
-import math
-
-sys.path.extend(['etc/', 'compressor/', 'turbine/'])
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 def turbocharger_compressor(run, engine, compressor):
     '''
         Calculate compressor part of the turbocharger
     '''
-    from compressor_pre import compressor_pre
-    from compressor_run import compressor_run
-    from compressor_post import compressor_post
-
-    sys.path.extend(['compressor/pre', 'compressor/post'])
+    from compressor.compressor_pre import compressor_pre
+    from compressor.compressor_run import compressor_run
+    from compressor.compressor_post import compressor_post
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  
     compressor_pre(run, engine, compressor)
@@ -44,11 +37,9 @@ def turbocharger_turbine(run, ambient, engine,
     '''
         Calculate turbine part of the turbocharger
     '''
-    from turbine_pre import turbine_pre
-    from turbine_run import turbine_run
-    from turbine_post import turbine_post
-
-    sys.path.extend(['turbine/pre', 'turbine/post'])
+    from turbine.turbine_pre import turbine_pre
+    from turbine.turbine_run import turbine_run
+    from turbine.turbine_post import turbine_post
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     turbine_pre(run, engine, compressor, turbine)
@@ -68,13 +59,13 @@ def main():
     '''
         Calculate turbocharger parameters using 0D method
     '''
-    from logo import logo
-    from engine_extend import engine_extend
+    from etc.logo import logo
+    from etc.engine_extend import engine_extend
 
     from commonConfig import run, ambient
     from engineConfig import engine
-    from compressorConfig import compressor
-    from turbineConfig import turbine
+    from compressor.compressorConfig import compressor
+    from turbine.turbineConfig import turbine
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
     logo()
     engine_extend(engine)
