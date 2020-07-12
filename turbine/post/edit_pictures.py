@@ -1,6 +1,5 @@
-def turbine_edit_pictures(Compressor, turbine, Turbine):
-    '''
-        Edit radial compressor pictures
+def edit_pictures(Compressor, turbine, Turbine):
+    ''' Edit radial compressor pictures
     '''
     from PIL import ImageFont, Image, ImageDraw
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

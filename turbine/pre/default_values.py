@@ -1,6 +1,5 @@
-def turbine_default_values(turbine):
-    '''
-        Default coefficients values
+def default_values(turbine):
+    ''' Default coefficients values
     '''
 
     if turbine['type'] == 'radial':

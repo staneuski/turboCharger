@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     API:            Python 3.x
     Project:        https://github.com/StasF1/turboCharger
@@ -6,7 +5,7 @@
     License:        GNU General Public License 3.0 ( see LICENSE )
     Author:         Stanislau Stasheuski
 
-    File:           engineConfig
+    File:           engine_config
     Description:    Turbocharger's engine paramaters
 
 '''

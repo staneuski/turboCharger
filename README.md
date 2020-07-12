@@ -90,7 +90,7 @@ turboCharger-2.2-beta
 │   └── turbine
 │       ├── axial
 │       └── radial
-├── results*            # reports and dictionary copies (*Config.py-files)
+├── results*            # reports and dictionary copies (*config.py-files)
 │   ├── compressor
 │   └── turbine
 │       ├── axial

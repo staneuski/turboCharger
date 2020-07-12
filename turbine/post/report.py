@@ -1,8 +1,7 @@
-def turbine_report(run, engine,
+def report(project, engine,
         compressor, Compressor,
         turbine, Turbine):
-    '''
-        Generate turbine report
+    ''' Generate turbine report
     '''
 
     if turbine['type'] == 'radial':

@@ -1,6 +1,5 @@
-def compressor_edit_pictures(compressor, Compressor):
-    '''
-        Edit pictures
+def edit_pictures(compressor, Compressor):
+    ''' Edit pictures
     '''
     from PIL import ImageFont, Image, ImageDraw
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

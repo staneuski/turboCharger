@@ -1,16 +1,14 @@
-def compressor_pre(run, engine, compressor):
-    '''
-        Extend compressor dictionary with its relative parameters and
+def pre(run, engine, compressor):
+    ''' Extend compressor dictionary with its relative parameters and
         precalculate some compressor parameters
     '''
     import sys
     from os import path
-    from compressor.pre.compressor_default_values import compressor_default_values
-    from compressor.pre.compressor_plot2func import eta_plot2func
-    sys.path.append( path.dirname( path.abspath(__file__) ) )
-    from compressor_run import pressure_increase_ratio
+    from compressor.pre.set_default import set_default
+    from compressor.pre.plot2func import eta_plot2func
+    from compressor.run.pressure_increase_ratio import pressure_increase_ratio
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-    compressor_default_values(compressor)
+    set_default(compressor)
 
     # Convert data to SI dimensions
     compressor['initial']['p_aStagn'] *= 1e+06 # -> [Pa]

@@ -5,7 +5,7 @@
     License:        GNU General Public License 3.0 ( see LICENSE )
     Author:         Stanislau Stasheuski
 
-    File:           compressorConfig
+    File:           compressor_config
 
     Description:    Parameters of the compressor
         РК  - рабочее колесо
@@ -13,7 +13,7 @@
         БЛД - безлопаточный диффузор
         НА  - направляющий аппарат
 '''
-from commonConfig import ambient
+from common_config import ambient
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 compressor = dict(
@@ -25,10 +25,10 @@ compressor = dict(
     # diffuser = 'VANED', #'VANELESS' or 'VANED' {'VANELESS'}
 
     # Расход через компрессор ['TYPE2']
-    G = 4.5, # [kg/s], for run['type'] == 'TYPE2' only or for axial turbine
+    G = 4.5, # [kg/s], for project['type'] == 'TYPE2' only or for axial turbine
 
     # Cтепень повышения давления в компрессоре
-    pi = 3.0, # for run['type'] == 'TYPE2' only
+    pi = 3.0, # for project['type'] == 'TYPE2' only
 
     # Initial parameters | Начальные параметры
     initial = dict(
@@ -52,7 +52,7 @@ compressor = dict(
         # phi_flow = 0.6, #wght {0.4}
 
         #15 КПД компрессора
-        # eta_KsStagn = 0.1, #wght {0.6} for run['type'] == 'TYPE2' only
+        # eta_KsStagn = 0.1, #wght {0.6} for project['type'] == 'TYPE2' only
 
         #46 Политропный КПД диффузора
         # eta_diffuser = 0.75, #0.55…0.78 {0.75}

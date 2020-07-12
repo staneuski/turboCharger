@@ -1,67 +1,16 @@
-def pressure_increase_ratio(engine, compressor):
-    '''
-        Calculate compressor pressure increase ratio
-    '''
-
-    # Calculation pressure degree increase
-    compressor['pi'] = (
-        engine['inlet']['R']
-        *compressor['initial']['T_aStagn']
-        *engine['efficiency']['b_e']
-        *engine['combustion']['l_0']
-        *engine['combustion']['alpha']
-        *engine['efficiency']['p_e']
-        *(
-            (
-                (
-                    pow(
-                        compressor['pi'],
-                        (engine['inlet']['k'] - 1)/engine['inlet']['k']
-                    ) - 1
-                )/compressor['efficiency']['eta_KsStagn'] + 1
-            )
-            *(1 - engine['heat']['E'])
-            + engine['heat']['E']
-              *engine['heat']['T_ca']
-              /compressor['initial']['T_aStagn']
-        )
-        /compressor['initial']['p_aStagn']/3600
-        /compressor['losses']['sigma_0']
-        /compressor['losses']['sigma_c']
-        /compressor['losses']['sigma_v']
-    )
-
-    return compressor['pi']
-
-
-def diffuser_outlet_T(inlet,
-        D_2, b_2, T_2, c_2,
-        D_out, b_out, T_out, n_out):
-    '''
-        Calculate diffuser outlet temperature
-    '''
-
-    q = pow(D_2*b_2/D_out/b_out, 2)
-    m = 2/(n_out - 1)
-    sigma = (inlet['k'] - 1)/2 * pow(c_2, 2)/inlet['k']/inlet['R']/T_2
-
-    return T_2*(1 + sigma*(1 - q*pow(T_2/T_out, m)))
-
-
-def compressor_run(run, engine, compressor):
-    '''
-        Calculate compressor parameters using 0D method
+def run(project, engine, compressor):
+    ''' Calculate compressor parameters using 0D method
     '''
     import math
     from etc.set_standard import set_standard
-    from pre.compressor_plot2func import z_plot2func, H_plot2func, phi_plot2func,\
+    from compressor.pre.plot2func import z_plot2func, H_plot2func, phi_plot2func,\
                                          relSpeeds_plot2func, relD_1H_plot2func,\
                                          relD_1B_plot2func, eta_plot2func
+    from compressor.run.diffuser_outlet_T import diffuser_outlet_T
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     class Compressor:
-        '''
-            Class with calculated compressor parameters
+        ''' Class with calculated compressor parameters
         '''
 
         D_2Init = compressor['geometry']['D_2'] # [m]
@@ -172,7 +121,7 @@ def compressor_run(run, engine, compressor):
                 compressor['geometry']['D_2'] = round(D_2estimated, -1)\
                                                 *1e-03 # [m]
 
-        if 'TYPE2' in run['type']:
+        if 'TYPE2' in project['type']:
             compressor['efficiency']['eta_KsStagn'] = eta_plot2func(
                 compressor['efficiency']['eta_KsStagn'],
                 compressor['geometry']['D_2'])

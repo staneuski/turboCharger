@@ -1,7 +1,6 @@
 # Method to set the value
 def value_btw_two_plots(balance_coef, upper_value, lower_value):
-    '''
-        Set value using two interpolated functions and balance coefficient
+    ''' Set value using two interpolated functions and balance coefficient
     '''
     if (balance_coef < 0) | (balance_coef > 1):
         exit('\033[91mERROR:\
@@ -12,8 +11,7 @@ def value_btw_two_plots(balance_coef, upper_value, lower_value):
     return balance_coef*upper_value + (1 - balance_coef)*lower_value
 
 def value_range_of_plot(balance_coef, delta, lower_value):
-    '''
-        Set value using the interpolated function, range 
+    ''' Set value using the interpolated function, range 
         and balance coefficient
     '''
 

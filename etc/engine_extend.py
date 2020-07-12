@@ -1,6 +1,5 @@
 def engine_extend(engine):
-    '''
-        Extend engine dictionary with its relative parameters
+    ''' Extend engine dictionary with its relative parameters
     '''
     import math
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

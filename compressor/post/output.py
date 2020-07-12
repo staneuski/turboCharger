@@ -1,6 +1,5 @@
-def compressor_output(compressor, Compressor):
-    '''
-        Output results in the Terminal window
+def output(compressor, Compressor):
+    ''' Output results in the Terminal window
     '''
     from etc.output_calc_error import output_calc_error
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

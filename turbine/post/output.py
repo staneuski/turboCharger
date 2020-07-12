@@ -1,7 +1,6 @@
-def turbine_output(Compressor,
+def output(Compressor,
         turbine, Turbine):
-    '''
-        Output results in the Terminal window
+    ''' Output results in the Terminal window
     '''
     from etc.output_calc_error import output_calc_error
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
