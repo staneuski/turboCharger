@@ -23,8 +23,6 @@ def save_results(turbine):
                         "results/turbine/radial/i-sPlot.png")
 
     elif turbine['type'] == 'axial':
-        shutil.move("axisCut.png",
-                    "results/turbine/axial/axisCut.png")
         shutil.move("radialCut.png",
                     "results/turbine/axial/radialCut.png")
 
