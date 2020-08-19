@@ -276,25 +276,19 @@ def run(project, engine, compressor):
 
             #47 Температура на выходе из диффузора
             # (методом последовательных приближений)
-            T_4 = T_2;    validity = 1e-02
+            T_4, acc = T_2, 1e-02
             while (
                 abs(diffuser_outlet_T(engine['inlet'],
                                       compressor['geometry']['D_2'],
                                       b_2, T_2, c_2,
                                       D_4, b_4, T_4, n_4)
-                - T_4) > validity
+                - T_4) > acc
             ):
-                T_4 += validity
+                T_4 += acc
                 if T_4 > 1000:
                     exit('\033[91mERROR 47:\
                          Cannot find outlet diffuser temperature!'
                          .replace('                         ', " "))
-
-            else:
-                T_4 = diffuser_outlet_T(engine['inlet'],
-                                        compressor['geometry']['D_2'],
-                                        b_2, T_2, c_2,
-                                        D_4, b_4, T_4, n_4)
 
             #48 Давление на выходе из диффузора
             p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1))
@@ -345,15 +339,15 @@ def run(project, engine, compressor):
 
             #47 Температура на выходе из диффузора (методом
             #   последовательных приближений)
-            T_3 = T_2 - 40;    validity = 1e-02
+            T_3, acc = T_2 - 40, 1e-02
             while (
                 abs(diffuser_outlet_T(engine['inlet'],
                                       compressor['geometry']['D_2'],
                                       b_2, T_2, c_2,
                                       D_3, b_3, T_3, n_3)
-                - T_3) > validity
+                - T_3) > acc
             ):
-                T_3 += validity
+                T_3 += acc
                 if T_3 > 1000:
                     exit('\033[91mERROR 47:\
                          Cannot find outlet diffuser temperature!'
@@ -392,23 +386,18 @@ def run(project, engine, compressor):
             b_4COEF = b_4*compressor['load']['tau_4']\
                       *math.sin(math.radians(alpha_4))
 
-            T_4 = T_3;    validity = 1e-02
+            T_4, acc = T_3, 1e-02
             while (
                 abs(diffuser_outlet_T(engine['inlet'],
                                       D_3, b_3COEF, T_3, c_3,
                                       D_4, b_4COEF, T_4, n_4)
-                - T_4) > validity
+                - T_4) > acc
             ):
-                T_4 += validity
+                T_4 += acc
                 if T_4 > 1000:
                     exit('\033[91mERROR F51:\
                          Cannot find outlet blade diffuser temperature!'
                          .replace('                         ', ' '))
-
-            else:
-                T_4 = diffuser_outlet_T(engine['inlet'],
-                                        D_3, b_3COEF, T_3, c_3,
-                                        D_4, b_4COEF, T_4, n_4)
 
             #F54 Давление и плотность на выходе из лопаточной части диффузора
             p_4 = p_2*pow(T_4/T_3,

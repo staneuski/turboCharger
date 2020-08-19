@@ -5,10 +5,10 @@ def report(project, engine,
     '''
 
     if turbine['type'] == 'radial':
-        report_file_name = "radialTurbineReport.md"
+        report_file_name = "turbine_radial_report.md"
 
     elif turbine['type'] == 'axial':
-        report_file_name = "axialTurbineReport.md"
+        report_file_name = "turbine_axial_report.md"
 
     else: None
 

@@ -1,24 +1,20 @@
 def save_results(turbine):
-    ''' Create folder results/turbine and move results there
+    ''' Create turbine results folder and move results there
     '''
     import os, shutil
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    shutil.copyfile("common_config.py",
-                    "results/common_config.py")
+    # Creating directory if required
+    if not os.path.exists(f"results/turbine/{turbine['type']}/"):
+        os.makedirs(f"results/turbine/{turbine['type']}/")
+
+    # Save report files
+    shutil.move(f"turbine_{turbine['type']}_report.md",
+                f"results/turbine_{turbine['type']}_report.md")
+    shutil.move("axisCut.png",
+                f"results/turbine/{turbine['type']}/axisCut.png")
 
     if turbine['type'] == 'radial':
-        # Creating directory if required
-        if not os.path.exists("results/turbine/radial/"):
-            os.makedirs("results/turbine/radial/")
-
-        shutil.copyfile("turbine/turbine_config.py",
-                        "results/turbine/radial/turbine_config.py")
-
-        shutil.move("radialTurbineReport.md",
-                    "results/radialTurbineReport.md")
-        shutil.move("axisCut.png",
-                    "results/turbine/radial/axisCut.png")
         shutil.move("inTurbineWheel.png",
                     "results/turbine/radial/inTurbineWheel.png")
         shutil.move("outTurbineWheel.png",
@@ -27,21 +23,14 @@ def save_results(turbine):
                         "results/turbine/radial/i-sPlot.png")
 
     elif turbine['type'] == 'axial':
-        # Creating directory if required
-        if not os.path.exists("results/turbine/axial/"):
-            os.makedirs("results/turbine/axial")
-
-        shutil.copyfile("turbine/turbine_config.py",
-                        "results/turbine/axial/turbine_config.py")
-
-        shutil.move("axialTurbineReport.md",
-                    "results/axialTurbineReport.md")
-        shutil.move("axisCut.png",
-                    "results/turbine/axial/axisCut.png")
         shutil.move("radialCut.png",
                     "results/turbine/axial/radialCut.png")
 
     else: None
+
+    # Back up the turbine dictionary
+    shutil.copyfile("turbine/turbine_config.py",
+                    f"results/turbine/{turbine['type']}/turbine_config.py")
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

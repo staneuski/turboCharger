@@ -13,7 +13,7 @@
         БЛД - безлопаточный диффузор
         НА  - направляющий аппарат
 '''
-from common_config import ambient
+# from common_config import ambient
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 compressor = dict(

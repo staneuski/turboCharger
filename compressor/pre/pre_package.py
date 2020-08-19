@@ -38,13 +38,12 @@ def pre(run, engine, compressor):
             compressor['efficiency']['eta_KsStagn'],
             compressor['geometry']['D_2'])
 
-        compressor['pi'] = 1;    validity = 1e-04
+        compressor['pi'], acc = 1, 1e-05
         while (abs(pressure_increase_ratio(engine, compressor)
-                   - compressor['pi']) > validity):
-            compressor['pi'] += validity
+                   - compressor['pi']) > acc):
+            compressor['pi'] += acc
 
-        else:
-            pressure_increase_ratio(engine, compressor)
+        pressure_increase_ratio(engine, compressor)
 
     return compressor
 

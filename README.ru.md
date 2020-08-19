@@ -1,7 +1,7 @@
 # О turboCharger
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/StasF1/turboCharger)
-![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)
-**[[English 🇬🇧](https://github.com/StasF1/turboCharger/blob/master/README.md)]**
+[![GitHub All Releases](https://img.shields.io/github/downloads/StasF1/turboCharger/total)](https://github.com/StasF1/turboCharger/releases)
+[![Readme-EN](https://img.shields.io/badge/README-RU-green.svg)](README.md)
 
 Программа для 0D-моделирования турбокомпрессора поршневого двигателя
 
