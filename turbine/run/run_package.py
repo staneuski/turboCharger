@@ -1,16 +1,15 @@
 def run(ambient, engine,
         compressor, Compressor,
         turbine):
-    ''' Calculate radial turbine parameters using 0D method
-    '''
+    """Calculate radial turbine parameters using 0D method."""
+
     import math
     from turbine.pre.plot2func import ksi_plot2func
-    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     if turbine['type'] == 'radial':
         class Turbine:
-            '''     Class with calculated turbine parameters
-            '''
+            """Class with calculated turbine parameters."""
+
             # Outlet turbine pressure | Давление за турбиной
             p_2 = turbine['losses']['drag_inlet_ratio']*ambient['p']\
                   *1e+06 # [Pa]
@@ -41,11 +40,8 @@ def run(ambient, engine,
             ksiLower = ksi_plot2func(0, compressor['geometry']['D_2'])
             ksiUpper = ksi_plot2func(1, compressor['geometry']['D_2'])
             if (ksi < ksiLower) | (ksi > ksiUpper):
-                exit("\033[91mERROR 6:\
-                     Parameter 'ksi' is not in the allowable diapason!\
-                     \nIt equals %2.3f but must be from %0.2f to %1.3f."
-                     .replace('                     ', ' ')
-                     %(ksiLower, ksiUpper, ksi))
+                exit(f"\033[91mERROR 6: Parameter 'ksi' = {ksiLower:.3f} is out"
+                     f"of the allowable range ({ksiUpper:.2f} to {ksi:.3f})!")
 
             #7 Давление газа на входе в турбину
             p_0Stagn = p_2/pow(1 - L_TsStagn
@@ -58,12 +54,9 @@ def run(ambient, engine,
             #  поршневой части и давлением газа на входе в турбину
             pressureRelation = Compressor.p_vStagn/p_0Stagn
             if (pressureRelation < 1.1) | (pressureRelation > 1.3):
-                exit("\033[91mERROR 8:\
-                     Pressure ratio is not in the allowable diapason!\
-                     \nIt equals %0.2f but must be from 1.1 to 1.3.\
-                     \nScavenging cannot be happen."
-                     .replace('                     ', ' ')
-                     %pressureRelation)
+                exit(f"\033[91mERROR 8: Pressure ratio {pressureRelation:.2f} "
+                     "is out of the allowable range (1.1…1.3)!\n"
+                     "Scavenging cannot happen.")
 
             #9 Наружный диаметр рабочего колеса турбины на выходе
             D_2H = turbine['geometry']['coefficients']['d_outer_ratio']*D_1
@@ -76,12 +69,9 @@ def run(ambient, engine,
 
             #12 Вычисление параметра µ
             mu = D_2/D_1
-            if (mu < 0.5) | (mu > 0.8): 
-                exit("\033[91mERROR 12:\
-                     Geometeric parameter 'mu' is not in the allowable\
-                     diapason! (It equals %0.2f)"
-                     .replace('                     ', ' ')
-                     %mu)
+            if (mu < 0.5) | (mu > 0.8):
+                exit(f"\033[91mERROR 12: Geometeric parameter 'mu' = {mu:.2f}"
+                     "is out of the allowable range (0.5…0.8)!")
 
             #15 Изоэнтропная работа расширения (располагаемый теплоперепад)
             #   в сопловом аппарате
@@ -109,11 +99,8 @@ def run(ambient, engine,
                      - math.degrees(math.atan(w_1u/c_1r))
 
             if (beta_1 < 80) | (beta_1 > 100):
-                exit("\033[91mERROR 23:\
-                     Angle 'beta_1' is not in the allowable diapason!\n\
-                     \nIt equals %0.1f but must be from 80 to 100 degrees."
-                     .replace('                     ', ' ')
-                     %beta_1)
+                exit("\033[91mERROR 23: Angle 'beta_1': {beta_1:.1f} is out "
+                     "of the allowable range (80…100)˚!")
 
             #24 Температура газа на входе в колесо
             T_1 = engine['heat']['T_0Stagn'] - c_1**2/2\
@@ -173,11 +160,9 @@ def run(ambient, engine,
                 w_2u = math.sqrt(w_2**2 - w_2a**2)
 
             else:
-                exit("\033[91mERROR 38:\
-                     Radicand is less then 0!\
-                     \nDifference between speeds is %0.3f m/s."
-                     .replace('                     ', ' ')
-                     %(w_2a - w_2))
+                exit("\033[91mERROR 38: Radicand is less then 0!\n"
+                     "Difference between velocities is "
+                     f"{(w_2a - w_2):.3f} m/s.")
 
             #39 Угол β_2 наклона вектора относительной скорости w2
             #   на выходе из рабочего колеса
@@ -193,11 +178,8 @@ def run(ambient, engine,
             alpha_2 = 90 - math.degrees(math.atan( c_2u/w_2a ))
 
             if (alpha_2 < 75) or (alpha_2 > 105):
-                exit("\033[91mERROR 42:\
-                     Angle 'alpha_2' is not in the allowable diapason!\
-                     \nIt equals %0.1f but must be from 75 to 105 degrees."
-                     .replace('                     ', ' ')
-                     %alpha_2)
+                exit("\033[91mERROR 42: Angle 'alpha_2' = {alpha_2:.1f} is out"
+                     " of the allowable range (75…105)˚!")
 
             #43 Потери в сопловом аппарате турбины
             Z_c = (1/turbine['losses']['phi']**2 - 1)*c_1**2/2
@@ -236,11 +218,8 @@ def run(ambient, engine,
             #53 Окружной КПД η_тu турбины
             eta_Tu = L_Tu/L_TsStagn
             if (eta_Tu < 0.75) or (eta_Tu > 0.9):
-                exit("\033[91mERROR 53:\
-                     Angle 'eta_Tu' is not in the allowable diapason!\
-                     \nIt equals %0.3f but must be from 0.75 to 0.9."
-                     .replace('                     ', ' ')
-                     %eta_Tu)
+                exit(f"\033[91mERROR 53: Angle 'eta_Tu' = {eta_Tu:.3f} is out "
+                     "of the allowable range (0.75…0.9)!")
 
             #54 Потери Zу, обусловленные утечкой газа через радиальные зазоры
             #   между колесом и корпусом
@@ -283,8 +262,7 @@ def run(ambient, engine,
 
     elif turbine['type'] == 'axial':
         class Turbine:
-            ''' Class with calculated axial turbine parameters
-            '''
+            """Class with calculated axial turbine parameters."""
 
             # Outlet turbine pressure | Давление за турбиной
             p_2 = turbine['losses']['drag_inlet_ratio']*ambient['p']\
@@ -321,12 +299,8 @@ def run(ambient, engine,
             #  поршневой части и давлением газа на входе в турбину
             pressureRelation = Compressor.p_vStagn/p_0Stagn
             if (pressureRelation <= 1.1):
-                exit("\033[91mERROR 8:\
-                     Scavenging cannot happen because the pressure ratio is\
-                     too small!\
-                     \nIt equals %0.2f, but must be more than 1.1\n"
-                     .replace('                     ', ' ')
-                     %pressureRelation)
+                exit(f"\033[91mERROR 8: Pressure ratio {pressureRelation:.2f} "
+                     "is less than 1.1!\nScavenging cannot happen.")
 
             #9 Изоэнтропная работа расширения
             #  (располагаемый теплоперепад) в сопловом аппарате
@@ -375,11 +349,8 @@ def run(ambient, engine,
                 math.sin(math.radians(turbine['geometry']['alpha_1']))
 
             if (l_1/D_1 < 0.16) or (l_1/D_1 > 0.25):
-                exit("\033[91mERROR 21:\
-                     Blade height 'l_1' is not in the allowable diapason!\
-                     \nIt equals %0.2f but must be from 0.16 to 0.25"
-                     .replace('                     ', ' ')
-                     %(l_1/D_1))
+                exit("\033[91mERROR 21: Blade height 'l_1' = {l_1/D_1:.2f}"
+                     "is out the allowable range (0.16…0.25)!")
 
             #22 Шаг решётки соплового аппарата
             t_1_0 = turbine['geometry']['coefficients']['t1Tol1']*l_1
@@ -406,11 +377,8 @@ def run(ambient, engine,
                       *math.sin(math.radians( turbine['geometry']['alpha_1']))
 
             else:
-                exit("\033[91mERROR 26:\
-                     Mach number is not in the allowable diapason!\
-                     \nIt equals %0.1f but must be at least more then 0.4"
-                     .replace('                     ', ' ')
-                     %(M_c1))
+                exit(f"\033[91mERROR 26: Mach number {M_c1:.1f} "
+                     "is out of the allowable range! (> 0.4)!")
 
             #27 Ширина b_1 соплового аппарата по направлению оси вращения
             b_1 = math.sin(math.radians(turbine['geometry']['alpha_1'])*t_1*2)\
@@ -475,11 +443,8 @@ def run(ambient, engine,
             #44 Угол α_2 выхода потока из колеса в абсолютном движении
             alpha_2 = math.degrees(math.asin(c_2a/c_2))
             if (alpha_2 < 80) or (alpha_2 > 100):
-                exit("\033[91mERROR 44:\
-                     Angle 'alpha_2' is not in the allowable diapason!\
-                     \nIt equals %0.1f but must be from 80 to 100 degrees."
-                     .replace('                     ', ' ')
-                     %alpha_2)
+                exit(f"\033[91mERROR 44: Angle 'alpha_2' = {alpha_2:.1f} "
+                     "is out of the allowable range (80…100)˚!")
 
             #45 Шаг решётки рабочего колеса
             t_2_0 = turbine['geometry']['coefficients']['t2Tol2']*l_1
@@ -502,11 +467,8 @@ def run(ambient, engine,
                 a_2 = t_2*math.sin(math.radians(beta_2))
 
             else:
-                exit("\033[91mERROR 49:\
-                     Mach number is not in the allowable diapason!\
-                     \nIt equals %0.1f but must be at least more then 0.4"
-                     .replace('                     ', ' ')
-                     %(M_c1))
+                exit(f"\033[91mERROR 49: Mach number {M_c1:.2f} "
+                     "is out of the allowable range (> 0.4)!")
 
             #50 Ширина b_2 рабочего колеса по направлению оси вращения
             b_2 = (2*t_2*math.sin(math.radians(beta_2))
@@ -543,11 +505,8 @@ def run(ambient, engine,
             #59 Окружной КПД η_тu турбины
             eta_Tu = L_Tu/L_TsStagn
             if (eta_Tu < 0.8) or (eta_Tu > 0.9):
-                exit("\n\033[91mERROR 59:\
-                     ECE 'eta_Tu' is not in the allowable diapason!\
-                     \nIt equals {0:.3f} but must be from 0.8 to 0.9\n"
-                     .replace('                     ', ' ')
-                     .format(eta_Tu))
+                exit(f"\033[91mERROR 59: ECE 'eta_Tu' = {0:.3f} "
+                     "is out of the allowable range (0.8…0.9)!")
 
             #60 Потери Z_у, обусловленные утечкой газа через радиальные
             #   зазоры между колесом и корпусом

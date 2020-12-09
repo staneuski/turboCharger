@@ -1,7 +1,6 @@
 def report(project, engine,
         compressor, Compressor):
-    ''' Create the report for a compressor
-    '''
+    """Create the compressor report."""
 
     r = open("compressor_report.md", "w", encoding='utf-8')
 

@@ -1,5 +1,5 @@
 '''
-    API:            Python 3.x
+    Python:         3.x
     Project:        https://github.com/StasF1/turboCharger
     Version:        2.x
     License:        GNU General Public License 3.0 ( see LICENSE )
@@ -7,8 +7,8 @@
 
     File:           engine_config
     Description:    Turbocharger's engine paramaters
-
 '''
+
 engine = dict(
 
     geometry = dict(
@@ -37,7 +37,7 @@ engine = dict(
     # Combustion parameters | Параметры сгорания
     combustion = dict(
         # Engine type | Тип двигателя
-        ignition  = 'CI', # 'CI' or 'SI' - compression or spark
+        ignition  = 'CI', # 'CI' or 'SI' - compression or spark ignition
 
         # Strokes number | Тактность
         strokeNo = 4.0,
@@ -78,7 +78,7 @@ engine = dict(
     # Exhaust gas parameters | Параметры выпускных газов
     exhaust = dict(
         # Isobar heat capacity | Изобарная теплоёмкость
-        c_p         = 1128.7, # [J/kg/K]
+        c_p        = 1128.7, # [J/kg/K]
 
         #p39 Gas constant | Газовая постоянная
         R          = 286.4, # [J/kg/K]

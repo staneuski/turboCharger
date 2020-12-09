@@ -1,8 +1,7 @@
 def set_default(compressor):
-    ''' Default values for coefficients
-    '''
+    """Default coefficients values."""
+
     from common_config import ambient
-    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     compressor.setdefault('diffuser', 'VANELESS')
 
@@ -38,10 +37,8 @@ def set_default(compressor):
             .setdefault('vaneless_diam', 1.14)
 
     else:
-        exit("\033[91mERROR:\
-            Variable compressor['diffuser'] is incorrect!\
-            \nValid values are 'VANED' and 'VANELESS'"
-            .replace('            ', ' '))
+        exit("\033[91mERROR: Variable compressor['diffuser'] is incorrect!\n"
+             "Valid values are 'VANED' and 'VANELESS'")
 
     compressor['geometry']['coefficients']['diffuser']\
         .setdefault('vaned_wide', 1.0)

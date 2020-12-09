@@ -1,17 +1,17 @@
 def run(project, engine, compressor):
-    ''' Calculate compressor parameters using 0D method
-    '''
+    """Calculate compressor parameters using 0D method."""
+
     import math
     from etc.set_standard import set_standard
-    from compressor.pre.plot2func import z_plot2func, H_plot2func, phi_plot2func,\
-                                         relSpeeds_plot2func, relD_1H_plot2func,\
-                                         relD_1B_plot2func, eta_plot2func
+    from compressor.pre.plot2func import (
+        z_plot2func, H_plot2func, phi_plot2func,
+        relSpeeds_plot2func, relD_1H_plot2func, relD_1B_plot2func,
+        eta_plot2func
+    )
     from compressor.run.diffuser_outlet_T import diffuser_outlet_T
-    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     class Compressor:
-        ''' Class with calculated compressor parameters
-        '''
+        """Class with calculated compressor parameters."""
 
         D_2Init = compressor['geometry']['D_2'] # [m]
 
@@ -43,10 +43,10 @@ def run(project, engine, compressor):
             compressor['geometry']['D_2'])
         u_2 = math.sqrt(L_KsStagn/compressor['efficiency']['H_KsStagn'])
         if u_2 >= 550:
-            exit('\033[91mERROR 5:\
-                 Wheel outer diameter circular velocity is too high!\
-                 \nTry to increase wheel diameter &/or set other ECE parameters'
-                 .replace('                 ', ' '))
+            exit(f"\033[91mERROR 5: Wheel outer diameter {u_2:.1f} m/s "
+                 "is out of allowable range (≥ 550 m/s)!\n"
+                 "Circular velocity is too high. Increase wheel diameter or "
+                 "change other efficiency parameters.")
 
         #6 Абсолютная скорость потока на входе в рабочее колесо
         compressor['efficiency']['phi_flow'] = phi_plot2func(
@@ -91,12 +91,10 @@ def run(project, engine, compressor):
                      /compressor['geometry']['coefficients']\
                                ['D_1Down_relative']
 
-        if relD_1BToH >= 1:
-            exit('\033[91mERROR 13:\
-                 Relation relD_1B/relD_1H = %0.2f > 1.\
-                 \nSquare root argument is less than 0!'
-                 .replace('                 ', ' ')
-                 %(relD_1BToH))
+        if relD_1BToH > 1:
+            exit("\033[91mERROR 13: Relation 'relD_1B'/'relD_1H' = "
+                 f"{relD_1BToH:.2f} > 1.\n"
+                 "Square root argument is less than 0!")
 
         D_1H = math.sqrt(4*F_1/math.pi/(1 - relD_1BToH**2))
 
@@ -139,9 +137,8 @@ def run(project, engine, compressor):
         #   относительном движении
         beta_1 = math.degrees(math.atan(c_1/u_1))
         if issubclass(type(compressor['geometry']['iDeg']), str):
-            exit('Degree of the wheel inlet flow is {0:.3f}\
-                 \nNow you can set "i", using recomendations'
-                 .format(beta_1))
+            exit(f"\033[93mDegree of the wheel inlet flow is {beta_1:.3f}\n"
+                 "Now you can set 'i', using recomendations\033[0m\n")
 
         #20 Угол установки лопаток на среднем диаметре
         beta_1Blade = beta_1 + compressor['geometry']['iDeg']
@@ -158,13 +155,10 @@ def run(project, engine, compressor):
         #24 Число маха на наружном диаметре входа в колесо
         M_w1 = w_1H/math.sqrt(engine['inlet']['k']*engine['inlet']['R']*T_1)
         if M_w1 > 0.9:
-            print('\033[93mWARNING 24:\
-                  Mach number is too high!\
-                  \nIt must be less than 0.9 but it equals {0:.3f}\
-                  \nTry to increase "tau_1", "D_1Down_relative" &/or decrease\
-                  "phi_flow", "D_1Up_relative".\033[0m\n'
-                  .replace('                  ', ' ')
-                  .format(M_w1))
+            print('\033[93mWARNING 24: Mach number is too high!\n'
+                  f'It must be less than 0.9 but it equals {M_w1:.3f}\n'
+                  'Try to increase "tau_1", "D_1Down_relative" &/or\n'
+                  'decrease "phi_flow", "D_1Up_relative".\033[0m\n')
 
         #25 Относительная скорость на среднем диаметре входа в колесо
         w_1 = math.sqrt(c_1Tau**2 + u_1**2)
@@ -192,16 +186,14 @@ def run(project, engine, compressor):
         #30 Проверка на число лопаток относительно диаметра (рис. 2.2)
         zLower = z_plot2func(0, compressor['geometry']['D_2'])
         zUpper = z_plot2func(1, compressor['geometry']['D_2'])
-
         if ((compressor['geometry']['blades'] < zLower)
             or (compressor['geometry']['blades'] > zUpper)):
-            exit('\033[91mERROR 30:\
-                Number of blades is not in the allowable diapason!\n\
-                \nFor diameter of the wheel %0.0fmm this diapason from %1.0f\
-                to %2.0f.'
-                .replace('                 ', ' ')
-                %(compressor['geometry']['D_2']*1e+03,
-                  round(zLower + 0.5), int(zUpper)))
+            exit("\033[91mERROR 30: Number of blades {_blades:.0f} is out "
+                 "of the allowable range "
+                 f"({round(zLower + 0.5):.0f}…{int(zUpper):.0f}) "
+                 "for diameter of the wheel {_D_2mm:.0f} mm!"
+                 .format(_blades = compressor['geometry']['blades'],
+                         _D_2mm = compressor['geometry']['D_2']*1e+03))
 
         #31 Коэффициент мощности учитывабщий число лопаток и проч.
         mu = 1/(1 + 2/3*math.pi/compressor['geometry']['blades']
@@ -286,9 +278,8 @@ def run(project, engine, compressor):
             ):
                 T_4 += acc
                 if T_4 > 1000:
-                    exit('\033[91mERROR 47:\
-                         Cannot find outlet diffuser temperature!'
-                         .replace('                         ', " "))
+                    exit("\033[91mERROR 47: Outlet diffuser temperature "
+                         "could not be found!")
 
             #48 Давление на выходе из диффузора
             p_4 = p_2*pow(T_4/T_2, n_4/(n_4 - 1))
@@ -309,15 +300,12 @@ def run(project, engine, compressor):
                 or (compressor['geometry']['blades_diffuser']
                     > compressor['geometry']['blades'] + 2)
             ):
-                exit('\033[91mERROR F50:\
-                     Number of diffuser blades is not in the allowable\
-                     diapason!\
-                     \nFor %0.0f compressor blades this diapason\
-                     from %1.0f to %2.0f.'
-                     .replace('                     ', ' ')
-                     %(compressor['geometry']['blades'],
-                       compressor['geometry']['blades'] - 5,
-                       compressor['geometry']['blades'] + 2))
+                _blades = compressor['geometry']['blades']
+                exit("\033[91mERROR F50: Number of diffuser blades "
+                     "{_bldf:.0f} is out of the allowable range "
+                     f"({_blades - 5:.0f}…{_blades + 2:.0f} for {_blades:.0f} "
+                     "compressor blades)!"
+                     .format(_bldf = compressor['geometry']['blades_diffuser']))
 
             #44 Ширина безлопаточной части диффузора на выходе
             b_3 = compressor['geometry']['coefficients']\
@@ -349,9 +337,8 @@ def run(project, engine, compressor):
             ):
                 T_3 += acc
                 if T_3 > 1000:
-                    exit('\033[91mERROR 47:\
-                         Cannot find outlet diffuser temperature!'
-                         .replace('                         ', " "))
+                    exit("\033[91mERROR 47: Outlet diffuser temperature "
+                         "could not be found!")
 
             else:
                 T_3 = diffuser_outlet_T(engine['inlet'],
@@ -395,9 +382,8 @@ def run(project, engine, compressor):
             ):
                 T_4 += acc
                 if T_4 > 1000:
-                    exit('\033[91mERROR F51:\
-                         Cannot find outlet blade diffuser temperature!'
-                         .replace('                         ', ' '))
+                    exit("\033[91mERROR F51: Outlet diffuser temperature "
+                         "could not be found!")
 
             #F54 Давление и плотность на выходе из лопаточной части диффузора
             p_4 = p_2*pow(T_4/T_3,

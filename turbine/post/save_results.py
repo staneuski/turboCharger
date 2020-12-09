@@ -1,8 +1,7 @@
 def save_results(turbine):
-    ''' Create turbine results folder and move results there
-    '''
+    """Create turbine results folder and move results there."""
+
     import os, shutil
-    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     # Creating directory if required
     if not os.path.exists(f"results/turbine/{turbine['type']}/"):
@@ -30,7 +29,7 @@ def save_results(turbine):
 
     # Back up the turbine dictionary
     shutil.copyfile("turbine/turbine_config.py",
-                    f"results/turbine/{turbine['type']}/turbine_config.py")
+                   f"results/turbine/{turbine['type']}/turbine_config.py")
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

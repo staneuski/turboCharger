@@ -1,8 +1,7 @@
 def edit_pictures(Compressor, turbine, Turbine):
-    ''' Edit radial compressor pictures
-    '''
+    """Edit radial compressor pictures."""
+
     from PIL import ImageFont, Image, ImageDraw
-    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     font = ImageFont.truetype('etc/fontGOST.ttf', 18)
 

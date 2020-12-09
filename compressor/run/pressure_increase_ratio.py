@@ -1,6 +1,5 @@
 def pressure_increase_ratio(engine, compressor):
-    ''' Calculate compressor pressure increase ratio
-    '''
+    """Calculate compressor pressure increase ratio."""
 
     # Calculation pressure degree increase
     compressor['pi'] = (

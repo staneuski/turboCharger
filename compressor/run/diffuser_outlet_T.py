@@ -1,8 +1,7 @@
 def diffuser_outlet_T(inlet,
         D_2, b_2, T_2, c_2,
         D_out, b_out, T_out, n_out):
-    ''' Calculate diffuser outlet temperature
-    '''
+    """Calculate diffuser outlet temperature."""
 
     q = pow(D_2*b_2/D_out/b_out, 2)
     m = 2/(n_out - 1)

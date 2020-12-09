@@ -1,30 +1,24 @@
 # Method to set the value
 def value_btw_two_plots(balance_coef, upper_value, lower_value):
-    ''' Set value using two interpolated functions and balance coefficient
-    '''
+    """Set value using two interpolated functions and balance coefficient."""
     if (balance_coef < 0) | (balance_coef > 1):
-        exit('\033[91mERROR:\
-             Balance coefficient is incorrect!\
-             \nValid values are from 0.0 to 1.0'
-             .replace('             ', ' '))
+        exit('\033[91mERROR: Balance coefficient is incorrect!\n'
+             'Valid values are from 0.0 to 1.0')
 
     return balance_coef*upper_value + (1 - balance_coef)*lower_value
 
 def value_range_of_plot(balance_coef, delta, lower_value):
-    ''' Set value using the interpolated function, range 
-        and balance coefficient
-    '''
+    """Set value using the interpolated function, range 
+    and balance coefficient.
+    """
 
     return lower_value + balance_coef*delta
 
 def checkWheelDiameter(D):
     if (D < 0.04) | (D > 0.24):
-        exit('\033[91mERROR:\
-             No data for that wheel diameter!\
-             \nIt equals %0.0f cm but must be from 4 to 24 cm.\
-             \nMay be try to calculate axial turbine!'
-             .replace('             ', ' ')
-             %(D*1e+02))
+        exit('\033[91mERROR: No data for that wheel diameter!\n'
+             f'It equals {D*1e+02:.0f} cm but must be from 4 to 24 cm.\n'
+             'May be try to calculate axial turbine!')
 
 
 # Coeficients

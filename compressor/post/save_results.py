@@ -1,8 +1,7 @@
 def save_results(compressor):
-    ''' Create results/compressor/ folder & move results there
-    '''
+    """Create results/compressor/ folder & move results there"""
+
     import os, shutil
-    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     # Creating directory if needed
     if not os.path.exists("results/compressor"):
@@ -28,8 +27,6 @@ def save_results(compressor):
                     "results/engine_config.py")
     shutil.copyfile("compressor/compressor_config.py",
                     "results/compressor/compressor_config.py")
-
-
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

@@ -1,8 +1,7 @@
 def edit_pictures(compressor, Compressor):
-    ''' Edit pictures
-    '''
+    """Edit compressor pictures."""
+
     from PIL import ImageFont, Image, ImageDraw
-    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     # Load Fonts
     font = ImageFont.truetype("etc/fontGOST.ttf", 22)

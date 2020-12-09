@@ -1,8 +1,7 @@
 def report(project, engine,
         compressor, Compressor,
         turbine, Turbine):
-    ''' Generate turbine report
-    '''
+    """Generate turbine report."""
 
     if turbine['type'] == 'radial':
         report_file_name = "turbine_radial_report.md"
@@ -933,7 +932,6 @@ def report(project, engine,
 
     with open(report_file_name, 'w') as file:
         file.write(report)
-
 
 
 # ''' (C) 2018-2020 Stanislau Stasheuski '''

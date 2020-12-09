@@ -1,15 +1,15 @@
 def pre(project, engine,
         compressor,
         turbine):
-    ''' Extend turbine dictionary with its relative parameters and
-        precalculate some compressor parameters
-    '''
+    """Extend turbine dictionary with its relative parameters and
+    precalculate some compressor parameters.
+    """
+
     import math
     from turbine.pre.default_values import default_values
     from turbine.pre.plot2func import eta_plot2func, alpha_plot2func,\
                                   phi_plot2func, psi_plot2func,\
                                   ksi_plot2func, relD_1H, relD_2B
-    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     default_values(turbine)
 
@@ -47,9 +47,7 @@ def pre(project, engine,
                 engine['heat']['T_0Stagn'] = 823.0 # [K]
 
             else:
-                exit("\033[91mERROR 0:\
-                    The diameter of the wheel is too big!"
-                    .replace('                    ', ' '))
+                exit('\033[91mERROR 0: The diameter of the wheel is too big!')
 
     return project, engine, turbine
 
