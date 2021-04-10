@@ -11,7 +11,8 @@ def run(project, engine, compressor):
     from compressor.run.diffuser_outlet_T import diffuser_outlet_T
 
     class Compressor:
-        """Class with calculated compressor parameters."""
+        """Class with calculated compressor parameters
+        """
 
         D_2Init = compressor['geometry']['D_2'] # [m]
 

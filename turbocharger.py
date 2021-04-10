@@ -13,14 +13,14 @@
 def main():
     """Calculate turbocharger parameters using 0D method."""
 
+    from common_config import project, ambient
+    from compressor.compressor_config import compressor
+    from compressor.compressor_package import compressor as turbocharger_compressor
+    from engine_config import engine
     from etc.logo import logo
     from etc.engine_extend import engine_extend
-
-    from common_config import project, ambient
-    from engine_config import engine
-    from compressor.compressor_config import compressor
     from turbine.turbine_config import turbine
-    from compressor.compressor_package import compressor as turbocharger_compressor
+
     from turbine.turbine_package import turbine as turbocharger_turbine
 
     logo()
